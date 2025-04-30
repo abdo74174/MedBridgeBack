@@ -290,8 +290,8 @@
         "IsRequired": false
       },
       {
-        "Name": "User.Password",
-        "Type": "System.String",
+        "Name": "User.PasswordHash",
+        "Type": "System.Byte[]",
         "IsRequired": false
       },
       {
@@ -316,7 +316,7 @@
       },
       {
         "Name": "User.Phone",
-        "Type": "System.Int64",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -331,7 +331,7 @@
       },
       {
         "Name": "User.ProfileImage",
-        "Type": "System.Byte[]",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -400,6 +400,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MedBridge.Controllers.ForgotPasswordController",
+    "Method": "SendOtp",
+    "RelativePath": "api/ForgotPassword/send-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MedBridge.Controllers.ForgotPasswordController\u002BSendOtpDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.ForgotPasswordController",
+    "Method": "VerifyOtp",
+    "RelativePath": "api/ForgotPassword/verify-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MedBridge.Controllers.ForgotPasswordController\u002BVerifyOtpDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HealthController",
+    "Method": "GetStatus",
+    "RelativePath": "api/Health/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MedBridge.Controllers.UserController",
     "Method": "RefreshToken",
     "RelativePath": "api/MedBridge/refresh-token",
@@ -424,7 +466,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Email",
+        "Name": "email",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -434,19 +476,19 @@
   {
     "ContainingType": "MedBridge.Controllers.UserController",
     "Method": "UpdateUser",
-    "RelativePath": "api/MedBridge/User/{Email}",
+    "RelativePath": "api/MedBridge/User/{email}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Email",
+        "Name": "email",
         "Type": "System.String",
         "IsRequired": true
       },
       {
-        "Name": "Id",
-        "Type": "System.Int32",
+        "Name": "Email",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -455,73 +497,18 @@
         "IsRequired": false
       },
       {
-        "Name": "Email",
+        "Name": "MedicalSpecialist",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Password",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "PasswordSalt",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ConfirmPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResetToken",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResetTokenExpires",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
         "Name": "Phone",
-        "Type": "System.Int64",
-        "IsRequired": false
-      },
-      {
-        "Name": "MedicalSpecialist",
         "Type": "System.String",
         "IsRequired": false
       },
       {
         "Name": "Address",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProfileImage",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "CreatedAt",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "Role",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Products",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.ProductModels.ProductModel, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ContactUs",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.Messages.ContactUs, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": false
       },
       {
@@ -550,7 +537,28 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.UserController",
-    "Method": "UpdateUSerInfo",
+    "Method": "AddProfileImage",
+    "RelativePath": "api/MedBridge/User/addProfileImage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProfileImage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "UpdateUserInfo",
     "RelativePath": "api/MedBridge/User/info/{email}",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -563,7 +571,7 @@
       },
       {
         "Name": "dto",
-        "Type": "MedBridge.Controllers.UserController\u002BRoleSpecialistUpdateDto",
+        "Type": "MedBridge.Controllers.RoleSpecialistUpdateDto",
         "IsRequired": true
       }
     ],
@@ -594,16 +602,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
         "Name": "Email",
         "Type": "System.String",
         "IsRequired": false
@@ -611,66 +609,6 @@
       {
         "Name": "Password",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "PasswordSalt",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ConfirmPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResetToken",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResetTokenExpires",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Phone",
-        "Type": "System.Int64",
-        "IsRequired": false
-      },
-      {
-        "Name": "MedicalSpecialist",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Address",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProfileImage",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "CreatedAt",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "Role",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Products",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.ProductModels.ProductModel, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ContactUs",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.Messages.ContactUs, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": false
       }
     ],
@@ -685,11 +623,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
         "Name": "Name",
         "Type": "System.String",
         "IsRequired": false
@@ -705,28 +638,13 @@
         "IsRequired": false
       },
       {
-        "Name": "PasswordSalt",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
         "Name": "ConfirmPassword",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "ResetToken",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResetTokenExpires",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
         "Name": "Phone",
-        "Type": "System.Int64",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -737,31 +655,6 @@
       {
         "Name": "Address",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProfileImage",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "CreatedAt",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "Role",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Products",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.ProductModels.ProductModel, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ContactUs",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.Messages.ContactUs, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": false
       }
     ],

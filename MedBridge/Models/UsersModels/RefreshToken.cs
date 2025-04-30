@@ -1,12 +1,18 @@
-﻿namespace MedBridge.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MedBridge.Models
 {
     public class RefreshToken
     {
+        [Key]
         public int Id { get; set; }
-        public string? Token { get; set; }
+        [Required]
+        public string Token { get; set; }
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public DateTime ExpiryDate { get; set; }
-        public User? User { get; set; }
-        public string? Role { get; set; } // إضافة صلاحية
+        public string Role { get; set; }
+        public User User { get; set; }
     }
 }

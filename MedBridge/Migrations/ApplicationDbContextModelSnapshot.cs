@@ -22,7 +22,7 @@ namespace MedBridge.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MedBridge.Models.Cart", b =>
+            modelBuilder.Entity("ChatMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,13 +30,20 @@ namespace MedBridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts");
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("MedBridge.Models.CartItem", b =>
@@ -65,6 +72,23 @@ namespace MedBridge.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("MedBridge.Models.CartModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("MedBridge.Models.Favourite", b =>
                 {
                     b.Property<int>("Id")
@@ -85,6 +109,30 @@ namespace MedBridge.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Favourites");
+                });
+
+            modelBuilder.Entity("MedBridge.Models.ForgotPassword.PasswordResetOtp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Otp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PasswordResetOtp");
                 });
 
             modelBuilder.Entity("MedBridge.Models.Messages.ContactUs", b =>
@@ -230,9 +278,11 @@ namespace MedBridge.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Token")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -267,21 +317,24 @@ namespace MedBridge.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<long>("Phone")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ProfileImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResetToken")
                         .HasColumnType("nvarchar(max)");
@@ -300,7 +353,7 @@ namespace MedBridge.Migrations
 
             modelBuilder.Entity("MedBridge.Models.CartItem", b =>
                 {
-                    b.HasOne("MedBridge.Models.Cart", "Cart")
+                    b.HasOne("MedBridge.Models.CartModel", "Cart")
                         .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,7 +441,7 @@ namespace MedBridge.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MedBridge.Models.Cart", b =>
+            modelBuilder.Entity("MedBridge.Models.CartModel", b =>
                 {
                     b.Navigation("CartItems");
                 });

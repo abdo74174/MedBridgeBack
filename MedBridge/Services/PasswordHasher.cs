@@ -1,31 +1,29 @@
-﻿
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace MedBridge.Services
 {
     public static class PasswordHasher
     {
-        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        public static (byte[] hashedPassword, byte[] salt) CreatePasswordHash(string password)
         {
-            using (var hmac = new HMACSHA512())
+            byte[] saltBytes = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
             {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                rng.GetBytes(saltBytes);
             }
+
+            using var hmac = new HMACSHA256(saltBytes);
+            byte[] hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            return (hashBytes, saltBytes);
         }
 
         public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
-            using (var hmac = new HMACSHA512(storedSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i])
-                        return false;
-                }
-            }
-            return true;
+            using var hmac = new HMACSHA256(storedSalt);
+            byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return computedHash.SequenceEqual(storedHash);
         }
     }
 }

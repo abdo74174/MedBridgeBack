@@ -1,5 +1,5 @@
-﻿
-
+﻿using MedBridge.Dtos;
+using MedBridge.Dtos.AddProfileImagecsDtoUser;
 using MedBridge.Models;
 using MedBridge.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,21 +7,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApi.models;
-using Org.BouncyCastle.Crypto.Generators;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MedBridge.Controllers
 {
     [ApiController]
     [Route("api/MedBridge")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly ILogger<UserController> _logger;
         private readonly IMemoryCache _memoryCache;
+
+        private readonly string _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
+        private readonly string _baseUrl = "https://10.0.2.2:7273"; // Update for production
+
+        private readonly List<string> _allowedExtensions = new List<string>
+        {
+            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif", ".svg", ".ico", ".heif"
+        };
+
+        private readonly double _maxAllowedImageSize = 10 * 1024 * 1024;
 
         public UserController(
             ApplicationDbContext context,
@@ -36,15 +47,14 @@ namespace MedBridge.Controllers
         }
 
         [HttpPost("User/signup")]
-        public async Task<IActionResult> SignUp([FromForm] User user)
+        public async Task<IActionResult> SignUp([FromForm] SignUpDto signUpDto)
         {
-            Console.WriteLine($"Name: {user.Name}, Email: {user.Email}, Password: {user.Password}, ConfirmPassword: {user.ConfirmPassword}");
             try
             {
-                if (string.IsNullOrWhiteSpace(user.Password) ||
-                    string.IsNullOrWhiteSpace(user.ConfirmPassword) || string.IsNullOrWhiteSpace(user.Name))
+                if (string.IsNullOrWhiteSpace(signUpDto.Name) || string.IsNullOrWhiteSpace(signUpDto.Email) ||
+                    string.IsNullOrWhiteSpace(signUpDto.Password) || string.IsNullOrWhiteSpace(signUpDto.ConfirmPassword))
                 {
-                    return BadRequest("Invalid personal information.");
+                    return BadRequest(new { message = "All fields are required." });
                 }
 
                 if (!ModelState.IsValid)
@@ -53,80 +63,82 @@ namespace MedBridge.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage)
                         .ToList();
-
-                    _logger.LogError("Model errors: " + string.Join(", ", errors)); // دي هتظهر في output
+                    _logger.LogError("Model errors: {Errors}", string.Join(", ", errors));
                     return BadRequest(new { errors });
                 }
 
-
-                if (user.Password != user.ConfirmPassword)
-                {
-                    return BadRequest("Password and Confirm Password do not match.");
-                }
-                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == user.Email);
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == signUpDto.Email);
                 if (existingUser != null)
                 {
-                    return BadRequest("Email already exists.");
+                    return BadRequest(new { message = "Email already exists." });
                 }
 
-                PasswordHasher.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                user.Password = Convert.ToBase64String(passwordHash);
-                user.PasswordSalt = passwordSalt;
+                var (passwordHash, passwordSalt) = PasswordHasher.CreatePasswordHash(signUpDto.Password);
+
+                var user = new User
+                {
+                    Name = signUpDto.Name,
+                    Email = signUpDto.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    Phone = signUpDto.Phone,
+                    MedicalSpecialist = signUpDto.MedicalSpecialist,
+                    Address = signUpDto.Address,
+                    CreatedAt = DateTime.UtcNow,
+                    Role = "User",
+                    ProfileImage = ""
+                };
 
                 _context.users.Add(user);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation($"User registered: {user.Email}");
-                //_logger.LogInformation("User registered: {Email}", user.Email);
-                return Ok("User registered successfully!");
+                _logger.LogInformation("User registered: {Email}", user.Email);
+                return Ok(new { message = "User registered successfully!" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in SignUp");
-                return StatusCode(500, new { error = "An error in SignUp." });
+                _logger.LogError(ex, "Error in SignUp for {Email}", signUpDto.Email);
+                return StatusCode(500, new { message = "An error occurred during signup." });
             }
         }
-
         [HttpPost("User/signin")]
-        public async Task<IActionResult> SignIn([FromForm] User loginRequest)
+        public async Task<IActionResult> SignIn([FromForm] SignInDto loginRequest)
         {
             try
             {
-                var cacheEmail = $"LoginAttempts{loginRequest.Email}";
-                var cackePassword = $"LoginAttempts{loginRequest.Password}";
-                var attempts1 = _memoryCache.Get<int>(cackePassword);
-                var attempts2 = _memoryCache.Get<int>(cacheEmail);
+                var cacheKey = $"LoginAttempts_{loginRequest.Email}";
+                var attempts = _memoryCache.Get<int>(cacheKey);
 
-                if (attempts1 >= 5 || attempts2 >= 5)
+                if (attempts >= 5)
                 {
-                    return BadRequest("Too many failed attempts. Try again after 15 minutes.");
+                    return BadRequest(new { message = "Too many failed attempts. Try again after 15 minutes." });
                 }
 
                 var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == loginRequest.Email);
                 if (existingUser == null)
                 {
-                    _memoryCache.Set(cacheEmail, attempts2 + 1, TimeSpan.FromMinutes(15));
-                    return BadRequest("Invalid email or password.");
+                    _memoryCache.Set(cacheKey, attempts + 1, TimeSpan.FromMinutes(15));
+                    return BadRequest(new { message = "Invalid email or password." });
                 }
 
                 bool isPasswordValid = PasswordHasher.VerifyPasswordHash(
                     loginRequest.Password,
-                    Convert.FromBase64String(existingUser.Password),
+                    existingUser.PasswordHash,
                     existingUser.PasswordSalt);
 
                 if (!isPasswordValid)
                 {
-                    _memoryCache.Set(cacheEmail, attempts2 + 1, TimeSpan.FromMinutes(15));
-                    return BadRequest("Invalid email or password.");
+                    _memoryCache.Set(cacheKey, attempts + 1, TimeSpan.FromMinutes(15));
+                    return BadRequest(new { message = "Invalid email or password." });
                 }
 
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
-                    new Claim(ClaimTypes.Name, existingUser.Name),
-                    new Claim(ClaimTypes.Email, existingUser.Email),
-                    new Claim(ClaimTypes.Role, existingUser.Role)
-                };
+        {
+            new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
+            new Claim(ClaimTypes.Name, existingUser.Name),
+            new Claim(ClaimTypes.Email, existingUser.Email),
+            new Claim(ClaimTypes.Role, existingUser.Role)
+        };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -153,7 +165,7 @@ namespace MedBridge.Controllers
                 _context.RefreshTokens.Add(newRefreshToken);
                 await _context.SaveChangesAsync();
 
-                _memoryCache.Remove(cacheEmail); // remove email old
+                _memoryCache.Remove(cacheKey);
                 return Ok(new
                 {
                     Token = tokenString,
@@ -163,8 +175,8 @@ namespace MedBridge.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in SignIn");
-                return StatusCode(500, new { error = "An error in SignIn." });
+                _logger.LogError(ex, "Error in SignIn for {Email}", loginRequest.Email);
+                return StatusCode(500, new { message = "An error occurred during signin." });
             }
         }
 
@@ -179,7 +191,7 @@ namespace MedBridge.Controllers
 
                 if (existingToken == null || existingToken.ExpiryDate <= DateTime.UtcNow)
                 {
-                    return Unauthorized("Invalid or expired refresh token.");
+                    return Unauthorized(new { message = "Invalid or expired refresh token." });
                 }
 
                 var claims = new List<Claim>
@@ -216,138 +228,221 @@ namespace MedBridge.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in RefreshToken");
-                return StatusCode(500, new { error = "An error in RefreshToken ." });
+                return StatusCode(500, new { message = "An error occurred during token refresh." });
             }
         }
 
         [HttpPost("User/logout")]
         public async Task<IActionResult> Logout([FromForm] string refreshToken)
         {
-            var existingToken = await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
-            if (existingToken != null)
+            try
             {
-                _context.RefreshTokens.Remove(existingToken);
-                await _context.SaveChangesAsync();
-            }
-            return Ok("Logged out successfully.");
-        }
-
-    
-        [HttpGet("User/{email}")]
-        public async Task<IActionResult> GetUser(string Email)
-        {
-
-            var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == Email);
-
-            if (existingUser == null)
-            {
-                return NotFound(new { message = "User not found" });
-            }
-            return Ok(existingUser);
-        }
-
-        [HttpPut("User/{Email}")]
-        public async Task<IActionResult> UpdateUser(string Email, [FromForm] User updatedUser, IFormFile? profileImage)
-        {
-            if (Email != updatedUser.Email)
-            {
-                return BadRequest("User Email mismatch");
-            }
-
-            var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == Email);
-
-            if (existingUser == null)
-            {
-                return NotFound("User not found");
-            }
-
-            existingUser.Name = updatedUser.Name;
-            existingUser.Email = updatedUser.Email;
-            //if (!string.IsNullOrWhiteSpace(updatedUser.Password))
-            //{
-            //    existingUser.Password = HashPassword(updatedUser.Password);
-            //}
-            existingUser.MedicalSpecialist = updatedUser.MedicalSpecialist;  // Check if this value is being passed correctly
-
-            // Optional: Handle the profile image
-            if (profileImage != null)
-            {
-                using (var memoryStream = new MemoryStream())
+                var existingToken = await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+                if (existingToken != null)
                 {
-                    await profileImage.CopyToAsync(memoryStream);
-                    existingUser.ProfileImage = memoryStream.ToArray();
+                    _context.RefreshTokens.Remove(existingToken);
+                    await _context.SaveChangesAsync();
                 }
+                return Ok(new { message = "Logged out successfully." });
             }
-
-            _context.users.Update(existingUser);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Profile updated successfully" });
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in Logout");
+                return StatusCode(500, new { message = "An error occurred during logout." });
+            }
         }
 
-
-        private string HashPassword(string password)
+        [HttpPost("User/addProfileImage")]
+        public async Task<IActionResult> AddProfileImage(string email, [FromForm] AddProfileImagecsDto imageDto)
         {
-            // Implement your hashing logic here
-            // For example, using bcrypt or any other hashing method
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
-        // In UserController:
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    return BadRequest(new { message = "Email is required." });
+                }
 
-        /// <summary>
-        /// Partially updates a user’s Role and/or MedicalSpecialist.
-        /// PATCH api/MedBridge/User/{email}
-        /// </summary>
+                var user = await _context.users.FirstOrDefaultAsync(c => c.Email == email);
+                if (user == null)
+                {
+                    return BadRequest(new { message = "Invalid user email." });
+                }
+
+                if (imageDto.ProfileImage == null)
+                {
+                    return BadRequest(new { message = "Profile image is required." });
+                }
+
+                var ext = Path.GetExtension(imageDto.ProfileImage.FileName).ToLower();
+                if (!_allowedExtensions.Contains(ext))
+                {
+                    return BadRequest(new { message = "Unsupported image format." });
+                }
+
+                if (imageDto.ProfileImage.Length > _maxAllowedImageSize)
+                {
+                    return BadRequest(new { message = "Image size exceeds 10 MB." });
+                }
+
+                var fileName = Guid.NewGuid() + ext;
+                var savePath = Path.Combine(_imageUploadPath, fileName);
+
+                Directory.CreateDirectory(_imageUploadPath);
+                using (var stream = new FileStream(savePath, FileMode.Create))
+                {
+                    await imageDto.ProfileImage.CopyToAsync(stream);
+                }
+
+                user.ProfileImage = $"{_baseUrl}/images/{fileName}";
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Profile image uploaded successfully.", imageUrl = user.ProfileImage });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AddProfileImage for {Email}", email);
+                return StatusCode(500, new { message = "An error occurred while uploading the profile image." });
+            }
+        }
+
+        [HttpGet("User/{email}")]
+        public async Task<IActionResult> GetUser(string email)
+        {
+            try
+            {
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+                if (existingUser == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
+                return Ok(existingUser);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in GetUser for {Email}", email);
+                return StatusCode(500, new { message = "An error occurred while retrieving the user." });
+            }
+        }
+
+        [HttpPut("User/{email}")]
+        public async Task<IActionResult> UpdateUser(string email, [FromForm] UpdateUserDto updatedUser, IFormFile? profileImage)
+        {
+            try
+            {
+                if (email != updatedUser.Email)
+                {
+                    return BadRequest(new { message = "Email mismatch." });
+                }
+
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+                if (existingUser == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
+
+                existingUser.Name = updatedUser.Name;
+                existingUser.MedicalSpecialist = updatedUser.MedicalSpecialist;
+                existingUser.Address = updatedUser.Address;
+
+                if (!string.IsNullOrWhiteSpace(updatedUser.Phone))
+                {
+                    existingUser.Phone = updatedUser.Phone;
+                }
+
+                if (profileImage != null)
+                {
+                    var ext = Path.GetExtension(profileImage.FileName).ToLower();
+                    if (!_allowedExtensions.Contains(ext))
+                    {
+                        return BadRequest(new { message = "Unsupported image format." });
+                    }
+
+                    if (profileImage.Length > _maxAllowedImageSize)
+                    {
+                        return BadRequest(new { message = "Image size exceeds 10 MB." });
+                    }
+
+                    var fileName = Guid.NewGuid() + ext;
+                    var savePath = Path.Combine(_imageUploadPath, fileName);
+
+                    Directory.CreateDirectory(_imageUploadPath);
+                    using (var stream = new FileStream(savePath, FileMode.Create))
+                    {
+                        await profileImage.CopyToAsync(stream);
+                    }
+
+                    existingUser.ProfileImage = $"{_baseUrl}/images/{fileName}";
+                }
+
+                _context.users.Update(existingUser);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Profile updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in UpdateUser for {Email}", email);
+                return StatusCode(500, new { message = "An error occurred while updating the profile." });
+            }
+        }
+
         [HttpPatch("User/info/{email}")]
-        public async Task<IActionResult> UpdateUSerInfo(
-            string email,
-            [FromBody] RoleSpecialistUpdateDto dto)
+        public async Task<IActionResult> UpdateUserInfo(string email, [FromBody] RoleSpecialistUpdateDto dto)
         {
-            // 1. Find existing user
-            var existingUser = await _context.users
-                .FirstOrDefaultAsync(u => u.Email == email);
-            if (existingUser == null)
-                return NotFound(new { message = "User not found" });
+            try
+            {
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+                if (existingUser == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
 
-            // 2. Update only the allowed fields
-            if (!string.IsNullOrWhiteSpace(dto.Role))
-                existingUser.Role = dto.Role;
+                if (!string.IsNullOrWhiteSpace(dto.Role))
+                {
+                    existingUser.Role = dto.Role;
+                }
 
-            if (!string.IsNullOrWhiteSpace(dto.MedicalSpecialist))
-                existingUser.MedicalSpecialist = dto.MedicalSpecialist;
+                if (!string.IsNullOrWhiteSpace(dto.MedicalSpecialist))
+                {
+                    existingUser.MedicalSpecialist = dto.MedicalSpecialist;
+                }
 
-            // 3. Save
-            _context.users.Update(existingUser);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Role and MedicalSpecialist updated successfully" });
+                _context.users.Update(existingUser);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Role and MedicalSpecialist updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in UpdateUserInfo for {Email}", email);
+                return StatusCode(500, new { message = "An error occurred while updating user info." });
+            }
         }
-
-        // DTO class 
-        public class RoleSpecialistUpdateDto
-        {
-         
-            public string? Role { get; set; }
-
-  
-            public string? MedicalSpecialist { get; set; }
-        }
-
 
         [HttpDelete("User/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.users.FindAsync(id);
-            if (user == null)
+            try
             {
-                return NotFound("User not found");
+                var user = await _context.users.FindAsync(id);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
+
+                _context.users.Remove(user);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "User deleted successfully." });
             }
-
-            _context.users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "User deleted successfully" });
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in DeleteUser for ID {Id}", id);
+                return StatusCode(500, new { message = "An error occurred while deleting the user." });
+            }
         }
+    }
 
+    public class RoleSpecialistUpdateDto
+    {
+        public string? Role { get; set; }
+        public string? MedicalSpecialist { get; set; }
     }
 }
