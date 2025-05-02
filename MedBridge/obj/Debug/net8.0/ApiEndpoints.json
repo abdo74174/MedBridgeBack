@@ -260,7 +260,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "MessageId",
+        "Name": "Id",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -340,8 +340,13 @@
         "IsRequired": false
       },
       {
-        "Name": "User.Role",
+        "Name": "User.KindOfWork",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "User.IsAdmin",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {
@@ -380,7 +385,13 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -394,6 +405,11 @@
       {
         "Name": "productId",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "MedBridge.Controllers.FavouritesController\u002BRemoveFromFavouritesDto",
         "IsRequired": true
       }
     ],
@@ -443,6 +459,16 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "Ping",
+    "RelativePath": "api/MedBridge/ping",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
     "Method": "RefreshToken",
     "RelativePath": "api/MedBridge/refresh-token",
     "HttpMethod": "POST",
@@ -451,6 +477,84 @@
     "Parameters": [
       {
         "Name": "refreshToken",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "GetSpecialties",
+    "RelativePath": "api/MedBridge/specialties",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "AddSpecialty",
+    "RelativePath": "api/MedBridge/specialties",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MedicalSpecialtyDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "UpdateSpecialty",
+    "RelativePath": "api/MedBridge/specialties/{name}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MedicalSpecialtyDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "DeleteSpecialty",
+    "RelativePath": "api/MedBridge/specialties/{name}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -497,12 +601,12 @@
         "IsRequired": false
       },
       {
-        "Name": "MedicalSpecialist",
+        "Name": "Phone",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "Phone",
+        "Name": "MedicalSpecialist",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -571,7 +675,7 @@
       },
       {
         "Name": "dto",
-        "Type": "MedBridge.Controllers.RoleSpecialistUpdateDto",
+        "Type": "RoleSpecialistUpdateDto",
         "IsRequired": true
       }
     ],
@@ -648,12 +752,90 @@
         "IsRequired": false
       },
       {
-        "Name": "MedicalSpecialist",
+        "Name": "Address",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "Address",
+        "Name": "IsAdmin",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "GetWorkTypes",
+    "RelativePath": "api/MedBridge/work-types",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "AddWorkType",
+    "RelativePath": "api/MedBridge/work-types",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "WorkTypeDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "UpdateWorkType",
+    "RelativePath": "api/MedBridge/work-types/{name}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "WorkTypeDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.UserController",
+    "Method": "DeleteWorkType",
+    "RelativePath": "api/MedBridge/work-types/{name}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
         "Type": "System.String",
         "IsRequired": false
       }

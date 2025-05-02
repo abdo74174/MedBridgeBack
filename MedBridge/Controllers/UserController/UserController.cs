@@ -1,5 +1,4 @@
 ﻿using MedBridge.Dtos;
-using MedBridge.Dtos.AddProfileImagecsDtoUser;
 using MedBridge.Models;
 using MedBridge.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApi.models;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +23,7 @@ namespace MedBridge.Controllers
         private readonly IMemoryCache _memoryCache;
 
         private readonly string _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
-        private readonly string _baseUrl = "https://10.0.2.2:7273"; // Update for production
+        private readonly string _baseUrl = "https://10.0.2.2:7273";
 
         private readonly List<string> _allowedExtensions = new List<string>
         {
@@ -46,6 +44,12 @@ namespace MedBridge.Controllers
             _memoryCache = memoryCache;
         }
 
+        private async Task<bool> IsUserAdmin(string email)
+        {
+            var user = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+            return user != null && user.IsAdmin;
+        }
+
         [HttpPost("User/signup")]
         public async Task<IActionResult> SignUp([FromForm] SignUpDto signUpDto)
         {
@@ -54,17 +58,12 @@ namespace MedBridge.Controllers
                 if (string.IsNullOrWhiteSpace(signUpDto.Name) || string.IsNullOrWhiteSpace(signUpDto.Email) ||
                     string.IsNullOrWhiteSpace(signUpDto.Password) || string.IsNullOrWhiteSpace(signUpDto.ConfirmPassword))
                 {
-                    return BadRequest(new { message = "All fields are required." });
+                    return BadRequest(new { message = "Name, email, password, and confirm password are required." });
                 }
 
-                if (!ModelState.IsValid)
+                if (signUpDto.Password != signUpDto.ConfirmPassword)
                 {
-                    var errors = ModelState.Values
-                        .SelectMany(v => v.Errors)
-                        .Select(e => e.ErrorMessage)
-                        .ToList();
-                    _logger.LogError("Model errors: {Errors}", string.Join(", ", errors));
-                    return BadRequest(new { errors });
+                    return BadRequest(new { message = "Passwords do not match." });
                 }
 
                 var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == signUpDto.Email);
@@ -82,18 +81,23 @@ namespace MedBridge.Controllers
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Phone = signUpDto.Phone,
-                    MedicalSpecialist = signUpDto.MedicalSpecialist,
                     Address = signUpDto.Address,
                     CreatedAt = DateTime.UtcNow,
-                    Role = "User",
-                    ProfileImage = ""
+                    KindOfWork = "Doctor",
+                    MedicalSpecialist = null,
+                    ProfileImage = "",
+                    IsAdmin = signUpDto.IsAdmin
                 };
 
                 _context.users.Add(user);
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("User registered: {Email}", user.Email);
-                return Ok(new { message = "User registered successfully!" });
+                return Ok(new
+                {
+                    message = "User registered successfully!",
+                    id = user.Id
+                });
             }
             catch (Exception ex)
             {
@@ -101,6 +105,217 @@ namespace MedBridge.Controllers
                 return StatusCode(500, new { message = "An error occurred during signup." });
             }
         }
+
+        [HttpGet("work-types")]
+        public async Task<IActionResult> GetWorkTypes()
+        {
+            try
+            {
+                var workTypes = await _context.WorkType.Select(wt => wt.Name).ToListAsync();
+                return Ok(new { workTypes });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in GetWorkTypes");
+                return StatusCode(500, new { message = "An error occurred while retrieving work types." });
+            }
+        }
+
+        [HttpPost("work-types")]
+        public async Task<IActionResult> AddWorkType([FromBody] WorkTypeDto dto, [FromQuery] string adminEmail)
+        {
+            try
+            {
+                if (!await IsUserAdmin(adminEmail))
+                {
+                    return Unauthorized(new { message = "Only admins can add work types." });
+                }
+
+                if (string.IsNullOrWhiteSpace(dto.Name))
+                {
+                    return BadRequest(new { message = "Work type name is required." });
+                }
+
+                var existingWorkType = await _context.WorkType.FirstOrDefaultAsync(wt => wt.Name == dto.Name);
+                if (existingWorkType != null)
+                {
+                    return BadRequest(new { message = "Work type already exists." });
+                }
+
+                var workType = new WorkType { Name = dto.Name };
+                _context.WorkType.Add(workType);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Work type added successfully.", workType = workType.Name });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AddWorkType");
+                return StatusCode(500, new { message = "An error occurred while adding work type." });
+            }
+        }
+
+        [HttpPut("work-types/{name}")]
+        public async Task<IActionResult> UpdateWorkType(string name, [FromBody] WorkTypeDto dto, [FromQuery] string adminEmail)
+        {
+            try
+            {
+                if (!await IsUserAdmin(adminEmail))
+                {
+                    return Unauthorized(new { message = "Only admins can update work types." });
+                }
+
+                var workType = await _context.WorkType.FirstOrDefaultAsync(wt => wt.Name == name);
+                if (workType == null)
+                {
+                    return NotFound(new { message = "Work type not found." });
+                }
+
+                workType.Name = dto.Name;
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Work type updated successfully.", workType = workType.Name });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in UpdateWorkType");
+                return StatusCode(500, new { message = "An error occurred while updating work type." });
+            }
+        }
+
+        [HttpDelete("work-types/{name}")]
+        public async Task<IActionResult> DeleteWorkType(string name, [FromQuery] string adminEmail)
+        {
+            try
+            {
+                if (!await IsUserAdmin(adminEmail))
+                {
+                    return Unauthorized(new { message = "Only admins can delete work types." });
+                }
+
+                var workType = await _context.WorkType.FirstOrDefaultAsync(wt => wt.Name == name);
+                if (workType == null)
+                {
+                    return NotFound(new { message = "Work type not found." });
+                }
+
+                _context.WorkType.Remove(workType);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Work type deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in DeleteWorkType");
+                return StatusCode(500, new { message = "An error occurred while deleting work type." });
+            }
+        }
+
+        [HttpGet("specialties")]
+        public async Task<IActionResult> GetSpecialties()
+        {
+            try
+            {
+                var specialties = await _context.MedicalSpecialties.Select(ms => ms.Name).ToListAsync();
+                return Ok(new { specialties });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in GetSpecialties");
+                return StatusCode(500, new { message = "An error occurred while retrieving specialties." });
+            }
+        }
+
+        [HttpPost("specialties")]
+        public async Task<IActionResult> AddSpecialty([FromBody] MedicalSpecialtyDto dto, [FromQuery] string adminEmail)
+        {
+            try
+            {
+                if (!await IsUserAdmin(adminEmail))
+                {
+                    return Unauthorized(new { message = "Only admins can add specialties." });
+                }
+
+                if (string.IsNullOrWhiteSpace(dto.Name))
+                {
+                    return BadRequest(new { message = "Specialty name is required." });
+                }
+
+                var existingSpecialty = await _context.MedicalSpecialties.FirstOrDefaultAsync(ms => ms.Name == dto.Name);
+                if (existingSpecialty != null)
+                {
+                    return BadRequest(new { message = "Specialty already exists." });
+                }
+
+                var specialty = new MedicalSpecialty { Name = dto.Name };
+                _context.MedicalSpecialties.Add(specialty);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Specialty added successfully.", specialty = specialty.Name });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in AddSpecialty");
+                return StatusCode(500, new { message = "An error occurred while adding specialty." });
+            }
+        }
+
+        [HttpPut("specialties/{name}")]
+        public async Task<IActionResult> UpdateSpecialty(string name, [FromBody] MedicalSpecialtyDto dto, [FromQuery] string adminEmail)
+        {
+            try
+            {
+                if (!await IsUserAdmin(adminEmail))
+                {
+                    return Unauthorized(new { message = "Only admins can update specialties." });
+                }
+
+                var specialty = await _context.MedicalSpecialties.FirstOrDefaultAsync(ms => ms.Name == name);
+                if (specialty == null)
+                {
+                    return NotFound(new { message = "Specialty not found." });
+                }
+
+                specialty.Name = dto.Name;
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Specialty updated successfully.", specialty = specialty.Name });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in UpdateSpecialty");
+                return StatusCode(500, new { message = "An error occurred while updating specialty." });
+            }
+        }
+
+        [HttpDelete("specialties/{name}")]
+        public async Task<IActionResult> DeleteSpecialty(string name, [FromQuery] string adminEmail)
+        {
+            try
+            {
+                if (!await IsUserAdmin(adminEmail))
+                {
+                    return Unauthorized(new { message = "Only admins can delete specialties." });
+                }
+
+                var specialty = await _context.MedicalSpecialties.FirstOrDefaultAsync(ms => ms.Name == name);
+                if (specialty == null)
+                {
+                    return NotFound(new { message = "Specialty not found." });
+                }
+
+                _context.MedicalSpecialties.Remove(specialty);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Specialty deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in DeleteSpecialty");
+                return StatusCode(500, new { message = "An error occurred while deleting specialty." });
+            }
+        }
+
         [HttpPost("User/signin")]
         public async Task<IActionResult> SignIn([FromForm] SignInDto loginRequest)
         {
@@ -133,12 +348,12 @@ namespace MedBridge.Controllers
                 }
 
                 var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
-            new Claim(ClaimTypes.Name, existingUser.Name),
-            new Claim(ClaimTypes.Email, existingUser.Email),
-            new Claim(ClaimTypes.Role, existingUser.Role)
-        };
+                {
+                    new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
+                    new Claim(ClaimTypes.Name, existingUser.Name),
+                    new Claim(ClaimTypes.Email, existingUser.Email),
+                    new Claim("IsAdmin", existingUser.IsAdmin.ToString())
+                };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -156,8 +371,7 @@ namespace MedBridge.Controllers
                 {
                     Token = Guid.NewGuid().ToString(),
                     UserId = existingUser.Id,
-                    ExpiryDate = DateTime.UtcNow.AddDays(7),
-                    Role = existingUser.Role
+                    ExpiryDate = DateTime.UtcNow.AddDays(7)
                 };
 
                 var oldTokens = _context.RefreshTokens.Where(rt => rt.UserId == existingUser.Id);
@@ -168,9 +382,13 @@ namespace MedBridge.Controllers
                 _memoryCache.Remove(cacheKey);
                 return Ok(new
                 {
-                    Token = tokenString,
-                    ExpiresIn = 3600,
-                    RefreshToken = newRefreshToken.Token
+                    id = existingUser.Id,
+                    token = tokenString,
+                    expiresIn = 3600,
+                    refreshToken = newRefreshToken.Token,
+                    kindOfWork = existingUser.KindOfWork,
+                    medicalSpecialist = existingUser.MedicalSpecialist,
+                    isAdmin = existingUser.IsAdmin
                 });
             }
             catch (Exception ex)
@@ -199,7 +417,7 @@ namespace MedBridge.Controllers
                     new Claim(ClaimTypes.NameIdentifier, existingToken.User.Id.ToString()),
                     new Claim(ClaimTypes.Name, existingToken.User.Name),
                     new Claim(ClaimTypes.Email, existingToken.User.Email),
-                    new Claim(ClaimTypes.Role, existingToken.User.Role)
+                    new Claim("IsAdmin", existingToken.User.IsAdmin.ToString())
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -220,9 +438,13 @@ namespace MedBridge.Controllers
 
                 return Ok(new
                 {
-                    Token = newTokenString,
-                    ExpiresIn = 3600,
-                    RefreshToken = existingToken.Token
+                    id = existingToken.User.Id,
+                    token = newTokenString,
+                    expiresIn = 3600,
+                    refreshToken = existingToken.Token,
+                    kindOfWork = existingToken.User.KindOfWork,
+                    medicalSpecialist = existingToken.User.MedicalSpecialist,
+                    isAdmin = existingToken.User.IsAdmin
                 });
             }
             catch (Exception ex)
@@ -310,12 +532,41 @@ namespace MedBridge.Controllers
         {
             try
             {
-                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+                var existingUser = await _context.users
+                    .Include(u => u.Products)
+                    .Include(u => u.ContactUs)
+                    .FirstOrDefaultAsync(u => u.Email == email);
                 if (existingUser == null)
                 {
                     return NotFound(new { message = "User not found." });
                 }
-                return Ok(existingUser);
+                return Ok(new
+                {
+                    id = existingUser.Id,
+                    existingUser.Name,
+                    existingUser.Email,
+                    existingUser.Phone,
+                    existingUser.MedicalSpecialist,
+                    existingUser.Address,
+                    existingUser.ProfileImage,
+                    existingUser.CreatedAt,
+                    existingUser.KindOfWork,
+                    existingUser.IsAdmin,
+                    Products = existingUser.Products.Select(p => new
+                    {
+                        p.UserId,
+                        p.Name,
+                        p.Description,
+                        p.Price,
+                        p.ImageUrls
+                    }).ToList(),
+                    ContactUsMessages = existingUser.ContactUs.Select(c => new
+                    {
+                        c.UserId,
+                        c.Message,
+                        c.created
+                    }).ToList()
+                });
             }
             catch (Exception ex)
             {
@@ -341,7 +592,7 @@ namespace MedBridge.Controllers
                 }
 
                 existingUser.Name = updatedUser.Name;
-                existingUser.MedicalSpecialist = updatedUser.MedicalSpecialist;
+                existingUser.MedicalSpecialist = existingUser.KindOfWork == "Doctor" ? updatedUser.MedicalSpecialist : null;
                 existingUser.Address = updatedUser.Address;
 
                 if (!string.IsNullOrWhiteSpace(updatedUser.Phone))
@@ -396,19 +647,37 @@ namespace MedBridge.Controllers
                     return NotFound(new { message = "User not found." });
                 }
 
-                if (!string.IsNullOrWhiteSpace(dto.Role))
+                if (!string.IsNullOrWhiteSpace(dto.KindOfWork))
                 {
-                    existingUser.Role = dto.Role;
+                    var workType = await _context.WorkType.FirstOrDefaultAsync(wt => wt.Name == dto.KindOfWork);
+                    if (workType == null)
+                    {
+                        return BadRequest(new { message = $"Invalid work type: {dto.KindOfWork}" });
+                    }
+                    existingUser.KindOfWork = dto.KindOfWork;
                 }
 
-                if (!string.IsNullOrWhiteSpace(dto.MedicalSpecialist))
+                if (existingUser.KindOfWork == "Doctor")
                 {
+                    if (string.IsNullOrWhiteSpace(dto.MedicalSpecialist))
+                    {
+                        return BadRequest(new { message = "Medical specialist is required for Doctor." });
+                    }
+                    var specialty = await _context.MedicalSpecialties.FirstOrDefaultAsync(ms => ms.Name == dto.MedicalSpecialist);
+                    if (specialty == null)
+                    {
+                        return BadRequest(new { message = " $Invalid specialty: { dto.MedicalSpecialist}" });
+                    }
                     existingUser.MedicalSpecialist = dto.MedicalSpecialist;
+                }
+                else
+                {
+                    existingUser.MedicalSpecialist = null;
                 }
 
                 _context.users.Update(existingUser);
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "Role and MedicalSpecialist updated successfully." });
+                return Ok(new { message = "KindOfWork and MedicalSpecialist updated successfully." });
             }
             catch (Exception ex)
             {
@@ -438,11 +707,16 @@ namespace MedBridge.Controllers
                 return StatusCode(500, new { message = "An error occurred while deleting the user." });
             }
         }
+
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            return Ok(new { status = "Server is online" });
+        }
     }
 
-    public class RoleSpecialistUpdateDto
+    public class AddProfileImagecsDto
     {
-        public string? Role { get; set; }
-        public string? MedicalSpecialist { get; set; }
+        public IFormFile ProfileImage { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MedBridge.Dtos.Mssages;
+﻿using MedBridge.Dtos;
+
 using MedBridge.Models.Messages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,12 +34,12 @@ namespace MedBridge.Controllers.MesaageController
         [HttpPost]
 
 
-        public async Task <IActionResult> AddAsync([FromForm] contactUsDto contactus)
+        public async Task <IActionResult> AddAsync([FromForm] ContactUsDto contactus)
         {
 
             ContactUs message = new ContactUs
             {
-                MessageId = contactus.MessageId,
+                Id = contactus.Id,
 
                 Message = contactus.Message,
 

@@ -36,6 +36,22 @@ namespace MoviesApi.models
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade); // Cascade delete
 
+
+            modelBuilder.Entity<WorkType>().HasData(
+            new WorkType { Id = 1, Name = "Doctor" },
+            new WorkType { Id = 2, Name = "Merchant" },
+            new WorkType { Id = 3, Name = "MedicalTrader" }
+        );
+
+            // Seed initial MedicalSpecialties
+            modelBuilder.Entity<MedicalSpecialty>().HasData(
+                new MedicalSpecialty { Id = 1, Name = "Cardiology" },
+                new MedicalSpecialty { Id = 2, Name = "Neurology" },
+                new MedicalSpecialty { Id = 3, Name = "Pediatrics" },
+                new MedicalSpecialty { Id = 4, Name = "Orthopedics" },
+                new MedicalSpecialty { Id = 5, Name = "Dermatology" }
+            );
+
             base.OnModelCreating(modelBuilder);
 
         
@@ -64,5 +80,12 @@ namespace MoviesApi.models
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
         public DbSet<PasswordResetOtp> PasswordResetOtp { get; set; }
+
+
+        public DbSet<WorkType> WorkType { get; set; }
+
+
+
+        public DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
     }
 }

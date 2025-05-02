@@ -1,10 +1,9 @@
-﻿using MedBridge.Dtos;
-using MedBridge.DTOs;
+﻿using MedBridge.DTOs;
 using MedBridge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
-using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MedBridge.Controllers
 {
@@ -19,35 +18,29 @@ namespace MedBridge.Controllers
             _context = context;
         }
 
-        
-        private string GetUserId()
-        {
-            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        }
+     
 
-        
         [HttpPost("add")]
         public async Task<IActionResult> AddToFavourites([FromBody] AddToFavouritesDto model)
         {
             try
             {
-                string userId = GetUserId();
-                if (userId == null)
-                    return Unauthorized("Invalid user.");
+                if (string.IsNullOrEmpty(model.UserId))
+                    return BadRequest("User ID is required.");
 
                 var product = await _context.Products.FindAsync(model.ProductId);
                 if (product == null)
                     return NotFound("Product not found.");
 
                 var existing = await _context.Favourites
-                    .FirstOrDefaultAsync(f => f.UserId == userId && f.ProductId == model.ProductId);
+                    .FirstOrDefaultAsync(f => f.UserId == model.UserId && f.ProductId == model.ProductId);
 
                 if (existing != null)
                     return BadRequest("Product already in favourites.");
 
                 var favourite = new Favourite
                 {
-                    UserId = userId,
+                    UserId = model.UserId,
                     ProductId = model.ProductId
                 };
 
@@ -62,18 +55,21 @@ namespace MedBridge.Controllers
             }
         }
 
-       
+        public class RemoveFromFavouritesDto
+        {
+            public string UserId { get; set; }
+        }
+
         [HttpDelete("remove/{productId}")]
-        public async Task<IActionResult> RemoveFromFavourites(int productId)
+        public async Task<IActionResult> RemoveFromFavourites(int productId, [FromBody] RemoveFromFavouritesDto model)
         {
             try
             {
-                string userId = GetUserId();
-                if (userId == null)
-                    return Unauthorized("Invalid user.");
+                if (string.IsNullOrEmpty(model.UserId))
+                    return BadRequest("User ID is required.");
 
                 var favourite = await _context.Favourites
-                    .FirstOrDefaultAsync(f => f.UserId == userId && f.ProductId == productId);
+                    .FirstOrDefaultAsync(f => f.UserId == model.UserId && f.ProductId == productId);
 
                 if (favourite == null)
                     return NotFound("Product not in favourites.");
@@ -90,13 +86,12 @@ namespace MedBridge.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetUserFavourites()
+        public async Task<IActionResult> GetUserFavourites([FromQuery] string userId)
         {
             try
             {
-                string userId = GetUserId();
-                if (userId == null)
-                    return Unauthorized("Invalid user.");
+                if (string.IsNullOrEmpty(userId))
+                    return BadRequest("User ID is required.");
 
                 var favourites = await _context.Favourites
                     .Where(f => f.UserId == userId)

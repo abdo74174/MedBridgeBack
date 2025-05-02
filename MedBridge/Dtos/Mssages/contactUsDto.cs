@@ -1,18 +1,15 @@
-﻿
-
-using MedBridge.Models;
+﻿using MedBridge.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace MedBridge.Dtos.Mssages
+namespace MedBridge.Dtos
 {
-    public class contactUsDto
+    public class ContactUsDto
     {
-
         [Key]
-        public int MessageId { get; set; }
+        public int Id { get; set; }
 
-        public String Message { get; set; }
-
+        [Required]
+        public string Message { get; set; }
 
         public int UserId { get; set; }
         public User? User { get; set; }

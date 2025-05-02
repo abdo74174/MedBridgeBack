@@ -401,12 +401,14 @@
             "multipart/form-data": {
               "schema": {
                 "required": [
+                  "Message",
                   "User.Email",
+                  "User.KindOfWork",
                   "User.Name"
                 ],
                 "type": "object",
                 "properties": {
-                  "MessageId": {
+                  "Id": {
                     "type": "integer",
                     "format": "int32"
                   },
@@ -466,8 +468,11 @@
                     "type": "string",
                     "format": "date-time"
                   },
-                  "User.Role": {
+                  "User.KindOfWork": {
                     "type": "string"
+                  },
+                  "User.IsAdmin": {
+                    "type": "boolean"
                   },
                   "User.Products": {
                     "type": "array",
@@ -484,7 +489,7 @@
                 }
               },
               "encoding": {
-                "MessageId": {
+                "Id": {
                   "style": "form"
                 },
                 "Message": {
@@ -532,7 +537,10 @@
                 "User.CreatedAt": {
                   "style": "form"
                 },
-                "User.Role": {
+                "User.KindOfWork": {
+                  "style": "form"
+                },
+                "User.IsAdmin": {
                   "style": "form"
                 },
                 "User.Products": {
@@ -599,6 +607,25 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromFavouritesDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromFavouritesDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromFavouritesDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -610,6 +637,15 @@
       "get": {
         "tags": [
           "Favourites"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -1167,26 +1203,15 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "required": [
-                  "ConfirmPassword",
-                  "Email",
-                  "Name",
-                  "Password"
-                ],
                 "type": "object",
                 "properties": {
                   "Name": {
-                    "maxLength": 50,
                     "type": "string"
                   },
                   "Email": {
-                    "type": "string",
-                    "format": "email"
+                    "type": "string"
                   },
                   "Password": {
-                    "maxLength": 100,
-                    "minLength": 8,
-                    "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
                     "type": "string"
                   },
                   "ConfirmPassword": {
@@ -1195,11 +1220,11 @@
                   "Phone": {
                     "type": "string"
                   },
-                  "MedicalSpecialist": {
-                    "type": "string"
-                  },
                   "Address": {
                     "type": "string"
+                  },
+                  "IsAdmin": {
+                    "type": "boolean"
                   }
                 }
               },
@@ -1219,16 +1244,266 @@
                 "Phone": {
                   "style": "form"
                 },
-                "MedicalSpecialist": {
+                "Address": {
                   "style": "form"
                 },
-                "Address": {
+                "IsAdmin": {
                   "style": "form"
                 }
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedBridge/work-types": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "adminEmail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedBridge/work-types/{name}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adminEmail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adminEmail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedBridge/specialties": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "adminEmail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalSpecialtyDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalSpecialtyDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalSpecialtyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedBridge/specialties/{name}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adminEmail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalSpecialtyDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalSpecialtyDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicalSpecialtyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adminEmail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1246,8 +1521,7 @@
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "Email",
-                  "Password"
+                  "Email"
                 ],
                 "type": "object",
                 "properties": {
@@ -1428,10 +1702,10 @@
                   "Name": {
                     "type": "string"
                   },
-                  "MedicalSpecialist": {
+                  "Phone": {
                     "type": "string"
                   },
-                  "Phone": {
+                  "MedicalSpecialist": {
                     "type": "string"
                   },
                   "Address": {
@@ -1450,10 +1724,10 @@
                 "Name": {
                   "style": "form"
                 },
-                "MedicalSpecialist": {
+                "Phone": {
                   "style": "form"
                 },
-                "Phone": {
+                "MedicalSpecialist": {
                   "style": "form"
                 },
                 "Address": {
@@ -1536,6 +1810,18 @@
           }
         }
       }
+    },
+    "/api/MedBridge/ping": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1546,6 +1832,10 @@
           "productId": {
             "type": "integer",
             "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1608,15 +1898,18 @@
         "additionalProperties": false
       },
       "ContactUs": {
+        "required": [
+          "message"
+        ],
         "type": "object",
         "properties": {
-          "messageId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
           "message": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "userId": {
             "type": "integer",
@@ -1624,6 +1917,20 @@
           },
           "user": {
             "$ref": "#/components/schemas/User"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MedicalSpecialtyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1750,10 +2057,20 @@
         },
         "additionalProperties": false
       },
+      "RemoveFromFavouritesDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RoleSpecialistUpdateDto": {
         "type": "object",
         "properties": {
-          "role": {
+          "kindOfWork": {
             "type": "string",
             "nullable": true
           },
@@ -1781,6 +2098,7 @@
       "User": {
         "required": [
           "email",
+          "kindOfWork",
           "name"
         ],
         "type": "object",
@@ -1845,9 +2163,12 @@
             "type": "string",
             "format": "date-time"
           },
-          "role": {
-            "type": "string",
-            "nullable": true
+          "kindOfWork": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
           },
           "products": {
             "type": "array",
@@ -1886,6 +2207,16 @@
             "minLength": 1,
             "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkTypeDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
