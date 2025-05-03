@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "F:\\projects\\Project\\MedBridge\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\productcontrollers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\productcontrollers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\productcontrollers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\productcontrollers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\cartcontrollers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\cartcontrollers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -219,14 +227,6 @@
       "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\dtos\\product\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\productcontrollers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\productcontrollers\\subcategoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\productcontrollers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\productcontrollers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\assets\\images\\fb0d7825-1815-40a6-af9b-3365ce466d80.heif||{25834150-CD7E-11D0-92DF-00A0C9138C45}",
       "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\assets\\images\\fb0d7825-1815-40a6-af9b-3365ce466d80.heif||{25834150-CD7E-11D0-92DF-00A0C9138C45}"
     },
@@ -298,7 +298,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -310,55 +310,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "User.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\User.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\UsersModels\\User.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\User.cs",
-              "RelativeToolTip": "MedBridge\\Models\\UsersModels\\User.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAkwC0AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T22:23:25.215Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "WorkType.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\WorkType.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\UsersModels\\WorkType.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\WorkType.cs",
-              "RelativeToolTip": "MedBridge\\Models\\UsersModels\\WorkType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-30T19:47:37.287Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\UserController\\UserController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\UserController\\UserController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\UserController\\UserController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\UserController\\UserController.cs",
-              "ViewState": "AgIAALoCAAAAAAAAAAAiwMgCAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T21:23:35.615Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "firebase-service-account.json",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Config\\firebase-service-account.json",
-              "RelativeDocumentMoniker": "MedBridge\\Config\\firebase-service-account.json",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Config\\firebase-service-account.json",
-              "RelativeToolTip": "MedBridge\\Config\\firebase-service-account.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-30T12:03:33.802Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "FavouritesController .cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\FavouritesController\\FavouritesController .cs",
               "RelativeDocumentMoniker": "MedBridge\\Controllers\\FavouritesController\\FavouritesController .cs",
@@ -370,7 +322,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "AddToFavouritesDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\FavDto\\AddToFavouritesDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\FavDto\\AddToFavouritesDto.cs",
@@ -382,20 +334,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "CartController.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\CartControllers\\CartController.cs",
               "RelativeDocumentMoniker": "MedBridge\\Controllers\\CartControllers\\CartController.cs",
               "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\CartControllers\\CartController.cs",
               "RelativeToolTip": "MedBridge\\Controllers\\CartControllers\\CartController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAmwCcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAuwIQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-20T03:55:39.59Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-20T03:55:39.59Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "UpdateUserDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\UpdateUserDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\UpdateUserDto.cs",
@@ -407,7 +358,80 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAqwJcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-18T16:51:07.865Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SubcategoriesController.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAqwJYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-20T02:09:34.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "firebase-service-account.json",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Config\\firebase-service-account.json",
+              "RelativeDocumentMoniker": "MedBridge\\Config\\firebase-service-account.json",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Config\\firebase-service-account.json",
+              "RelativeToolTip": "MedBridge\\Config\\firebase-service-account.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-30T12:03:33.802Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\UserController\\UserController.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\UserController\\UserController.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\UserController\\UserController.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\UserController\\UserController.cs",
+              "ViewState": "AgIAALoCAAAAAAAAAAAiwMgCAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T21:23:35.615Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WorkType.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\WorkType.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Models\\UsersModels\\WorkType.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\WorkType.cs",
+              "RelativeToolTip": "MedBridge\\Models\\UsersModels\\WorkType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T19:47:37.287Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 9,
+              "Title": "User.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\User.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Models\\UsersModels\\User.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\User.cs",
+              "RelativeToolTip": "MedBridge\\Models\\UsersModels\\User.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAkwC0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T22:23:25.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "WorkTypeDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\WorkTypeDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\WorkTypeDto.cs",
@@ -419,7 +443,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "ContactUs.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\Messages\\ContactUs.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\Messages\\ContactUs.cs",
@@ -431,7 +455,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "MedicalSpecialty.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\MedicalSpecialty.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\UsersModels\\MedicalSpecialty.cs",
@@ -443,7 +467,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "20250430202411_editclassuseraddRole.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250430202411_editclassuseraddRole.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250430202411_editclassuseraddRole.cs",
@@ -455,7 +479,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "ChatMessage.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ChatMessage.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ChatMessage.cs",
@@ -467,7 +491,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "RefreshToken.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\UsersModels\\RefreshToken.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\UsersModels\\RefreshToken.cs",
@@ -479,7 +503,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "ContactUsController.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\MesaageController\\ContactUsController.cs",
               "RelativeDocumentMoniker": "MedBridge\\Controllers\\MesaageController\\ContactUsController.cs",
@@ -491,7 +515,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ApplicationDbContext.cs",
@@ -503,7 +527,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "contactUsDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\Mssages\\contactUsDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\Mssages\\contactUsDto.cs",
@@ -515,7 +539,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "RoleSpecialistUpdateDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\RoleSpecialistUpdateDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\RoleSpecialistUpdateDto.cs",
@@ -527,7 +551,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "SignUpDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\SignUpDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\SignUpDto.cs",
@@ -539,7 +563,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "MedicalSpecialtyDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\MedicalSpecialtyDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\MedicalSpecialtyDto.cs",
@@ -551,7 +575,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "SignInDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\SignInDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\SignInDto.cs",
@@ -563,7 +587,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "ForgotPassword.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ForgotPassword\\ForgotPassword.cs",
               "RelativeDocumentMoniker": "MedBridge\\Controllers\\ForgotPassword\\ForgotPassword.cs",
@@ -575,7 +599,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "appsettings.json",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\appsettings.json",
               "RelativeDocumentMoniker": "MedBridge\\appsettings.json",
@@ -587,7 +611,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "MedBridge.csproj",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\MedBridge.csproj",
               "RelativeDocumentMoniker": "MedBridge\\MedBridge.csproj",
@@ -599,7 +623,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "EmailService.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\EmailService.cs",
               "RelativeDocumentMoniker": "MedBridge\\Services\\EmailService.cs",
@@ -611,7 +635,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "PasswordHasher.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\PasswordHasher.cs",
               "RelativeDocumentMoniker": "MedBridge\\Services\\PasswordHasher.cs",
@@ -635,7 +659,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "ResetPasswordRequest.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ForgotPassword\\ResetPasswordRequest.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ForgotPassword\\ResetPasswordRequest.cs",
@@ -647,7 +671,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "PasswordResetOtp.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ForgotPassword\\PasswordResetOtp.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ForgotPassword\\PasswordResetOtp.cs",
@@ -659,7 +683,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "EmailSettings.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ForgotPassword\\EmailSettings.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ForgotPassword\\EmailSettings.cs",
@@ -671,7 +695,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "20250419010329_cascade.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250419010329_cascade.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250419010329_cascade.cs",
@@ -683,7 +707,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "PasswordResetToken.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ForgotPassword\\PasswordResetToken.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ForgotPassword\\PasswordResetToken.cs",
@@ -707,7 +731,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "20250430081417_cahngeToOtpEDit.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250430081417_cahngeToOtpEDit.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250430081417_cahngeToOtpEDit.cs",
@@ -730,7 +754,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "Program.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Program.cs",
               "RelativeDocumentMoniker": "MedBridge\\Program.cs",
@@ -742,7 +766,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "20250428061803_addForgetPa.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250428061803_addForgetPa.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250428061803_addForgetPa.cs",
@@ -753,7 +777,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "AddProfileImagecs.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\User\\AddProfileImagecs.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\User\\AddProfileImagecs.cs",
@@ -777,7 +801,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "20250427210532_addProfilImage.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250427210532_addProfilImage.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250427210532_addProfilImage.cs",
@@ -812,7 +836,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "Category.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ProductModels\\Category.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ProductModels\\Category.cs",
@@ -824,7 +848,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "productController.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\productController.cs",
               "RelativeDocumentMoniker": "MedBridge\\Controllers\\ProductControllers\\productController.cs",
@@ -836,7 +860,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "20250427210806_FixProfileImageType.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250427210806_FixProfileImageType.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250427210806_FixProfileImageType.cs",
@@ -848,7 +872,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "ProdectModel.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ProductModels\\ProdectModel.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ProductModels\\ProdectModel.cs",
@@ -860,7 +884,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "ServerStatus.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\Server\\ServerStatus.cs",
               "RelativeDocumentMoniker": "MedBridge\\Controllers\\Server\\ServerStatus.cs",
@@ -872,7 +896,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "ProductDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\Product\\ProductDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\Product\\ProductDto.cs",
@@ -884,7 +908,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 44,
               "Title": "20250421024932_chatModel.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250421024932_chatModel.cs",
               "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250421024932_chatModel.cs",
@@ -896,7 +920,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 46,
               "Title": "Favorites.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\Favorites\\Favorites.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\Favorites\\Favorites.cs",
@@ -908,7 +932,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 48,
               "Title": "CartService.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\CartModels\\CartService.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\CartModels\\CartService.cs",
@@ -920,7 +944,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 45,
               "Title": "MedBridge.http",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\MedBridge.http",
               "RelativeDocumentMoniker": "MedBridge\\MedBridge.http",
@@ -932,7 +956,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 47,
               "Title": "CartItemDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\CartDto\\CartItemDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\CartDto\\CartItemDto.cs",
@@ -944,7 +968,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 51,
               "Title": "Cart.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\CartModels\\Cart.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\CartModels\\Cart.cs",
@@ -956,7 +980,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 49,
               "Title": "CartDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\CartDto\\CartDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\CartDto\\CartDto.cs",
@@ -968,7 +992,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 50,
               "Title": "CartItem.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\CartModels\\CartItem.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\CartModels\\CartItem.cs",
@@ -980,7 +1004,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 52,
               "Title": "ProductADDDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\Product\\ProductADDDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\Product\\ProductADDDto.cs",
@@ -992,7 +1016,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 53,
               "Title": "subCategories.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\Product\\subCategories.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\Product\\subCategories.cs",
@@ -1001,18 +1025,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-20T02:08:47.517Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 54,
-              "Title": "SubcategoriesController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\ProductControllers\\SubcategoriesController.cs",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAQwKcAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-20T02:09:34.723Z"
             },
             {
               "$type": "Document",
@@ -1028,7 +1040,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 54,
               "Title": "SubCategory.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ProductModels\\SubCategory.cs",
               "RelativeDocumentMoniker": "MedBridge\\Models\\ProductModels\\SubCategory.cs",
@@ -1040,7 +1052,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 55,
               "Title": "CategoryDto.cs",
               "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\Product\\CategoryDto.cs",
               "RelativeDocumentMoniker": "MedBridge\\Dtos\\Product\\CategoryDto.cs",
@@ -1061,18 +1073,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-20T02:27:56.538Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 55,
-              "Title": "CategoriesController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\ProductControllers\\CategoriesController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAIBJwA8AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-18T16:51:07.865Z"
             },
             {
               "$type": "Document",
