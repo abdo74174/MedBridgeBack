@@ -21,10 +21,7 @@ namespace MedBridge.Controllers.Info
             ILogger<WorkTypesController> logger ;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+    
         private async Task<bool> IsUserAdmin(string email)
         {
             var user = await _context.users.FirstOrDefaultAsync(u => u.Email == email);

@@ -23,6 +23,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddTransient<EmailService>();
 // Custom services
 builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<IGoogleSignIn, GoogleSignIn>();
 builder.Services.AddMemoryCache();
 // Controllers & JWT Auth
 builder.Services.AddControllers();

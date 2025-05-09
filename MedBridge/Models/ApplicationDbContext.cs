@@ -1,6 +1,7 @@
 ﻿using MedBridge.Models;
 using MedBridge.Models.ForgotPassword;
 using MedBridge.Models.Messages;
+using MedBridge.Models.OrderModels;
 using MedBridge.Models.ProductModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,19 @@ namespace MoviesApi.models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<OrderItem>()
+           .HasOne(oi => oi.Order)
+           .WithMany(o => o.OrderItems)
+           .HasForeignKey(oi => oi.OrderId)
+           .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Order
+
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Product)
+                .WithMany() // No navigation property in ProductModel
+                .HasForeignKey(oi => oi.ProductId)
+                .OnDelete(DeleteBehavior.NoAction); // No cascade for Product
+
             // ✅ منع الحذف التتابعي بين `ProductModel` و `SubCategory`
             modelBuilder.Entity<ProductModel>()
                 .HasOne(p => p.SubCategory)
@@ -54,7 +68,9 @@ namespace MoviesApi.models
 
             base.OnModelCreating(modelBuilder);
 
-        
+      
+
+
         }
 
 
@@ -85,6 +101,7 @@ namespace MoviesApi.models
         public DbSet<WorkType> WorkType { get; set; }
 
 
+        public DbSet<Order> Orders { get; set; }
 
         public DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
     }

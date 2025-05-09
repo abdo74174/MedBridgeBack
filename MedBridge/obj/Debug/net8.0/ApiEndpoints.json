@@ -485,78 +485,32 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.UserController",
-    "Method": "GetSpecialties",
-    "RelativePath": "api/MedBridge/specialties",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MedBridge.Controllers.UserController",
-    "Method": "AddSpecialty",
-    "RelativePath": "api/MedBridge/specialties",
+    "Method": "SignInWithGoogle",
+    "RelativePath": "api/MedBridge/signin/google",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "MedicalSpecialtyDto",
+        "Name": "request",
+        "Type": "MedBridge.Models.GoogLe_signIn.GoogleSignInRequest",
         "IsRequired": true
-      },
-      {
-        "Name": "adminEmail",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "MedBridge.Controllers.UserController",
-    "Method": "UpdateSpecialty",
-    "RelativePath": "api/MedBridge/specialties/{name}",
-    "HttpMethod": "PUT",
+    "Method": "CompleteGoogleProfile",
+    "RelativePath": "api/MedBridge/signin/google/complete-profile",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "name",
-        "Type": "System.String",
+        "Name": "request",
+        "Type": "MedBridge.Models.GoogLe_signIn.UserProfileRequest",
         "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "MedicalSpecialtyDto",
-        "IsRequired": true
-      },
-      {
-        "Name": "adminEmail",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MedBridge.Controllers.UserController",
-    "Method": "DeleteSpecialty",
-    "RelativePath": "api/MedBridge/specialties/{name}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "name",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "adminEmail",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -765,7 +719,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.UserController",
+    "ContainingType": "MedBridge.Controllers.Info.WorkTypesController",
     "Method": "GetWorkTypes",
     "RelativePath": "api/MedBridge/work-types",
     "HttpMethod": "GET",
@@ -775,7 +729,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.UserController",
+    "ContainingType": "MedBridge.Controllers.Info.WorkTypesController",
     "Method": "AddWorkType",
     "RelativePath": "api/MedBridge/work-types",
     "HttpMethod": "POST",
@@ -796,7 +750,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.UserController",
+    "ContainingType": "MedBridge.Controllers.Info.WorkTypesController",
     "Method": "UpdateWorkType",
     "RelativePath": "api/MedBridge/work-types/{name}",
     "HttpMethod": "PUT",
@@ -822,7 +776,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.UserController",
+    "ContainingType": "MedBridge.Controllers.Info.WorkTypesController",
     "Method": "DeleteWorkType",
     "RelativePath": "api/MedBridge/work-types/{name}",
     "HttpMethod": "DELETE",
@@ -843,6 +797,105 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MedBridge.Controllers.OrderController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/Order",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.OrderDtos.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.OrderController",
+    "Method": "GetOrder",
+    "RelativePath": "api/Order/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MedBridge.Dtos.OrderDtos.OrderDetailsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.OrderController",
+    "Method": "DeleteOrder",
+    "RelativePath": "api/Order/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.OrderController",
+    "Method": "UpdateOrderStatus",
+    "RelativePath": "api/Order/{id}/status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.OrderController",
+    "Method": "CreateOrder",
+    "RelativePath": "api/Order/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MedBridge.Dtos.OrderDtos.CreateOrderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MedBridge.Controllers.ProductControllers.productController",
     "Method": "CreateAsync",
     "RelativePath": "api/product",
@@ -1136,6 +1189,84 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "GetSpecialties",
+    "RelativePath": "specialties",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "AddSpecialty",
+    "RelativePath": "specialties",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MedicalSpecialtyDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "UpdateSpecialty",
+    "RelativePath": "specialties/{name}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MedicalSpecialtyDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "DeleteSpecialty",
+    "RelativePath": "specialties/{name}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

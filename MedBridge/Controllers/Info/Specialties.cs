@@ -22,10 +22,7 @@ namespace MedBridge.Controllers.Info
             var user = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
             return user != null && user.IsAdmin;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+     
 
         [HttpGet("specialties")]
         public async Task<IActionResult> GetSpecialties()

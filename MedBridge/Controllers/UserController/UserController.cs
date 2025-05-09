@@ -1,6 +1,8 @@
-﻿using MedBridge.Dtos;
+﻿using Google.Apis.Auth;
+using MedBridge.Dtos;
 using MedBridge.Dtos.AddProfileImagecsDtoUser;
 using MedBridge.Models;
+using MedBridge.Models.GoogLe_signIn;
 using MedBridge.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,7 @@ namespace MedBridge.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<UserController> _logger;
         private readonly IMemoryCache _memoryCache;
-
+        private readonly IGoogleSignIn _GoogleSignIn;
         private readonly string _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
         private readonly string _baseUrl = "https://10.0.2.2:7273";
 
@@ -37,12 +39,14 @@ namespace MedBridge.Controllers
             ApplicationDbContext context,
             IConfiguration configuration,
             ILogger<UserController> logger,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IGoogleSignIn googleSignIn)
         {
             _context = context;
             _configuration = configuration;
             _logger = logger;
             _memoryCache = memoryCache;
+            _GoogleSignIn = googleSignIn;
         }
 
         private async Task<bool> IsUserAdmin(string email)
@@ -107,8 +111,6 @@ namespace MedBridge.Controllers
             }
         }
 
-    
-    
         [HttpPost("User/signin")]
         public async Task<IActionResult> SignIn([FromForm] SignInDto loginRequest)
         {
@@ -188,6 +190,51 @@ namespace MedBridge.Controllers
             {
                 _logger.LogError(ex, "Error in SignIn for {Email}", loginRequest.Email);
                 return StatusCode(500, new { message = "An error occurred during signin." });
+            }
+        }
+
+        [HttpPost("signin/google")]
+        public async Task<IActionResult> SignInWithGoogle([FromBody] GoogleSignInRequest request)
+        {
+            try
+            {
+                if (request == null || string.IsNullOrWhiteSpace(request.IdToken))
+                {
+                    return BadRequest(new { message = "Invalid Google ID token" });
+                }
+
+                var result = await _GoogleSignIn.SignInWithGoogle(request.IdToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in SignInWithGoogle");
+                return StatusCode(500, new { message = "An error occurred during Google sign-in: " + ex.Message });
+            }
+        }
+
+        [HttpPost("signin/google/complete-profile")]
+        public async Task<IActionResult> CompleteGoogleProfile([FromBody] UserProfileRequest request)
+        {
+            try
+            {
+                if (request == null || string.IsNullOrWhiteSpace(request.Email))
+                {
+                    return BadRequest(new { message = "Incomplete data" });
+                }
+
+                var success = await _GoogleSignIn.CompleteProfile(request);
+                if (!success)
+                {
+                    return BadRequest(new { message = "Could not complete profile" });
+                }
+
+                return Ok(new { message = "Profile completed successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in CompleteGoogleProfile");
+                return StatusCode(500, new { message = "An error occurred while completing profile: " + ex.Message });
             }
         }
 
@@ -459,7 +506,7 @@ namespace MedBridge.Controllers
                     var specialty = await _context.MedicalSpecialties.FirstOrDefaultAsync(ms => ms.Name == dto.MedicalSpecialist);
                     if (specialty == null)
                     {
-                        return BadRequest(new { message = " $Invalid specialty: { dto.MedicalSpecialist}" });
+                        return BadRequest(new { message = $"Invalid specialty: {dto.MedicalSpecialist}" });
                     }
                     existingUser.MedicalSpecialist = dto.MedicalSpecialist;
                 }
@@ -507,6 +554,4 @@ namespace MedBridge.Controllers
             return Ok(new { status = "Server is online" });
         }
     }
-
-
 }
