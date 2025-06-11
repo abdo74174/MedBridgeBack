@@ -18,11 +18,14 @@ namespace MedBridge.Models.ProductModels
         public decimal Price { get; set; }
 
         public int StockQuantity { get; set; }
+        public bool isdeleted { get; set; } = false;
+
 
         public bool IsNew { get; set; }
-
+        public bool InstallmentAvailable { get; set; } // 
         public double Discount { get; set; }
-
+        public string Status { get; set; } = "Pending"; // New field for approval status
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         // Foreign key for SubCategory
         public int SubCategoryId { get; set; }
         public subCategory SubCategory { get; set; }

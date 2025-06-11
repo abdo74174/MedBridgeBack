@@ -392,6 +392,7 @@ namespace MedBridge.Controllers
                     existingUser.CreatedAt,
                     existingUser.KindOfWork,
                     existingUser.IsAdmin,
+                    existingUser.Status,
                     Products = existingUser.Products.Select(p => new
                     {
                         p.UserId,
@@ -404,7 +405,7 @@ namespace MedBridge.Controllers
                     {
                         c.UserId,
                         c.Message,
-                        c.created
+                        c.CreatedAt
                     }).ToList()
                 });
             }

@@ -25,6 +25,7 @@ builder.Services.AddTransient<EmailService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<IGoogleSignIn, GoogleSignIn>();
 builder.Services.AddMemoryCache();
+builder.Services.AddScoped<RecommendationService>();
 // Controllers & JWT Auth
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

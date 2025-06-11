@@ -5,6 +5,8 @@ using MoviesApi.models;
 
 namespace MedBridge.Controllers.Info
 {
+    [ApiController]
+    [Route("api/MedBridge")]
     public class Specialties : Controller
     {
 

@@ -18,8 +18,6 @@ namespace MedBridge.Controllers
             _context = context;
         }
 
-     
-
         [HttpPost("add")]
         public async Task<IActionResult> AddToFavourites([FromBody] AddToFavouritesDto model)
         {
@@ -78,6 +76,32 @@ namespace MedBridge.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok(new { Message = "Product removed from favourites" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
+            }
+        }
+
+        [HttpDelete("removeALL")]
+        public async Task<IActionResult> RemoveALLFromFavourites([FromBody] RemoveFromFavouritesDto model)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(model.UserId))
+                    return BadRequest("User ID is required.");
+
+                var favourites = await _context.Favourites
+                    .Where(f => f.UserId == model.UserId)
+                    .ToListAsync();
+
+                if (favourites.Any())
+                {
+                    _context.Favourites.RemoveRange(favourites);
+                    await _context.SaveChangesAsync();
+                }
+
+                return Ok(new { Message = "All favourites removed successfully" });
             }
             catch (Exception ex)
             {

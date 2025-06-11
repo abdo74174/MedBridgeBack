@@ -7,6 +7,13 @@ namespace MedBridge.Models
 {
     public class User
     {
+        public enum UserStatus
+        {
+            Active,
+            Blocked,
+            Deactivated
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -25,6 +32,19 @@ namespace MedBridge.Models
         [StringLength(100, MinimumLength = 8, ErrorMessage = "The password must be at least 8 characters long.")]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
             ErrorMessage = "The password must contain at least one number, one letter, and one special character.")]
+        public string? Password
+        {
+            get => string.Empty;
+            set
+            {
+                // Implement proper password hashing here
+                // Example:
+                // PasswordSalt = GenerateSalt();
+                // PasswordHash = HashPassword(value, PasswordSalt);
+            }
+        }
+
+        [NotMapped]
         public string? ConfirmPassword { get; set; }
 
         public string? ResetToken { get; set; }
@@ -39,8 +59,9 @@ namespace MedBridge.Models
         public string KindOfWork { get; set; } = "Doctor";
 
         public bool IsAdmin { get; set; } = false;
-
+        public UserStatus Status { get; set; } = UserStatus.Active;
         public ICollection<ProductModel> Products { get; set; } = new List<ProductModel>();
         public ICollection<ContactUs> ContactUs { get; set; } = new List<ContactUs>();
     }
 }
+

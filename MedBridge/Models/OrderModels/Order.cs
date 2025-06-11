@@ -26,10 +26,12 @@ namespace MedBridge.Models.OrderModels
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         public bool IsDeleted { get; set; } = false; // Added for soft delete
-
+        public int? CouponId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<OrderItem>? OrderItems { get; set; }
 
         [Precision(18, 2)]
         public decimal TotalPrice { get; set; }
+        //public object Id { get; internal set; }
     }
 }

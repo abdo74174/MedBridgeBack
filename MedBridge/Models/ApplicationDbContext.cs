@@ -4,6 +4,7 @@ using MedBridge.Models.Messages;
 using MedBridge.Models.OrderModels;
 using MedBridge.Models.ProductModels;
 using Microsoft.EntityFrameworkCore;
+using RatingApi.Models;
 
 namespace MoviesApi.models
 {
@@ -102,7 +103,8 @@ namespace MoviesApi.models
 
 
         public DbSet<Order> Orders { get; set; }
-
+        public DbSet<Rating> Ratings { get; set; }
+        //public DbSet<Coupon> Coupons { get; set; }
         public DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
     }
 }

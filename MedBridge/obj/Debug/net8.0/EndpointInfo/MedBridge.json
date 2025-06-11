@@ -6,6 +6,155 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Admin/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/add-admin": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/delete-admin/{id}": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/block-user/{id}": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/Un_block-user/{id}": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/Activate-user/{id}": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admin/deactivate-user/{id}": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/cart/add": {
       "post": {
         "tags": [
@@ -398,161 +547,35 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "required": [
-                  "Message",
-                  "User.Email",
-                  "User.KindOfWork",
-                  "User.Name"
-                ],
-                "type": "object",
-                "properties": {
-                  "Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Message": {
-                    "type": "string"
-                  },
-                  "UserId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "User.Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "User.Name": {
-                    "maxLength": 50,
-                    "type": "string"
-                  },
-                  "User.Email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "User.PasswordHash": {
-                    "type": "string",
-                    "format": "byte"
-                  },
-                  "User.PasswordSalt": {
-                    "type": "string",
-                    "format": "byte"
-                  },
-                  "User.ConfirmPassword": {
-                    "maxLength": 100,
-                    "minLength": 8,
-                    "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-                    "type": "string"
-                  },
-                  "User.ResetToken": {
-                    "type": "string"
-                  },
-                  "User.ResetTokenExpires": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "User.Phone": {
-                    "type": "string"
-                  },
-                  "User.MedicalSpecialist": {
-                    "type": "string"
-                  },
-                  "User.Address": {
-                    "type": "string"
-                  },
-                  "User.ProfileImage": {
-                    "type": "string"
-                  },
-                  "User.CreatedAt": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "User.KindOfWork": {
-                    "type": "string"
-                  },
-                  "User.IsAdmin": {
-                    "type": "boolean"
-                  },
-                  "User.Products": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ProductModel"
-                    }
-                  },
-                  "User.ContactUs": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ContactUs"
-                    }
-                  }
-                }
-              },
-              "encoding": {
-                "Id": {
-                  "style": "form"
-                },
-                "Message": {
-                  "style": "form"
-                },
-                "UserId": {
-                  "style": "form"
-                },
-                "User.Id": {
-                  "style": "form"
-                },
-                "User.Name": {
-                  "style": "form"
-                },
-                "User.Email": {
-                  "style": "form"
-                },
-                "User.PasswordHash": {
-                  "style": "form"
-                },
-                "User.PasswordSalt": {
-                  "style": "form"
-                },
-                "User.ConfirmPassword": {
-                  "style": "form"
-                },
-                "User.ResetToken": {
-                  "style": "form"
-                },
-                "User.ResetTokenExpires": {
-                  "style": "form"
-                },
-                "User.Phone": {
-                  "style": "form"
-                },
-                "User.MedicalSpecialist": {
-                  "style": "form"
-                },
-                "User.Address": {
-                  "style": "form"
-                },
-                "User.ProfileImage": {
-                  "style": "form"
-                },
-                "User.CreatedAt": {
-                  "style": "form"
-                },
-                "User.KindOfWork": {
-                  "style": "form"
-                },
-                "User.IsAdmin": {
-                  "style": "form"
-                },
-                "User.Products": {
-                  "style": "form"
-                },
-                "User.ContactUs": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/ContactUsDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactUsDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactUsDto"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Dashboard/summary": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -606,6 +629,37 @@
               "format": "int32"
             }
           }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromFavouritesDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromFavouritesDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromFavouritesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/favourites/removeALL": {
+      "delete": {
+        "tags": [
+          "Favourites"
         ],
         "requestBody": {
           "content": {
@@ -888,10 +942,10 @@
         }
       }
     },
-    "/api/product": {
+    "/api/Product": {
       "post": {
         "tags": [
-          "product"
+          "Product"
         ],
         "requestBody": {
           "content": {
@@ -910,6 +964,9 @@
                     "maxLength": 255,
                     "minLength": 0,
                     "type": "string"
+                  },
+                  "InstallmentAvailable": {
+                    "type": "boolean"
                   },
                   "Description": {
                     "type": "string"
@@ -955,6 +1012,9 @@
                   "style": "form"
                 },
                 "Name": {
+                  "style": "form"
+                },
+                "InstallmentAvailable": {
                   "style": "form"
                 },
                 "Description": {
@@ -996,7 +1056,7 @@
       },
       "get": {
         "tags": [
-          "product"
+          "Product"
         ],
         "responses": {
           "200": {
@@ -1005,10 +1065,22 @@
         }
       }
     },
-    "/api/product/{id}": {
+    "/api/Product/pending": {
       "get": {
         "tags": [
-          "product"
+          "Product"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
         ],
         "parameters": [
           {
@@ -1029,7 +1101,7 @@
       },
       "put": {
         "tags": [
-          "product"
+          "Product"
         ],
         "parameters": [
           {
@@ -1059,6 +1131,9 @@
                     "maxLength": 255,
                     "minLength": 0,
                     "type": "string"
+                  },
+                  "InstallmentAvailable": {
+                    "type": "boolean"
                   },
                   "Description": {
                     "type": "string"
@@ -1104,6 +1179,9 @@
                   "style": "form"
                 },
                 "Name": {
+                  "style": "form"
+                },
+                "InstallmentAvailable": {
                   "style": "form"
                 },
                 "Description": {
@@ -1145,7 +1223,7 @@
       },
       "delete": {
         "tags": [
-          "product"
+          "Product"
         ],
         "parameters": [
           {
@@ -1165,7 +1243,274 @@
         }
       }
     },
-    "/specialties": {
+    "/api/Product/approve/{id}": {
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductApprovalDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductApprovalDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductApprovalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/recommend": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "topN",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 3
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ratings": {
+      "post": {
+        "tags": [
+          "Ratings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rating"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rating"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rating"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Ratings/{id}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MedBridge/specialties": {
       "get": {
         "tags": [
           "Specialties"
@@ -1215,7 +1560,7 @@
         }
       }
     },
-    "/specialties/{name}": {
+    "/api/MedBridge/specialties/{name}": {
       "put": {
         "tags": [
           "Specialties"
@@ -2083,66 +2428,20 @@
         },
         "additionalProperties": false
       },
-      "Category": {
+      "ContactUsDto": {
         "type": "object",
         "properties": {
-          "categoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
+          "userId": {
             "type": "string",
             "nullable": true
-          },
-          "imageUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "subCategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/subCategory"
-            },
-            "nullable": true
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ContactUs": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
           },
           "message": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
-          },
-          "created": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2259,6 +2558,16 @@
         "type": "integer",
         "format": "int32"
       },
+      "ProductApprovalDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ProductDto": {
         "required": [
           "name"
@@ -2315,68 +2624,32 @@
         },
         "additionalProperties": false
       },
-      "ProductModel": {
-        "required": [
-          "description",
-          "name"
-        ],
+      "Rating": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "productId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "description": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "stockQuantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isNew": {
-            "type": "boolean"
-          },
-          "discount": {
-            "type": "number",
-            "format": "double"
-          },
-          "subCategoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "subCategory": {
-            "$ref": "#/components/schemas/subCategory"
-          },
-          "categoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "imageUrls": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "type": "string",
             "nullable": true
           },
           "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "ratingValue": {
             "type": "integer",
             "format": "int32"
           },
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -2415,98 +2688,6 @@
             "minLength": 1,
             "type": "string",
             "format": "email"
-          }
-        },
-        "additionalProperties": false
-      },
-      "User": {
-        "required": [
-          "email",
-          "kindOfWork",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
-          },
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          },
-          "passwordHash": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "passwordSalt": {
-            "type": "string",
-            "format": "byte",
-            "nullable": true
-          },
-          "confirmPassword": {
-            "maxLength": 100,
-            "minLength": 8,
-            "pattern": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-            "type": "string",
-            "nullable": true
-          },
-          "resetToken": {
-            "type": "string",
-            "nullable": true
-          },
-          "resetTokenExpires": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "medicalSpecialist": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "profileImage": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "kindOfWork": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isAdmin": {
-            "type": "boolean"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductModel"
-            },
-            "nullable": true
-          },
-          "contactUs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ContactUs"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2562,46 +2743,6 @@
         "properties": {
           "name": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "subCategory": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "subCategoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "imageUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "categoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductModel"
-            },
             "nullable": true
           }
         },

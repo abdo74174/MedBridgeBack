@@ -1,5 +1,111 @@
 [
   {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "ActivateUser",
+    "RelativePath": "api/Admin/Activate-user/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "AddAdmin",
+    "RelativePath": "api/Admin/add-admin",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "BlockUser",
+    "RelativePath": "api/Admin/block-user/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "DeactivateUser",
+    "RelativePath": "api/Admin/deactivate-user/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "DeleteAdmin",
+    "RelativePath": "api/Admin/delete-admin/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "UnBlockUser",
+    "RelativePath": "api/Admin/Un_block-user/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.AdminController",
+    "Method": "GetUsers",
+    "RelativePath": "api/Admin/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MedBridge.Controllers.CartController",
     "Method": "GetCart",
     "RelativePath": "api/cart",
@@ -242,7 +348,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.MesaageController.ContactUsController",
+    "ContainingType": "MedBridge.Controllers.MessageController.ContactUsController",
     "Method": "GetAsync",
     "RelativePath": "api/ContactUs",
     "HttpMethod": "GET",
@@ -252,7 +358,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.MesaageController.ContactUsController",
+    "ContainingType": "MedBridge.Controllers.MessageController.ContactUsController",
     "Method": "AddAsync",
     "RelativePath": "api/ContactUs",
     "HttpMethod": "POST",
@@ -260,106 +366,21 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Message",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "UserId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.Name",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.PasswordHash",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.PasswordSalt",
-        "Type": "System.Byte[]",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.ConfirmPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.ResetToken",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.ResetTokenExpires",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.Phone",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.MedicalSpecialist",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.Address",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.ProfileImage",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.CreatedAt",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.KindOfWork",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.IsAdmin",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.Products",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.ProductModels.ProductModel, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "User.ContactUs",
-        "Type": "System.Collections.Generic.ICollection\u00601[[MedBridge.Models.Messages.ContactUs, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
+        "Name": "contactUs",
+        "Type": "MedBridge.Dtos.ContactUsDto",
+        "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Dashboard.Dashboard",
+    "Method": "GetDashboardSummary",
+    "RelativePath": "api/Dashboard/summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -407,6 +428,22 @@
         "Type": "System.Int32",
         "IsRequired": true
       },
+      {
+        "Name": "model",
+        "Type": "MedBridge.Controllers.FavouritesController\u002BRemoveFromFavouritesDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.FavouritesController",
+    "Method": "RemoveALLFromFavourites",
+    "RelativePath": "api/favourites/removeALL",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
         "Name": "model",
         "Type": "MedBridge.Controllers.FavouritesController\u002BRemoveFromFavouritesDto",
@@ -511,6 +548,84 @@
         "Name": "request",
         "Type": "MedBridge.Models.GoogLe_signIn.UserProfileRequest",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "GetSpecialties",
+    "RelativePath": "api/MedBridge/specialties",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "AddSpecialty",
+    "RelativePath": "api/MedBridge/specialties",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MedicalSpecialtyDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "UpdateSpecialty",
+    "RelativePath": "api/MedBridge/specialties/{name}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MedicalSpecialtyDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "Method": "DeleteSpecialty",
+    "RelativePath": "api/MedBridge/specialties/{name}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminEmail",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -896,9 +1011,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.ProductControllers.productController",
+    "ContainingType": "MedBridge.Controllers.ProductController",
     "Method": "CreateAsync",
-    "RelativePath": "api/product",
+    "RelativePath": "api/Product",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -911,6 +1026,11 @@
       {
         "Name": "Name",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "InstallmentAvailable",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {
@@ -962,9 +1082,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.ProductControllers.productController",
+    "ContainingType": "MedBridge.Controllers.ProductController",
     "Method": "GetAllAsync",
-    "RelativePath": "api/product",
+    "RelativePath": "api/Product",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -972,9 +1092,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.ProductControllers.productController",
+    "ContainingType": "MedBridge.Controllers.ProductController",
     "Method": "GetByIdAsync",
-    "RelativePath": "api/product/{id}",
+    "RelativePath": "api/Product/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -988,9 +1108,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.ProductControllers.productController",
+    "ContainingType": "MedBridge.Controllers.ProductController",
     "Method": "UpdateAsync",
-    "RelativePath": "api/product/{id}",
+    "RelativePath": "api/Product/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1011,6 +1131,11 @@
         "IsRequired": false
       },
       {
+        "Name": "InstallmentAvailable",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
         "Name": "Description",
         "Type": "System.String",
         "IsRequired": false
@@ -1059,9 +1184,176 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.ProductControllers.productController",
+    "ContainingType": "MedBridge.Controllers.ProductController",
     "Method": "DeleteAsync",
-    "RelativePath": "api/product/{id}",
+    "RelativePath": "api/Product/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.ProductController",
+    "Method": "ApproveProductAsync",
+    "RelativePath": "api/Product/approve/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "MedBridge.Controllers.ProductApprovalDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.ProductController",
+    "Method": "GetPendingProductsAsync",
+    "RelativePath": "api/Product/pending",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.ProductController",
+    "Method": "GetRecommendations",
+    "RelativePath": "api/Product/recommend",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "topN",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RatingApi.Controllers.RatingsController",
+    "Method": "CreateRating",
+    "RelativePath": "api/Ratings",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rating",
+        "Type": "RatingApi.Models.Rating",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "RatingApi.Models.Rating",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RatingApi.Controllers.RatingsController",
+    "Method": "GetRatings",
+    "RelativePath": "api/Ratings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[RatingApi.Models.Rating, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RatingApi.Controllers.RatingsController",
+    "Method": "GetRating",
+    "RelativePath": "api/Ratings/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "RatingApi.Models.Rating",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "RatingApi.Controllers.RatingsController",
+    "Method": "UpdateRating",
+    "RelativePath": "api/Ratings/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "rating",
+        "Type": "RatingApi.Models.Rating",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RatingApi.Controllers.RatingsController",
+    "Method": "DeleteRating",
+    "RelativePath": "api/Ratings/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1189,84 +1481,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
-    "Method": "GetSpecialties",
-    "RelativePath": "specialties",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
-    "Method": "AddSpecialty",
-    "RelativePath": "specialties",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "MedicalSpecialtyDto",
-        "IsRequired": true
-      },
-      {
-        "Name": "adminEmail",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
-    "Method": "UpdateSpecialty",
-    "RelativePath": "specialties/{name}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "name",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "MedicalSpecialtyDto",
-        "IsRequired": true
-      },
-      {
-        "Name": "adminEmail",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
-    "Method": "DeleteSpecialty",
-    "RelativePath": "specialties/{name}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "name",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "adminEmail",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

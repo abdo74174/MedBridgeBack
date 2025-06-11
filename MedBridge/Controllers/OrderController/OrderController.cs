@@ -52,6 +52,7 @@ namespace MedBridge.Controllers
                 {
                     UserId = dto.UserId,
                     TotalPrice = totalPrice,
+                    IsDeleted = false, // Ensure IsDeleted is false on creation
                     OrderItems = dto.Items.Select(item =>
                     {
                         var product = products.First(p => p.ProductId == item.ProductId);
@@ -173,6 +174,7 @@ namespace MedBridge.Controllers
             }
         }
 
+ 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -185,25 +187,27 @@ namespace MedBridge.Controllers
                 if (order == null)
                     return NotFound("Order not found.");
 
-                // Mark order as deleted
                 order.IsDeleted = true;
 
-                // Restore stock for each item
                 foreach (var item in order.OrderItems)
                 {
                     var product = await _context.Products.FindAsync(item.ProductId);
                     if (product != null)
+                    {
                         product.StockQuantity += item.Quantity;
+                        product.isdeleted = true; // ✅ Mark this product as deleted
+                    }
                 }
 
                 await _context.SaveChangesAsync();
 
-                return Ok("Order marked as deleted successfully.");
+                return Ok("Order and related products marked as deleted successfully.");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error: {ex.Message}");
             }
         }
+
     }
 }

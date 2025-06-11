@@ -184,3 +184,4 @@ F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\MedBridge.pdb
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\MedBridge.genruntimeconfig.cache
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\ref\MedBridge.dll
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\MathNet.Numerics.dll

@@ -1,18 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace MedBridge.Models.Messages
 {
     public class ContactUs
     {
-        [Key]
         public int Id { get; set; }
-
-        [Required]
-        public string Message { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
-
-        public DateTime created { get; set; } = DateTime.UtcNow;
+        public string UserId { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+        public string? Email { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

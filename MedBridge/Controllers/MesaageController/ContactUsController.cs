@@ -1,61 +1,49 @@
 ﻿using MedBridge.Dtos;
-
 using MedBridge.Models.Messages;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
 
-namespace MedBridge.Controllers.MesaageController
+namespace MedBridge.Controllers.MessageController
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ContactUsController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbcontextt;
+        private readonly ApplicationDbContext _dbcontext;
 
-        public ContactUsController(ApplicationDbContext dbcontextt)
+        public ContactUsController(ApplicationDbContext dbcontext)
         {
-            _dbcontextt = dbcontextt;
+            _dbcontext = dbcontext;
         }
-
 
         [HttpGet]
-        public async Task <IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync()
         {
-            var ContactUs = await _dbcontextt.ContactUs.ToListAsync();
-
-            return Ok(ContactUs); 
-
-
+            var contactUsMessages = await _dbcontext.ContactUs.ToListAsync();
+            return Ok(contactUsMessages);
         }
 
-
         [HttpPost]
-
-
-        public async Task <IActionResult> AddAsync([FromForm] ContactUsDto contactus)
+        public async Task<IActionResult> AddAsync([FromBody] ContactUsDto contactUs)
         {
-
-            ContactUs message = new ContactUs
+            if (!ModelState.IsValid)
             {
-                Id = contactus.Id,
+                return BadRequest(ModelState);
+            }
 
-                Message = contactus.Message,
-
-                UserId = contactus.UserId
+            var message = new ContactUs
+            {
+               
+                Message = contactUs.Message,
+                Email = contactUs.Email,
+                CreatedAt = DateTime.UtcNow
             };
 
-           await _dbcontextt.ContactUs.AddAsync(message);
-
-            await _dbcontextt.SaveChangesAsync();
-
+            await _dbcontext.ContactUs.AddAsync(message);
+            await _dbcontext.SaveChangesAsync();
 
             return Ok(message);
-
-
-
-
         }
     }
 }
