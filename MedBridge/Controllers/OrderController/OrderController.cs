@@ -19,7 +19,7 @@ namespace MedBridge.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateOrder(CreateOrderDto dto)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto dto)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace MedBridge.Controllers
 
                 var productIds = dto.Items.Select(i => i.ProductId).ToList();
                 var products = await _context.Products
-                    .Where(p => productIds.Contains(p.ProductId))
+                    .Where(p => productIds.Contains(p.ProductId) && !p.isdeleted)
                     .ToListAsync();
 
                 if (products.Count != dto.Items.Count)
@@ -52,7 +52,7 @@ namespace MedBridge.Controllers
                 {
                     UserId = dto.UserId,
                     TotalPrice = totalPrice,
-                    IsDeleted = false, // Ensure IsDeleted is false on creation
+                    IsDeleted = false,
                     OrderItems = dto.Items.Select(item =>
                     {
                         var product = products.First(p => p.ProductId == item.ProductId);
@@ -83,15 +83,18 @@ namespace MedBridge.Controllers
         }
 
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] OrderStatus status)
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] string status)
         {
             try
             {
+                if (!Enum.TryParse<OrderStatus>(status, true, out var orderStatus))
+                    return BadRequest("Invalid status value.");
+
                 var order = await _context.Orders.FindAsync(id);
                 if (order == null || order.IsDeleted)
                     return NotFound("Order not found.");
 
-                order.Status = status;
+                order.Status = orderStatus;
                 await _context.SaveChangesAsync();
 
                 return Ok($"Order status updated to {status}");
@@ -119,16 +122,16 @@ namespace MedBridge.Controllers
                 var dto = new OrderDetailsDto
                 {
                     OrderId = order.OrderId,
-                    UserName = order.User.Name,
+                    UserName = order.User?.Name ?? "Unknown",
                     OrderDate = order.OrderDate,
                     Status = order.Status.ToString(),
                     TotalPrice = order.TotalPrice,
-                    Items = order.OrderItems.Select(i => new OrderDetailsItemDto
+                    Items = order.OrderItems?.Select(i => new OrderDetailsItemDto
                     {
-                        ProductName = i.Product.Name,
+                        ProductName = i.Product?.Name ?? "Unknown",
                         Quantity = i.Quantity,
                         UnitPrice = i.UnitPrice
-                    }).ToList()
+                    }).ToList() ?? new List<OrderDetailsItemDto>()
                 };
 
                 return Ok(dto);
@@ -139,42 +142,63 @@ namespace MedBridge.Controllers
             }
         }
 
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetAllOrders()
+        //{
+        //    try
+        //    {
+        //        var orders = await _context.Orders
+        //            .Include(o => o.User)
+        //            .Include(o => o.OrderItems)
+        //                .ThenInclude(i => i.Product)
+        //            .Where(o => !o.IsDeleted)
+        //            .ToListAsync();
+
+        //        var dtos = orders.Select(order => new OrderDetailsDto
+        //        {
+        //            OrderId = order.OrderId,
+        //            UserName = order.User?.Name ?? "Unknown",
+        //            OrderDate = order.OrderDate,
+        //            Status = order.Status.ToString(),
+        //            TotalPrice = order.TotalPrice,
+        //            Items = order.OrderItems?.Select(i => new OrderDetailsItemDto
+        //            {
+        //                ProductName = i.Product?.Name ?? "Unknown",
+        //                Quantity = i.Quantity,
+        //                UnitPrice = i.UnitPrice
+        //            }).ToList() ?? new List<OrderDetailsItemDto>()
+        //        }).ToList();
+
+        //        return Ok(dtos);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Error: {ex.Message}");
+        //    }
+        //}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetAllOrders()
+        public IActionResult GetOrders()
         {
-            try
-            {
-                var orders = await _context.Orders
-                    .Include(o => o.User)
-                    .Include(o => o.OrderItems)
-                        .ThenInclude(i => i.Product)
-                    .Where(o => !o.IsDeleted)
-                    .ToListAsync();
-
-                var dtos = orders.Select(order => new OrderDetailsDto
+            var orders = _context.Orders
+                .Include(o => o.User) // Ensure User is included if needed
+                .Select(static o => new
                 {
-                    OrderId = order.OrderId,
-                    UserName = order.User.Name,
-                    OrderDate = order.OrderDate,
-                    Status = order.Status.ToString(),
-                    TotalPrice = order.TotalPrice,
-                    Items = order.OrderItems.Select(i => new OrderDetailsItemDto
+                    orderId = o.OrderId,
+                    userId = o.UserId, // Explicitly include UserId
+                    userName = o.User.Name ?? "Unknown" ,
+                    orderDate = o.OrderDate,
+                    status = o.Status.ToString(),
+                    totalPrice = o.TotalPrice,
+                    items = o.OrderItems.Select(i => new
                     {
-                        ProductName = i.Product.Name,
-                        Quantity = i.Quantity,
-                        UnitPrice = i.UnitPrice
-                    }).ToList()
-                }).ToList();
-
-                return Ok(dtos);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error: {ex.Message}");
-            }
+                        productName = i.Product.Name ?? "Unknown",
+                        quantity = i.Quantity,
+                        unitPrice = i.UnitPrice
+                    })
+                })
+                .ToList();
+            return Ok(orders);
         }
-
- 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -195,19 +219,17 @@ namespace MedBridge.Controllers
                     if (product != null)
                     {
                         product.StockQuantity += item.Quantity;
-                        product.isdeleted = true; // ✅ Mark this product as deleted
                     }
                 }
 
                 await _context.SaveChangesAsync();
 
-                return Ok("Order and related products marked as deleted successfully.");
+                return Ok("Order deleted successfully.");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error: {ex.Message}");
             }
         }
-
     }
 }

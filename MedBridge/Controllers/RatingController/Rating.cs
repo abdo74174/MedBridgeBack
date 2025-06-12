@@ -16,7 +16,7 @@ public class RatingsController : ControllerBase
         _context = context;
     }
 
-    // POST: api/ratings
+    
     [HttpPost]
     public async Task<ActionResult<Rating>> CreateRating(Rating rating)
     {

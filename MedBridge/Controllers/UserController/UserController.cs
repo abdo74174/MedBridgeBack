@@ -10,9 +10,11 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApi.models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static MedBridge.Models.User;
 
 namespace MedBridge.Controllers
 {
@@ -203,8 +205,66 @@ namespace MedBridge.Controllers
                     return BadRequest(new { message = "Invalid Google ID token" });
                 }
 
-                var result = await _GoogleSignIn.SignInWithGoogle(request.IdToken);
-                return Ok(result);
+                var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken);
+                var email = payload.Email;
+                var name = payload.Name;
+
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+
+                if (existingUser == null)
+                {
+                    return Ok(new
+                    {
+                        id = (string)null,
+                        email = email,
+                        name = name,
+                        requiresProfileCompletion = true
+                    });
+                }
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
+                    new Claim(ClaimTypes.Name, existingUser.Name),
+                    new Claim(ClaimTypes.Email, existingUser.Email),
+                    new Claim("IsAdmin", existingUser.IsAdmin.ToString())
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddHours(1),
+                    signingCredentials: credentials
+                );
+
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+                var newRefreshToken = new RefreshToken
+                {
+                    Token = Guid.NewGuid().ToString(),
+                    UserId = existingUser.Id,
+                    ExpiryDate = DateTime.UtcNow.AddDays(7)
+                };
+
+                var oldTokens = _context.RefreshTokens.Where(rt => rt.UserId == existingUser.Id);
+                _context.RefreshTokens.RemoveRange(oldTokens);
+                _context.RefreshTokens.Add(newRefreshToken);
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    id = existingUser.Id,
+                    token = tokenString,
+                    expiresIn = 3600,
+                    refreshToken = newRefreshToken.Token,
+                    kindOfWork = existingUser.KindOfWork,
+                    medicalSpecialist = existingUser.MedicalSpecialist,
+                    isAdmin = existingUser.IsAdmin,
+                    requiresProfileCompletion = false
+                });
             }
             catch (Exception ex)
             {
@@ -214,26 +274,94 @@ namespace MedBridge.Controllers
         }
 
         [HttpPost("signin/google/complete-profile")]
-        public async Task<IActionResult> CompleteGoogleProfile([FromBody] UserProfileRequest request)
+        public async Task<IActionResult> CompleteGoogleProfile([FromBody] GoogleProfileCompletionRequest request)
         {
             try
             {
-                if (request == null || string.IsNullOrWhiteSpace(request.Email))
+                if (request == null || string.IsNullOrWhiteSpace(request.Email) ||
+                    string.IsNullOrWhiteSpace(request.Phone) || string.IsNullOrWhiteSpace(request.Address) ||
+                    string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.ConfirmPassword))
                 {
-                    return BadRequest(new { message = "Incomplete data" });
+                    return BadRequest(new { message = "Email, phone, address, password, and confirm password are required." });
                 }
 
-                var success = await _GoogleSignIn.CompleteProfile(request);
-                if (!success)
+                if (request.Password != request.ConfirmPassword)
                 {
-                    return BadRequest(new { message = "Could not complete profile" });
+                    return BadRequest(new { message = "Passwords do not match." });
                 }
 
-                return Ok(new { message = "Profile completed successfully" });
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == request.Email);
+                if (existingUser != null)
+                {
+                    return BadRequest(new { message = "User already exists." });
+                }
+
+                var (passwordHash, passwordSalt) = PasswordHasher.CreatePasswordHash(request.Password);
+
+                var user = new User
+                {
+                    Email = request.Email,
+                    Name = request.Name ?? "Google User",
+                    Phone = request.Phone,
+                    Address = request.Address,
+                    MedicalSpecialist = request.MedicalSpecialist,
+                    KindOfWork = "Doctor",
+                    IsAdmin = false,
+                    CreatedAt = DateTime.UtcNow,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    ProfileImage = "",
+                    Status = UserStatus.Deactivated // Assuming UserStatus is an enum
+                };
+
+                _context.users.Add(user);
+                await _context.SaveChangesAsync();
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim("IsAdmin", user.IsAdmin.ToString())
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddHours(1),
+                    signingCredentials: credentials
+                );
+
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+                var newRefreshToken = new RefreshToken
+                {
+                    Token = Guid.NewGuid().ToString(),
+                    UserId = user.Id,
+                    ExpiryDate = DateTime.UtcNow.AddDays(7)
+                };
+
+                _context.RefreshTokens.Add(newRefreshToken);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Google profile completed for {Email}", request.Email);
+                return Ok(new
+                {
+                    message = "Profile completed successfully",
+                    id = user.Id,
+                    token = tokenString,
+                    refreshToken = newRefreshToken.Token,
+                    kindOfWork = user.KindOfWork,
+                    medicalSpecialist = user.MedicalSpecialist,
+                    isAdmin = user.IsAdmin
+                });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in CompleteGoogleProfile");
+                _logger.LogError(ex, "Error in CompleteGoogleProfile for {Email}", request.Email);
                 return StatusCode(500, new { message = "An error occurred while completing profile: " + ex.Message });
             }
         }

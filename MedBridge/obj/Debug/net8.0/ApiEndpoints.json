@@ -546,7 +546,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MedBridge.Models.GoogLe_signIn.UserProfileRequest",
+        "Type": "MedBridge.Models.GoogLe_signIn.GoogleProfileCompletionRequest",
         "IsRequired": true
       }
     ],
@@ -913,23 +913,13 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.OrderController",
-    "Method": "GetAllOrders",
+    "Method": "GetOrders",
     "RelativePath": "api/Order",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.OrderDtos.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MedBridge.Controllers.OrderController",

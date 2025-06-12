@@ -3,6 +3,7 @@ using MedBridge.Models.Messages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
+using System;
 
 namespace MedBridge.Controllers.MessageController
 {
@@ -34,7 +35,7 @@ namespace MedBridge.Controllers.MessageController
 
             var message = new ContactUs
             {
-               
+                ProblemType = contactUs.ProblemType,
                 Message = contactUs.Message,
                 Email = contactUs.Email,
                 CreatedAt = DateTime.UtcNow

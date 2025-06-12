@@ -5,13 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedBridge.Models.OrderModels
 {
-    public enum OrderStatus
-    {
-        Pending,
-        Approved,
-        Rejected,
-        Cancelled
-    }
+    public enum OrderStatus { Pending, Processing, Shipped, Delivered, Cancelled }
 
     public class Order
     {
@@ -25,13 +19,13 @@ namespace MedBridge.Models.OrderModels
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
-        public bool IsDeleted { get; set; } = false; // Added for soft delete
+        public bool IsDeleted { get; set; } = false;
         public int? CouponId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<OrderItem>? OrderItems { get; set; }
 
         [Precision(18, 2)]
         public decimal TotalPrice { get; set; }
-        //public object Id { get; internal set; }
     }
+
 }
