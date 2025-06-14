@@ -15,9 +15,12 @@ namespace MedBridge.Dtos.ProductADD
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        public bool IsNew { get; set; }
 
+        public double Guarantee { get; set; }
+        public bool IsNew { get; set; }
+        public string Address { get; set; }
         public double Discount { get; set; }
+        public bool Donation { get; set; } = false;
 
         // Foreign keys
         public int SubCategoryId { get; set; }
@@ -26,6 +29,7 @@ namespace MedBridge.Dtos.ProductADD
         // List of image files
         public List<IFormFile> Images { get; set; } = new List<IFormFile>();
          
+
 
         public int StockQuantity { get; set; }
         public int UserId { get; set; }

@@ -1,0 +1,83 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
+using GraduationProject.Core.Services;
+using GraduationProject.Core.Dtos;
+using Microsoft.AspNetCore.Http;
+using GraduationProject.Core.Interfaces;
+using Microsoft.Extensions.Logging;
+
+namespace GraduationProject.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DeliveryPersonController : ControllerBase
+    {
+        private readonly IDeliveryPersonService _deliveryPersonService;
+        private readonly ILogger<DeliveryPersonController> _logger;
+
+        public DeliveryPersonController(IDeliveryPersonService deliveryPersonService, ILogger<DeliveryPersonController> logger)
+        {
+            _deliveryPersonService = deliveryPersonService ?? throw new ArgumentNullException(nameof(deliveryPersonService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        [HttpPost("submit-request")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SubmitDeliveryPersonRequest([FromBody] DeliveryPersonRequestDto requestDto, [FromQuery] int userid)
+        {
+            if (!ModelState.IsValid || requestDto == null)
+            {
+                _logger.LogWarning("Invalid request data received for userId: {UserId}", userid);
+                return BadRequest("Invalid request data.");
+            }
+
+            try
+            {
+                _logger.LogInformation("Submitting delivery person request for userId: {UserId}", userid);
+                var result = await _deliveryPersonService.SubmitDeliveryPersonRequestAsync(requestDto, userid);
+                return CreatedAtAction(nameof(GetDeliveryPersonRequests), new { message = result }, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to submit delivery person request for userId: {UserId}", userid);
+                return BadRequest($"Failed to submit request: {ex.Message}");
+            }
+        }
+
+        [HttpGet("requests")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetDeliveryPersonRequests()
+        {
+            try
+            {
+                var requests = await _deliveryPersonService.GetAllRequestsAsync();
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to fetch delivery person requests");
+                return BadRequest($"Failed to fetch requests: {ex.Message}");
+            }
+        }
+
+        [HttpPut("request/{requestId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> HandleDeliveryPersonRequest(int requestId, [FromQuery] string action)
+        {
+            try
+            {
+                await _deliveryPersonService.HandleDeliveryPersonRequestAsync(requestId, action);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to handle delivery person request for requestId: {RequestId}", requestId);
+                return BadRequest($"Failed to handle request: {ex.Message}");
+            }
+        }
+    }
+}

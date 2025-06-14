@@ -1,27 +1,13 @@
-﻿namespace MedBridge.Models
-{
-    public class Test
-    {
+﻿//using System.ComponentModel.DataAnnotations;
 
-        public string _message { get; set; }
+//[Phone(ErrorMessage = "The Phone number is not valid.")]
+//public string Phone { get; set; } = string.Empty;
 
+//public string Address { get; set; } = string.Empty;
 
-        //public string getmessage()
-        //{
-        //    return _message;
-        //}
+//[Required(ErrorMessage = "Card number is required.")]
+//public string CardNumber { get; set; } = string.Empty;
 
-
-        //public void setmessage(string message)
-        //{
-
-
-        //    _message = message;
-        //}
-
-
-       
-
-
-    }
-}
+//public string? RequestStatus { get; set; }
+//public DateTime CreatedAt { get; set; }
+//}

@@ -70,8 +70,11 @@ public class ProductController : ControllerBase
             Price = dto.Price,
             InstallmentAvailable = dto.InstallmentAvailable,
             IsNew = dto.IsNew,
+            Guarantee = dto.Guarantee,
             StockQuantity = dto.StockQuantity,
             Discount = dto.Discount,
+            Address = dto.Address,
+            Donation=dto.Donation,
             SubCategoryId = dto.SubCategoryId,
             CategoryId = dto.CategoryId,
             UserId = dto.UserId,
@@ -95,7 +98,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var products = await _dbContext.Products
-            .Where(p => p.Status == "Approved" && p.isdeleted == false)
+            .Where(p => p.Status == "Approved" && p.isdeleted == false )
             .ToListAsync();
         return Ok(products);
     }
@@ -129,10 +132,12 @@ public class ProductController : ControllerBase
         product.Price = dto.Price;
         product.Discount = dto.Discount;
         product.IsNew = dto.IsNew;
+        product.Address = dto.Address;
+        product.Donation = dto.Donation;
         product.InstallmentAvailable = dto.InstallmentAvailable;
         product.CategoryId = dto.CategoryId;
         product.SubCategoryId = dto.SubCategoryId;
-
+        product.Guarantee = dto.Guarantee;
         if (dto.Images != null && dto.Images.Any())
         {
             var imageUrls = new List<string>();
@@ -207,6 +212,7 @@ public class ProductController : ControllerBase
                     p.Description,
                     p.Price,
                     p.Discount,
+                    p.Guarantee,
                     p.InstallmentAvailable,
                     p.ImageUrls
                 })

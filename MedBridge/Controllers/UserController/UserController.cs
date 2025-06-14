@@ -544,6 +544,57 @@ namespace MedBridge.Controllers
             }
         }
 
+
+
+        [HttpGet("User/{Userid}")]
+        public async Task<IActionResult> GetUserById(int userid)
+        {
+            try
+            {
+                var existingUser = await _context.users
+                    .Include(u => u.Products)
+                    .Include(u => u.ContactUs)
+                    .FirstOrDefaultAsync(u => u.Id == userid);
+                if (existingUser == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
+                return Ok(new
+                {
+                    id = existingUser.Id,
+                    existingUser.Name,
+                    existingUser.Email,
+                    existingUser.Phone,
+                    existingUser.MedicalSpecialist,
+                    existingUser.Address,
+                    existingUser.ProfileImage,
+                    existingUser.CreatedAt,
+                    existingUser.KindOfWork,
+                    existingUser.IsAdmin,
+                    existingUser.Status,
+                    Products = existingUser.Products.Select(p => new
+                    {
+                        p.UserId,
+                        p.Name,
+                        p.Description,
+                        p.Price,
+                        p.ImageUrls
+                    }).ToList(),
+                    ContactUsMessages = existingUser.ContactUs.Select(c => new
+                    {
+                        c.UserId,
+                        c.Message,
+                        c.CreatedAt
+                    }).ToList()
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in GetUser for {userid}", userid);
+                return StatusCode(500, new { message = "An error occurred while retrieving the user." });
+            }
+        }
+
         [HttpPut("User/{email}")]
         public async Task<IActionResult> UpdateUser(string email, [FromForm] UpdateUserDto updatedUser, IFormFile? profileImage)
         {

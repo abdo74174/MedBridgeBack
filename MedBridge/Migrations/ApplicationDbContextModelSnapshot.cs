@@ -226,6 +226,9 @@ namespace MedBridge.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeliveryPersonId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -243,6 +246,8 @@ namespace MedBridge.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("DeliveryPersonId");
 
                     b.HasIndex("UserId");
 
@@ -278,6 +283,42 @@ namespace MedBridge.Migrations
                     b.ToTable("OrderItem");
                 });
 
+            modelBuilder.Entity("MedBridge.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("MedBridge.Models.ProductModels.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -311,6 +352,10 @@ namespace MedBridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -322,6 +367,12 @@ namespace MedBridge.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Donation")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Guarantee")
                         .HasColumnType("float");
 
                     b.PrimitiveCollection<string>("ImageUrls")
@@ -482,9 +533,15 @@ namespace MedBridge.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("StripeCustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("Users", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("MedBridge.Models.WorkType", b =>
@@ -552,6 +609,22 @@ namespace MedBridge.Migrations
                     b.ToTable("Ratings");
                 });
 
+            modelBuilder.Entity("GraduationProject.Core.Entities.DeliveryPerson", b =>
+                {
+                    b.HasBaseType("MedBridge.Models.User");
+
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RequestStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("DeliveryPersons", (string)null);
+                });
+
             modelBuilder.Entity("MedBridge.Models.CartItem", b =>
                 {
                     b.HasOne("MedBridge.Models.CartModel", "Cart")
@@ -593,11 +666,17 @@ namespace MedBridge.Migrations
 
             modelBuilder.Entity("MedBridge.Models.OrderModels.Order", b =>
                 {
+                    b.HasOne("GraduationProject.Core.Entities.DeliveryPerson", "DeliveryPerson")
+                        .WithMany()
+                        .HasForeignKey("DeliveryPersonId");
+
                     b.HasOne("MedBridge.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DeliveryPerson");
 
                     b.Navigation("User");
                 });
@@ -619,6 +698,17 @@ namespace MedBridge.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MedBridge.Models.Payment", b =>
+                {
+                    b.HasOne("MedBridge.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MedBridge.Models.ProductModels.ProductModel", b =>
@@ -668,6 +758,15 @@ namespace MedBridge.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GraduationProject.Core.Entities.DeliveryPerson", b =>
+                {
+                    b.HasOne("MedBridge.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("GraduationProject.Core.Entities.DeliveryPerson", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MedBridge.Models.CartModel", b =>

@@ -1,10 +1,12 @@
-﻿using MedBridge.Models;
+﻿using GraduationProject.Core.Entities;
+using MedBridge.Models;
 using MedBridge.Models.ForgotPassword;
 using MedBridge.Models.Messages;
 using MedBridge.Models.OrderModels;
 using MedBridge.Models.ProductModels;
 using Microsoft.EntityFrameworkCore;
 using RatingApi.Models;
+
 
 namespace MoviesApi.models
 {
@@ -66,7 +68,8 @@ namespace MoviesApi.models
                 new MedicalSpecialty { Id = 4, Name = "Orthopedics" },
                 new MedicalSpecialty { Id = 5, Name = "Dermatology" }
             );
-
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<DeliveryPerson>().ToTable("DeliveryPersons");
             base.OnModelCreating(modelBuilder);
 
       
@@ -93,15 +96,15 @@ namespace MoviesApi.models
         public DbSet<ContactUs> ContactUs { get; set; }
 
         public DbSet<Favourite> Favourites { get; set; }
-
+        public DbSet<DeliveryPerson> DeliveryPersons { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
         public DbSet<PasswordResetOtp> PasswordResetOtp { get; set; }
 
-
+          
         public DbSet<WorkType> WorkType { get; set; }
 
-
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         //public DbSet<Coupon> Coupons { get; set; }

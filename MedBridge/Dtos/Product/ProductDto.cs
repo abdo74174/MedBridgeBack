@@ -16,6 +16,7 @@ namespace MedBridge.Dtos.Product
         public decimal Price { get; set; }
 
         public bool IsNew { get; set; }
+        public bool Donation { get; set; } = false;
 
         public double Discount { get; set; }
 

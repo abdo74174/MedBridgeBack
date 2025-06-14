@@ -105,21 +105,44 @@ namespace MedBridge.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDetailsDto>> GetOrder(int id)
+        [HttpPut("{id}/assign-delivery")]
+        public async Task<IActionResult> AssignDeliveryPerson(int id, [FromQuery] int deliveryPersonId)
         {
             try
             {
-                var order = await _context.Orders
+                var order = await _context.Orders.FindAsync(id);
+                if (order == null || order.IsDeleted)
+                    return NotFound("Order not found.");
+
+                var deliveryPerson = await _context.DeliveryPersons.FindAsync(deliveryPersonId);
+                if (deliveryPerson == null || !deliveryPerson.IsAvailable == true )
+                    return BadRequest("Delivery person not available or not found.");
+
+                order.DeliveryPersonId = deliveryPersonId;
+                deliveryPerson.IsAvailable = false; // Mark as unavailable
+                await _context.SaveChangesAsync();
+
+                return Ok($"Order assigned to delivery person ID: {deliveryPersonId}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("delivery/{deliveryPersonId}")]
+        public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetOrdersByDeliveryPerson(int deliveryPersonId)
+        {
+            try
+            {
+                var orders = await _context.Orders
                     .Include(o => o.User)
                     .Include(o => o.OrderItems)
                         .ThenInclude(i => i.Product)
-                    .FirstOrDefaultAsync(o => o.OrderId == id && !o.IsDeleted);
+                    .Where(o => o.DeliveryPersonId == deliveryPersonId && !o.IsDeleted)
+                    .ToListAsync();
 
-                if (order == null)
-                    return NotFound("Order not found.");
-
-                var dto = new OrderDetailsDto
+                var dtos = orders.Select(order => new OrderDetailsDto
                 {
                     OrderId = order.OrderId,
                     UserName = order.User?.Name ?? "Unknown",
@@ -132,9 +155,9 @@ namespace MedBridge.Controllers
                         Quantity = i.Quantity,
                         UnitPrice = i.UnitPrice
                     }).ToList() ?? new List<OrderDetailsItemDto>()
-                };
+                }).ToList();
 
-                return Ok(dto);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -142,50 +165,19 @@ namespace MedBridge.Controllers
             }
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetAllOrders()
-        //{
-        //    try
-        //    {
-        //        var orders = await _context.Orders
-        //            .Include(o => o.User)
-        //            .Include(o => o.OrderItems)
-        //                .ThenInclude(i => i.Product)
-        //            .Where(o => !o.IsDeleted)
-        //            .ToListAsync();
-
-        //        var dtos = orders.Select(order => new OrderDetailsDto
-        //        {
-        //            OrderId = order.OrderId,
-        //            UserName = order.User?.Name ?? "Unknown",
-        //            OrderDate = order.OrderDate,
-        //            Status = order.Status.ToString(),
-        //            TotalPrice = order.TotalPrice,
-        //            Items = order.OrderItems?.Select(i => new OrderDetailsItemDto
-        //            {
-        //                ProductName = i.Product?.Name ?? "Unknown",
-        //                Quantity = i.Quantity,
-        //                UnitPrice = i.UnitPrice
-        //            }).ToList() ?? new List<OrderDetailsItemDto>()
-        //        }).ToList();
-
-        //        return Ok(dtos);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Error: {ex.Message}");
-        //    }
-        //}
         [HttpGet]
         public IActionResult GetOrders()
         {
             var orders = _context.Orders
-                .Include(o => o.User) // Ensure User is included if needed
-                .Select(static o => new
+                .Include(o => o.User)
+                .Include(o => o.DeliveryPerson)
+                .Select(o => new
                 {
                     orderId = o.OrderId,
-                    userId = o.UserId, // Explicitly include UserId
-                    userName = o.User.Name ?? "Unknown" ,
+                    userId = o.UserId,
+                    userName = o.User.Name ?? "Unknown",
+                    deliveryPersonId = o.DeliveryPersonId,
+                    deliveryPersonName = o.DeliveryPerson != null ? o.DeliveryPerson.Name : "Unassigned",
                     orderDate = o.OrderDate,
                     status = o.Status.ToString(),
                     totalPrice = o.TotalPrice,
@@ -199,6 +191,7 @@ namespace MedBridge.Controllers
                 .ToList();
             return Ok(orders);
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -210,6 +203,13 @@ namespace MedBridge.Controllers
 
                 if (order == null)
                     return NotFound("Order not found.");
+
+                if (order.DeliveryPersonId != null)
+                {
+                    var deliveryPerson = await _context.DeliveryPersons.FindAsync(order.DeliveryPersonId);
+                    if (deliveryPerson != null)
+                        deliveryPerson.IsAvailable = true; // Free up delivery person
+                }
 
                 order.IsDeleted = true;
 
@@ -231,5 +231,37 @@ namespace MedBridge.Controllers
                 return StatusCode(500, $"Error: {ex.Message}");
             }
         }
+
+        [HttpGet("delivery-persons")]
+        public async Task<ActionResult<IEnumerable<DeliveryPersonDto>>> GetAvailableDeliveryPersons()
+        {
+            try
+            {
+                var deliveryPersons = await _context.DeliveryPersons
+                    .Where(dp => dp.IsAvailable == true )
+                    .Select(dp => new DeliveryPersonDto
+                    {
+                        Id = dp.Id,
+                        Name = dp.Name,
+                        Email = dp.Email,
+                        Phone = dp.Phone
+                    })
+                    .ToListAsync();
+
+                return Ok(deliveryPersons);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+    }
+
+    public class DeliveryPersonDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
     }
 }

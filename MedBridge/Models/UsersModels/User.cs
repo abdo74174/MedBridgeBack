@@ -57,7 +57,7 @@ namespace MedBridge.Models
 
         [Required]
         public string KindOfWork { get; set; } = "Doctor";
-
+        public string StripeCustomerId { get; set; }
         public bool IsAdmin { get; set; } = false;
         public UserStatus Status { get; set; } = UserStatus.Active;
         public ICollection<ProductModel> Products { get; set; } = new List<ProductModel>();

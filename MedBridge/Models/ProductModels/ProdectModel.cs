@@ -17,10 +17,13 @@ namespace MedBridge.Models.ProductModels
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
+        public string Address { get; set; }
         public int StockQuantity { get; set; }
+        public bool Donation { get; set; } = false;
         public bool isdeleted { get; set; } = false;
 
-
+        [Range(0, 10)]
+        public double Guarantee { get; set; }
         public bool IsNew { get; set; }
         public bool InstallmentAvailable { get; set; } // 
         public double Discount { get; set; }

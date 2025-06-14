@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GraduationProject.Core.Entities;
 using MedBridge.Models.ProductModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ namespace MedBridge.Models.OrderModels
         [Required]
         public int UserId { get; set; }
         public User? User { get; set; }
+
+        public int? DeliveryPersonId { get; set; }
+        public DeliveryPerson? DeliveryPerson { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
