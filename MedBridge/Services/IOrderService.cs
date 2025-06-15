@@ -1,6 +1,6 @@
-﻿namespace MedBridge.Services
-{
-    public class IOrderService
-    {
-    }
-}
+﻿//namespace MedBridge.Services
+//{
+//    public class IOrderService
+//    {
+//    }
+//}

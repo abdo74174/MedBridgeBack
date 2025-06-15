@@ -33,7 +33,7 @@ namespace GraduationProject.Core.Services
                     return "User not found.";
                 }
 
-                var existingDeliveryPerson = await _dbContext.DeliveryPersons.FirstOrDefaultAsync(dp => dp.Id == userId);
+                var existingDeliveryPerson = await _dbContext.DeliveryPersons.FirstOrDefaultAsync(dp => dp.userId == userId);
                 if (existingDeliveryPerson != null)
                 {
                     _logger.LogWarning("Delivery person request already exists for userId: {UserId}", userId);
@@ -42,7 +42,7 @@ namespace GraduationProject.Core.Services
 
                 var deliveryPerson = new DeliveryPerson
                 {
-
+                    userId = userId,
                     Name = user.Name,
                     Email = user.Email,
                     Phone = requestDto.Phone,
@@ -50,14 +50,7 @@ namespace GraduationProject.Core.Services
                     CardNumber = requestDto.CardNumber,
                     RequestStatus = "Pending",
                     IsAvailable = false,
-                    PasswordHash = user.PasswordHash,
-                    PasswordSalt = user.PasswordSalt,
-                    CreatedAt = user.CreatedAt,
-                    KindOfWork = user.KindOfWork,
-                    StripeCustomerId = user.StripeCustomerId,
-                    IsAdmin = user.IsAdmin,
-                    Status = user.Status,
-                    ProfileImage = user.ProfileImage
+                    CreatedAt = user.CreatedAt
                 };
 
                 _dbContext.Entry(user).State = EntityState.Detached;
@@ -86,6 +79,8 @@ namespace GraduationProject.Core.Services
                         Address = dp.Address,
                         RequestStatus = dp.RequestStatus,
                         CardNumber = dp.CardNumber,
+                        IsAvailable = dp.IsAvailable,
+                        UserId = dp.userId
                     })
                     .ToListAsync();
             }
@@ -96,31 +91,58 @@ namespace GraduationProject.Core.Services
             }
         }
 
+        public async Task<List<DeliveryPersonRequestDto>> GetDeliveryPersonData(int userId)
+        {
+            try
+            {
+                return await _dbContext.DeliveryPersons
+                    .Where(dp => dp.userId == userId)
+                    .Select(dp => new DeliveryPersonRequestDto
+                    {
+                        Phone = dp.Phone,
+                        Address = dp.Address,
+                        RequestStatus = dp.RequestStatus,
+                        CardNumber = dp.CardNumber,
+                        IsAvailable = dp.IsAvailable,
+                        UserId = dp.Id
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching delivery person data for userId: {UserId}", userId);
+                throw;
+            }
+        }
+
         public async Task HandleDeliveryPersonRequestAsync(int requestId, string action)
         {
             try
             {
-                var deliveryPerson = await _dbContext.DeliveryPersons.FindAsync(requestId);
+                var deliveryPerson = await _dbContext.DeliveryPersons.FirstOrDefaultAsync(dp => dp.userId == requestId);
                 if (deliveryPerson == null)
                 {
                     _logger.LogWarning("Delivery person not found for requestId: {RequestId}", requestId);
                     throw new Exception($"Delivery person with ID {requestId} not found.");
                 }
 
-                if (action.ToLower() == "approve")
+                switch (action.ToLower())
                 {
-                    deliveryPerson.RequestStatus = "Approved";
-                    deliveryPerson.IsAvailable = true;
-                }
-                else if (action.ToLower() == "reject")
-                {
-                    deliveryPerson.RequestStatus = "Rejected";
-                    deliveryPerson.IsAvailable = false;
-                }
-                else
-                {
-                    _logger.LogWarning("Invalid action: {Action} for requestId: {RequestId}", action, requestId);
-                    throw new Exception($"Invalid action: {action}.");
+                    case "approve":
+                        deliveryPerson.RequestStatus = "Approved";
+                        deliveryPerson.IsAvailable = true;
+                        break;
+                    case "reject":
+                        deliveryPerson.RequestStatus = "Rejected";
+                        deliveryPerson.IsAvailable = false;
+                        break;
+                    case "pending":
+                        deliveryPerson.RequestStatus = "Pending";
+                        deliveryPerson.IsAvailable = false;
+                        break;
+                    default:
+                        _logger.LogWarning("Invalid action: {Action} for requestId: {RequestId}", action, requestId);
+                        throw new Exception($"Invalid action: {action}.");
                 }
 
                 await _dbContext.SaveChangesAsync();
@@ -129,6 +151,29 @@ namespace GraduationProject.Core.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error handling delivery person request for requestId: {RequestId}", requestId);
+                throw;
+            }
+        }
+
+        public async Task UpdateAvailabilityAsync(int userId, bool isAvailable)
+        {
+            try
+            {
+                var deliveryPerson = await _dbContext.DeliveryPersons
+                    .FirstOrDefaultAsync(dp => dp.userId == userId && dp.RequestStatus == "Approved");
+                if (deliveryPerson == null)
+                {
+                    _logger.LogWarning("Approved delivery person not found for userId: {UserId}", userId);
+                    throw new Exception("Approved delivery person not found.");
+                }
+
+                deliveryPerson.IsAvailable = isAvailable;
+                await _dbContext.SaveChangesAsync();
+                _logger.LogInformation("Availability updated to {IsAvailable} for userId: {UserId}", isAvailable, userId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating availability for userId: {UserId}", userId);
                 throw;
             }
         }

@@ -8,6 +8,8 @@ namespace GraduationProject.Core.Interfaces
     {
         Task<string> SubmitDeliveryPersonRequestAsync(DeliveryPersonRequestDto requestDto, int userId);
         Task<List<DeliveryPersonRequestDto>> GetAllRequestsAsync();
+        Task<List<DeliveryPersonRequestDto>> GetDeliveryPersonData(int userId);
         Task HandleDeliveryPersonRequestAsync(int requestId, string action);
+        Task UpdateAvailabilityAsync(int userId, bool isAvailable);
     }
 }

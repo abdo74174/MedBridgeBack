@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedBridge.Models.OrderModels
 {
-    public enum OrderStatus { Pending, Processing, Shipped, Delivered, Cancelled }
+    public enum OrderStatus { Pending, Processing, Shipped, Delivered, Cancelled, Assigned }
 
     public class Order
     {
@@ -20,6 +20,9 @@ namespace MedBridge.Models.OrderModels
         public int? DeliveryPersonId { get; set; }
         public DeliveryPerson? DeliveryPerson { get; set; }
 
+        [Required]
+        public string Address { get; set; }
+
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
@@ -31,5 +34,4 @@ namespace MedBridge.Models.OrderModels
         [Precision(18, 2)]
         public decimal TotalPrice { get; set; }
     }
-
 }

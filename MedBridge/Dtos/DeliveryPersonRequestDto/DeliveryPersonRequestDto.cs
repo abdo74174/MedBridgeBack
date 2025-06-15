@@ -13,5 +13,9 @@ namespace GraduationProject.Core.Dtos
         public string CardNumber { get; set; } = string.Empty;
 
         public string? RequestStatus { get; set; }
+
+        public bool? IsAvailable { get; set; }
+
+        public int? UserId { get; set; }
     }
 }

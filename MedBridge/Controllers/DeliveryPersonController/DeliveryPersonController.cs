@@ -79,5 +79,51 @@ namespace GraduationProject.Web.Controllers
                 return BadRequest($"Failed to handle request: {ex.Message}");
             }
         }
+        [HttpGet("userId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> getDeliveryPersonById([FromQuery] int userId)
+        {
+            try
+            {
+                var result = await _deliveryPersonService.GetDeliveryPersonData(userId);
+
+                if (result == null || result.Count == 0)
+                {
+                    return NotFound($"No delivery person data found for userId: {userId}");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get delivery data for userId: {UserId}", userId);
+                return BadRequest($"Failed to get delivery data: {ex.Message}");
+            }
+        }
+
+        [HttpPatch("availability")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateAvailability([FromQuery] int userId, [FromBody] UpdateAvailabilityDto availabilityDto)
+        {
+            try
+            {
+                await _deliveryPersonService.UpdateAvailabilityAsync(userId, availabilityDto.IsAvailable);
+                _logger.LogInformation("Availability updated to {IsAvailable} for userId: {UserId}", availabilityDto.IsAvailable, userId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update availability for userId: {UserId}", userId);
+                return BadRequest($"Failed to update availability: {ex.Message}");
+            }
+        }
+    }
+
+    public class UpdateAvailabilityDto
+    {
+        public bool IsAvailable { get; set; }
     }
 }
