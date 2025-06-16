@@ -53,7 +53,7 @@ try
     builder.Services.AddScoped<IGoogleSignIn, GoogleSignIn>();
     builder.Services.AddMemoryCache();
     builder.Services.AddScoped<RecommendationService>();
-
+    builder.Services.AddHttpClient(); // 👈 أضف السطر ده
     // Controllers & JWT Auth
     builder.Services.AddControllers();
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

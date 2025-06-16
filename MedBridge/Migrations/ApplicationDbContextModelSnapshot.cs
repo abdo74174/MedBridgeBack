@@ -43,7 +43,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatMessages", (string)null);
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("MedBridge.Models.CartItem", b =>
@@ -69,7 +69,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("MedBridge.Models.CartModel", b =>
@@ -86,7 +86,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("MedBridge.Models.Favourite", b =>
@@ -108,7 +108,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Favourites", (string)null);
+                    b.ToTable("Favourites");
                 });
 
             modelBuilder.Entity("MedBridge.Models.ForgotPassword.PasswordResetOtp", b =>
@@ -132,7 +132,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PasswordResetOtp", (string)null);
+                    b.ToTable("PasswordResetOtp");
                 });
 
             modelBuilder.Entity("MedBridge.Models.MedicalSpecialty", b =>
@@ -150,7 +150,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicalSpecialties", (string)null);
+                    b.ToTable("MedicalSpecialties");
 
                     b.HasData(
                         new
@@ -209,7 +209,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ContactUs", (string)null);
+                    b.ToTable("ContactUs");
                 });
 
             modelBuilder.Entity("MedBridge.Models.OrderModels.Order", b =>
@@ -255,7 +255,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("MedBridge.Models.OrderModels.OrderItem", b =>
@@ -284,7 +284,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem", (string)null);
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("MedBridge.Models.Payment", b =>
@@ -320,7 +320,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("MedBridge.Models.ProductModels.Category", b =>
@@ -345,7 +345,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MedBridge.Models.ProductModels.ProductModel", b =>
@@ -421,7 +421,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MedBridge.Models.ProductModels.subCategory", b =>
@@ -452,7 +452,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("subCategories", (string)null);
+                    b.ToTable("subCategories");
                 });
 
             modelBuilder.Entity("MedBridge.Models.RefreshToken", b =>
@@ -477,7 +477,7 @@ namespace MedBridge.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("MedBridge.Models.User", b =>
@@ -563,7 +563,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkType", (string)null);
+                    b.ToTable("WorkType");
 
                     b.HasData(
                         new
@@ -581,6 +581,26 @@ namespace MedBridge.Migrations
                             Id = 3,
                             Name = "MedicalTrader"
                         });
+                });
+
+            modelBuilder.Entity("MoviesApi.models.DeviceTokens", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeviceTokens", (string)null);
                 });
 
             modelBuilder.Entity("RatingApi.Models.Rating", b =>
@@ -610,7 +630,7 @@ namespace MedBridge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ratings", (string)null);
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("GraduationProject.Core.Entities.DeliveryPerson", b =>

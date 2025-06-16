@@ -178,3 +178,4 @@ F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets.upToDat
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\MathNet.Numerics.dll
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\Stripe.net.dll
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\MedBridge.staticwebassets.runtime.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\Intersoft.Crosslight.dll

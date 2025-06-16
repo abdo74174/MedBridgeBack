@@ -1245,6 +1245,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MedBridge.Controllers.NotificationController",
+    "Method": "RegisterToken",
+    "RelativePath": "api/Notification/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tokenRequest",
+        "Type": "MedBridge.Controllers.TokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedBridge.Controllers.NotificationController",
+    "Method": "SendPushNotification",
+    "RelativePath": "api/Notification/send",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MedBridge.Controllers.NotificationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MedBridge.Controllers.OrderController",
     "Method": "GetOrders",
     "RelativePath": "api/Order",

@@ -113,10 +113,10 @@
           }
         }
       },
-      "Google.Apis/1.69.0": {
+      "Google.Apis/1.70.0": {
         "type": "package",
         "dependencies": {
-          "Google.Apis.Core": "1.69.0"
+          "Google.Apis.Core": "1.70.0"
         },
         "compile": {
           "lib/net6.0/Google.Apis.dll": {
@@ -129,11 +129,11 @@
           }
         }
       },
-      "Google.Apis.Auth/1.69.0": {
+      "Google.Apis.Auth/1.70.0": {
         "type": "package",
         "dependencies": {
-          "Google.Apis": "1.69.0",
-          "Google.Apis.Core": "1.69.0",
+          "Google.Apis": "1.70.0",
+          "Google.Apis.Core": "1.70.0",
           "System.Management": "7.0.2"
         },
         "compile": {
@@ -147,7 +147,7 @@
           }
         }
       },
-      "Google.Apis.Core/1.69.0": {
+      "Google.Apis.Core/1.70.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
@@ -174,6 +174,15 @@
           "lib/net6.0/Humanizer.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Intersoft.Crosslight/6.0.5000.975": {
+        "type": "package",
+        "compile": {
+          "lib/Intersoft.Crosslight.dll": {}
+        },
+        "runtime": {
+          "lib/Intersoft.Crosslight.dll": {}
         }
       },
       "MathNet.Numerics/5.0.0": {
@@ -1881,16 +1890,16 @@
         "lib/netstandard2.0/Google.Api.Gax.Rest.xml"
       ]
     },
-    "Google.Apis/1.69.0": {
-      "sha512": "1TfjsXFejwIf7iWaE7A0FbnOEsk8FPlbdFAt1r+I8aSMQfLLdSVWCLdZz6TzuWVwoCGEuJUHTZ/FXdptdU3qWw==",
+    "Google.Apis/1.70.0": {
+      "sha512": "K6VKPkHRN1P7pMb84eZu1rFyoie7LIYYsjTPvTnEH2lbscU1sBLR1C1MtsCoSJzgDIjr0yVGmSKnIC4D73ro1g==",
       "type": "package",
-      "path": "google.apis/1.69.0",
+      "path": "google.apis/1.70.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.apis.1.69.0.nupkg.sha512",
+        "google.apis.1.70.0.nupkg.sha512",
         "google.apis.nuspec",
         "lib/net462/Google.Apis.dll",
         "lib/net462/Google.Apis.pdb",
@@ -1903,16 +1912,16 @@
         "lib/netstandard2.0/Google.Apis.xml"
       ]
     },
-    "Google.Apis.Auth/1.69.0": {
-      "sha512": "ar07yxn/s41jdqQ3sMh8EAehiSvXQ9yE1MS4McmZINeSWvolnLHmIZ9Yxj4tHVIYYz0c7H/lpToVqm7C2aYx9g==",
+    "Google.Apis.Auth/1.70.0": {
+      "sha512": "2gnpcYUaD5WS2/2922J+ji1tEKcNtxu+aQoiNVWhfcGwDqgcc5vk6ND6591M2UaGzJn0EdH325rsNHzi/MvA/A==",
       "type": "package",
-      "path": "google.apis.auth/1.69.0",
+      "path": "google.apis.auth/1.70.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.apis.auth.1.69.0.nupkg.sha512",
+        "google.apis.auth.1.70.0.nupkg.sha512",
         "google.apis.auth.nuspec",
         "lib/net462/Google.Apis.Auth.dll",
         "lib/net462/Google.Apis.Auth.pdb",
@@ -1925,16 +1934,16 @@
         "lib/netstandard2.0/Google.Apis.Auth.xml"
       ]
     },
-    "Google.Apis.Core/1.69.0": {
-      "sha512": "SXUcurNUPxYMtOnawvB2Av18VrPBC9W7So9q9ikmXIXLGiv4RX7Zbu4kc+8PbwTdd8wLt54r0PBGOT5RaKoTjQ==",
+    "Google.Apis.Core/1.70.0": {
+      "sha512": "R7Mbea2iB/TN+3BA1LPCqb1eT2HxnILJ+ASl5pdhHHc8uSe95JTTnM2DEVbVBQ3vo9/FpbBxWBRjP1ed9QK9CQ==",
       "type": "package",
-      "path": "google.apis.core/1.69.0",
+      "path": "google.apis.core/1.70.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.apis.core.1.69.0.nupkg.sha512",
+        "google.apis.core.1.70.0.nupkg.sha512",
         "google.apis.core.nuspec",
         "lib/net462/Google.Apis.Core.dll",
         "lib/net462/Google.Apis.Core.pdb",
@@ -1963,6 +1972,37 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "Intersoft.Crosslight/6.0.5000.975": {
+      "sha512": "icRCEz9Fl9HI7LyiUniMnIN8TeI1vRI4QPZQyGDx3sTyX5YxDGNHE2uLXG3ShsI1EOSY4x/Vxycs/QTOL3uqnQ==",
+      "type": "package",
+      "path": "intersoft.crosslight/6.0.5000.975",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "intersoft.crosslight.6.0.5000.975.nupkg.sha512",
+        "intersoft.crosslight.nuspec",
+        "lib/Intersoft.Crosslight.dll",
+        "lib/MonoAndroid10/Intersoft.Crosslight.Android.dll",
+        "lib/MonoAndroid10/Intersoft.Crosslight.dll",
+        "lib/NetCore45/Intersoft.Crosslight.WinRT.dll",
+        "lib/NetCore45/Intersoft.Crosslight.WinRT/Controls/TabControl.xaml",
+        "lib/NetCore45/Intersoft.Crosslight.WinRT/Themes/DatePicker.xaml",
+        "lib/NetCore45/Intersoft.Crosslight.WinRT/Themes/Generic.xaml",
+        "lib/NetCore45/Intersoft.Crosslight.dll",
+        "lib/Xamarin.iOS10/Intersoft.Crosslight.dll",
+        "lib/Xamarin.iOS10/Intersoft.Crosslight.iOS.dll",
+        "lib/wp8/Intersoft.Crosslight.WinPhone.dll",
+        "lib/wp8/Intersoft.Crosslight.dll",
+        "tools/CocoaDialog.app.zip",
+        "tools/CocoaDialog.sh",
+        "tools/NugetUtil.dll",
+        "tools/dependencies.xml",
+        "tools/init.ps1",
+        "tools/install.log",
+        "tools/install.ps1"
       ]
     },
     "MathNet.Numerics/5.0.0": {
@@ -5152,12 +5192,14 @@
     "net8.0": [
       "BCrypt.Net-Next >= 4.0.3",
       "FirebaseAdmin >= 3.2.0",
-      "Google.Apis.Auth >= 1.69.0",
+      "Google.Apis.Auth >= 1.70.0",
+      "Intersoft.Crosslight >= 6.0.5000.975",
       "MathNet.Numerics >= 5.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.2",
       "Microsoft.EntityFrameworkCore >= 9.0.4",
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.2",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.2",
+      "Newtonsoft.Json >= 13.0.3",
       "Portable.BouncyCastle >= 1.9.0",
       "Stripe.net >= 48.2.0",
       "Swashbuckle.AspNetCore >= 6.6.2"
@@ -5223,7 +5265,11 @@
           },
           "Google.Apis.Auth": {
             "target": "Package",
-            "version": "[1.69.0, )"
+            "version": "[1.70.0, )"
+          },
+          "Intersoft.Crosslight": {
+            "target": "Package",
+            "version": "[6.0.5000.975, )"
           },
           "MathNet.Numerics": {
             "target": "Package",
@@ -5246,6 +5292,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[9.0.2, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           },
           "Portable.BouncyCastle": {
             "target": "Package",
@@ -5282,5 +5332,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Intersoft.Crosslight 6.0.5000.975' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Intersoft.Crosslight",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

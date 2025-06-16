@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MedBridge.Dtos;
@@ -6,9 +7,11 @@ using MedBridge.Dtos.ProductADD;
 using MedBridge.Models;
 using MedBridge.Models.ProductModels;
 using MedBridge.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
+using System.Text;
+using Newtonsoft.Json;
+using Google.Apis.Auth.OAuth2;
 
 namespace MedBridge.Controllers;
 
@@ -18,15 +21,19 @@ public class ProductController : ControllerBase
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly RecommendationService _recommendationService;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly string _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
     private readonly string _baseUrl = "https://10.0.2.2:7273";
+    private readonly string _projectId = "medbridge-11d7e";
+    private readonly string _serviceAccountPath = "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\jsonfile\\service-account-key.json";
     private readonly List<string> _allowedExtensions = new() { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif", ".svg", ".ico", ".heif" };
     private readonly double _maxAllowedImageSize = 10 * 1024 * 1024;
 
-    public ProductController(ApplicationDbContext dbContext, RecommendationService recommendationService)
+    public ProductController(ApplicationDbContext dbContext, RecommendationService recommendationService, IHttpClientFactory httpClientFactory)
     {
         _dbContext = dbContext;
         _recommendationService = recommendationService;
+        _httpClientFactory = httpClientFactory;
     }
 
     [HttpPost]
@@ -74,12 +81,12 @@ public class ProductController : ControllerBase
             StockQuantity = dto.StockQuantity,
             Discount = dto.Discount,
             Address = dto.Address,
-            Donation=dto.Donation,
+            Donation = dto.Donation,
             SubCategoryId = dto.SubCategoryId,
             CategoryId = dto.CategoryId,
             UserId = dto.UserId,
             ImageUrls = imageUrls,
-            Status = "Pending" // Set initial status to Pending
+            Status = "Pending"
         };
 
         try
@@ -98,7 +105,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var products = await _dbContext.Products
-            .Where(p => p.Status == "Approved" && p.isdeleted == false )
+            .Where(p => p.Status == "Approved" && p.isdeleted == false)
             .ToListAsync();
         return Ok(products);
     }
@@ -180,6 +187,12 @@ public class ProductController : ControllerBase
 
         product.Status = dto.Status;
         await _dbContext.SaveChangesAsync();
+
+        if (dto.Status == "Approved" && product.Discount > 20)
+        {
+            await SendDiscountNotification(product);
+        }
+
         return Ok(product);
     }
 
@@ -221,6 +234,62 @@ public class ProductController : ControllerBase
         catch (Exception ex)
         {
             return BadRequest(new { status = "error", message = ex.Message });
+        }
+    }
+
+    private async Task SendDiscountNotification(ProductModel product)
+    {
+        try
+        {
+            var tokens = await _dbContext.DeviceTokens.ToListAsync();
+            if (!tokens.Any())
+                return;
+
+            var credential = GoogleCredential.FromFile(_serviceAccountPath)
+                .CreateScoped("https://www.googleapis.com/auth/firebase.messaging");
+            var accessToken = await credential.UnderlyingCredential.GetAccessTokenForRequestAsync();
+
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+            foreach (var token in tokens)
+            {
+                var message = new
+                {
+                    message = new
+                    {
+                        token = token.Token,
+                        notification = new
+                        {
+                            title = "New Discount Alert!",
+                            body = $"Check out {product.Name} with {product.Discount}% off!"
+                        },
+                        data = new
+                        {
+                            click_action = "FLUTTER_NOTIFICATION_CLICK",
+                            product_id = product.ProductId.ToString()
+                        }
+                    }
+                };
+
+                var jsonMessage = JsonConvert.SerializeObject(message);
+                var content = new StringContent(jsonMessage, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PostAsync(
+                    $"https://fcm.googleapis.com/v1/projects/{_projectId}/messages:send",
+                    content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Failed to send notification: {error}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error sending notification: {ex.Message}");
         }
     }
 }

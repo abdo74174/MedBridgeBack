@@ -10,12 +10,14 @@
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
           "FirebaseAdmin": "3.2.0",
-          "Google.Apis.Auth": "1.69.0",
+          "Google.Apis.Auth": "1.70.0",
+          "Intersoft.Crosslight": "6.0.5000.975",
           "MathNet.Numerics": "5.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.2",
           "Microsoft.EntityFrameworkCore": "9.0.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.2",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.2",
+          "Newtonsoft.Json": "13.0.3",
           "Portable.BouncyCastle": "1.9.0",
           "Stripe.net": "48.2.0",
           "Swashbuckle.AspNetCore": "6.6.2"
@@ -70,7 +72,7 @@
       "FirebaseAdmin/3.2.0": {
         "dependencies": {
           "Google.Api.Gax.Rest": "4.8.0",
-          "Google.Apis.Auth": "1.69.0",
+          "Google.Apis.Auth": "1.70.0",
           "System.Collections.Immutable": "8.0.0"
         },
         "runtime": {
@@ -95,7 +97,7 @@
       "Google.Api.Gax.Rest/4.8.0": {
         "dependencies": {
           "Google.Api.Gax": "4.8.0",
-          "Google.Apis.Auth": "1.69.0",
+          "Google.Apis.Auth": "1.70.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4"
         },
         "runtime": {
@@ -105,38 +107,38 @@
           }
         }
       },
-      "Google.Apis/1.69.0": {
+      "Google.Apis/1.70.0": {
         "dependencies": {
-          "Google.Apis.Core": "1.69.0"
+          "Google.Apis.Core": "1.70.0"
         },
         "runtime": {
           "lib/net6.0/Google.Apis.dll": {
-            "assemblyVersion": "1.69.0.0",
-            "fileVersion": "1.69.0.0"
+            "assemblyVersion": "1.70.0.0",
+            "fileVersion": "1.70.0.0"
           }
         }
       },
-      "Google.Apis.Auth/1.69.0": {
+      "Google.Apis.Auth/1.70.0": {
         "dependencies": {
-          "Google.Apis": "1.69.0",
-          "Google.Apis.Core": "1.69.0",
+          "Google.Apis": "1.70.0",
+          "Google.Apis.Core": "1.70.0",
           "System.Management": "7.0.2"
         },
         "runtime": {
           "lib/net6.0/Google.Apis.Auth.dll": {
-            "assemblyVersion": "1.69.0.0",
-            "fileVersion": "1.69.0.0"
+            "assemblyVersion": "1.70.0.0",
+            "fileVersion": "1.70.0.0"
           }
         }
       },
-      "Google.Apis.Core/1.69.0": {
+      "Google.Apis.Core/1.70.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "lib/net6.0/Google.Apis.Core.dll": {
-            "assemblyVersion": "1.69.0.0",
-            "fileVersion": "1.69.0.0"
+            "assemblyVersion": "1.70.0.0",
+            "fileVersion": "1.70.0.0"
           }
         }
       },
@@ -145,6 +147,14 @@
           "lib/net6.0/Humanizer.dll": {
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
+          }
+        }
+      },
+      "Intersoft.Crosslight/6.0.5000.975": {
+        "runtime": {
+          "lib/Intersoft.Crosslight.dll": {
+            "assemblyVersion": "6.0.5000.1",
+            "fileVersion": "6.0.5000.975"
           }
         }
       },
@@ -1189,26 +1199,26 @@
       "path": "google.api.gax.rest/4.8.0",
       "hashPath": "google.api.gax.rest.4.8.0.nupkg.sha512"
     },
-    "Google.Apis/1.69.0": {
+    "Google.Apis/1.70.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-1TfjsXFejwIf7iWaE7A0FbnOEsk8FPlbdFAt1r+I8aSMQfLLdSVWCLdZz6TzuWVwoCGEuJUHTZ/FXdptdU3qWw==",
-      "path": "google.apis/1.69.0",
-      "hashPath": "google.apis.1.69.0.nupkg.sha512"
+      "sha512": "sha512-K6VKPkHRN1P7pMb84eZu1rFyoie7LIYYsjTPvTnEH2lbscU1sBLR1C1MtsCoSJzgDIjr0yVGmSKnIC4D73ro1g==",
+      "path": "google.apis/1.70.0",
+      "hashPath": "google.apis.1.70.0.nupkg.sha512"
     },
-    "Google.Apis.Auth/1.69.0": {
+    "Google.Apis.Auth/1.70.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ar07yxn/s41jdqQ3sMh8EAehiSvXQ9yE1MS4McmZINeSWvolnLHmIZ9Yxj4tHVIYYz0c7H/lpToVqm7C2aYx9g==",
-      "path": "google.apis.auth/1.69.0",
-      "hashPath": "google.apis.auth.1.69.0.nupkg.sha512"
+      "sha512": "sha512-2gnpcYUaD5WS2/2922J+ji1tEKcNtxu+aQoiNVWhfcGwDqgcc5vk6ND6591M2UaGzJn0EdH325rsNHzi/MvA/A==",
+      "path": "google.apis.auth/1.70.0",
+      "hashPath": "google.apis.auth.1.70.0.nupkg.sha512"
     },
-    "Google.Apis.Core/1.69.0": {
+    "Google.Apis.Core/1.70.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-SXUcurNUPxYMtOnawvB2Av18VrPBC9W7So9q9ikmXIXLGiv4RX7Zbu4kc+8PbwTdd8wLt54r0PBGOT5RaKoTjQ==",
-      "path": "google.apis.core/1.69.0",
-      "hashPath": "google.apis.core.1.69.0.nupkg.sha512"
+      "sha512": "sha512-R7Mbea2iB/TN+3BA1LPCqb1eT2HxnILJ+ASl5pdhHHc8uSe95JTTnM2DEVbVBQ3vo9/FpbBxWBRjP1ed9QK9CQ==",
+      "path": "google.apis.core/1.70.0",
+      "hashPath": "google.apis.core.1.70.0.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
@@ -1216,6 +1226,13 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
+    },
+    "Intersoft.Crosslight/6.0.5000.975": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-icRCEz9Fl9HI7LyiUniMnIN8TeI1vRI4QPZQyGDx3sTyX5YxDGNHE2uLXG3ShsI1EOSY4x/Vxycs/QTOL3uqnQ==",
+      "path": "intersoft.crosslight/6.0.5000.975",
+      "hashPath": "intersoft.crosslight.6.0.5000.975.nupkg.sha512"
     },
     "MathNet.Numerics/5.0.0": {
       "type": "package",
