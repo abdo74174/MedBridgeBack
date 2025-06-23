@@ -2,9 +2,8 @@
 using System.Text;
 using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
-using MoviesApi.models;
 using Microsoft.EntityFrameworkCore;
-using Intersoft.Crosslight;
+using MoviesApi.models;
 
 namespace MedBridge.Controllers
 {
@@ -14,8 +13,8 @@ namespace MedBridge.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ApplicationDbContext _dbContext;
-        private readonly string _projectId = "medbridge-11d7e"; // Replace with your Firebase Project ID
-        private readonly string _serviceAccountPath = "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\jsonfile\\service-account-key.json"; // Replace with path to JSON file
+        private readonly string _projectId = "medbridge-11d7e";
+        private readonly string _serviceAccountPath = "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\jsonfile\\medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json";
 
         public NotificationController(IHttpClientFactory httpClientFactory, ApplicationDbContext dbContext)
         {
@@ -27,14 +26,25 @@ namespace MedBridge.Controllers
         public async Task<IActionResult> RegisterToken([FromBody] TokenRequest tokenRequest)
         {
             if (string.IsNullOrEmpty(tokenRequest.Token))
+            {
+                Console.WriteLine("Token registration failed: Token is required");
                 return BadRequest("Token is required.");
+            }
 
-            // Check if token already exists for the user
+            if (!await _dbContext.users.AnyAsync(u => u.Id == tokenRequest.UserId))
+            {
+                Console.WriteLine($"Token registration failed: Invalid UserId {tokenRequest.UserId}");
+                return BadRequest("Invalid User ID.");
+            }
+
             var existingToken = await _dbContext.DeviceTokens
                 .FirstOrDefaultAsync(dt => dt.Token == tokenRequest.Token && dt.UserId == tokenRequest.UserId);
 
             if (existingToken != null)
+            {
+                Console.WriteLine($"Token already registered for userId: {tokenRequest.UserId}");
                 return Ok(new { message = "Token already registered" });
+            }
 
             var deviceToken = new DeviceTokens
             {
@@ -44,7 +54,7 @@ namespace MedBridge.Controllers
 
             _dbContext.DeviceTokens.Add(deviceToken);
             await _dbContext.SaveChangesAsync();
-
+            Console.WriteLine($"Token registered successfully for userId: {tokenRequest.UserId}, Token: {tokenRequest.Token.Substring(0, 10)}...");
             return Ok(new { message = "Token registered successfully" });
         }
 
@@ -53,9 +63,11 @@ namespace MedBridge.Controllers
         {
             try
             {
+                Console.WriteLine($"Sending notification to token {request.DeviceToken.Substring(0, 10)}...: Title={request.Title}, Body={request.Body}");
                 var credential = GoogleCredential.FromFile(_serviceAccountPath)
                     .CreateScoped("https://www.googleapis.com/auth/firebase.messaging");
                 var accessToken = await credential.UnderlyingCredential.GetAccessTokenForRequestAsync();
+                Console.WriteLine("FCM access token obtained successfully");
 
                 var httpClient = _httpClientFactory.CreateClient();
                 httpClient.DefaultRequestHeaders.Authorization =
@@ -85,18 +97,22 @@ namespace MedBridge.Controllers
                     $"https://fcm.googleapis.com/v1/projects/{_projectId}/messages:send",
                     content);
 
+                var responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"FCM response: Status={response.StatusCode}, Body={responseBody}");
+
                 if (response.IsSuccessStatusCode)
                 {
                     return Ok(new { message = "Notification sent successfully" });
                 }
                 else
                 {
-                    var error = await response.Content.ReadAsStringAsync();
-                    return BadRequest(new { error = $"Failed to send notification: {error}" });
+                    Console.WriteLine($"Failed to send notification: {responseBody}");
+                    return BadRequest(new { error = $"Failed to send notification: {responseBody}" });
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error sending notification: {ex.Message}\n{ex.StackTrace}");
                 return StatusCode(500, new { error = $"Error sending notification: {ex.Message}" });
             }
         }

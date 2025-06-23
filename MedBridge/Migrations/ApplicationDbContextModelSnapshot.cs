@@ -46,6 +46,30 @@ namespace MedBridge.Migrations
                     b.ToTable("ChatMessages");
                 });
 
+            modelBuilder.Entity("Coupon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("DiscountPercent")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coupons");
+                });
+
             modelBuilder.Entity("MedBridge.Models.CartItem", b =>
                 {
                     b.Property<int>("Id")
@@ -202,7 +226,7 @@ namespace MedBridge.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -210,52 +234,6 @@ namespace MedBridge.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ContactUs");
-                });
-
-            modelBuilder.Entity("MedBridge.Models.OrderModels.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CouponId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeliveryPersonId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("DeliveryPersonId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("MedBridge.Models.OrderModels.OrderItem", b =>
@@ -583,6 +561,32 @@ namespace MedBridge.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MedicalStoreAPI.Models.ShippingPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Governorate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingPrices");
+                });
+
             modelBuilder.Entity("MoviesApi.models.DeviceTokens", b =>
                 {
                     b.Property<int>("Id")
@@ -601,6 +605,58 @@ namespace MedBridge.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DeviceTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("DeliveryPersonConfirmedShipped")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("DeliveryPersonId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("UserConfirmedShipped")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("DeliveryPersonId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("RatingApi.Models.Rating", b =>
@@ -631,6 +687,31 @@ namespace MedBridge.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("UserCouponUsage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UsedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CouponId");
+
+                    b.ToTable("UserCouponUsages");
                 });
 
             modelBuilder.Entity("GraduationProject.Core.Entities.DeliveryPerson", b =>
@@ -686,31 +767,12 @@ namespace MedBridge.Migrations
                 {
                     b.HasOne("MedBridge.Models.User", null)
                         .WithMany("ContactUs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MedBridge.Models.OrderModels.Order", b =>
-                {
-                    b.HasOne("GraduationProject.Core.Entities.DeliveryPerson", "DeliveryPerson")
-                        .WithMany()
-                        .HasForeignKey("DeliveryPersonId");
-
-                    b.HasOne("MedBridge.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeliveryPerson");
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MedBridge.Models.OrderModels.OrderItem", b =>
                 {
-                    b.HasOne("MedBridge.Models.OrderModels.Order", "Order")
+                    b.HasOne("Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -787,6 +849,34 @@ namespace MedBridge.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Order", b =>
+                {
+                    b.HasOne("GraduationProject.Core.Entities.DeliveryPerson", "DeliveryPerson")
+                        .WithMany()
+                        .HasForeignKey("DeliveryPersonId");
+
+                    b.HasOne("MedBridge.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DeliveryPerson");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UserCouponUsage", b =>
+                {
+                    b.HasOne("Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+                });
+
             modelBuilder.Entity("GraduationProject.Core.Entities.DeliveryPerson", b =>
                 {
                     b.HasOne("MedBridge.Models.User", null)
@@ -799,11 +889,6 @@ namespace MedBridge.Migrations
             modelBuilder.Entity("MedBridge.Models.CartModel", b =>
                 {
                     b.Navigation("CartItems");
-                });
-
-            modelBuilder.Entity("MedBridge.Models.OrderModels.Order", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("MedBridge.Models.ProductModels.Category", b =>
@@ -823,6 +908,11 @@ namespace MedBridge.Migrations
                     b.Navigation("ContactUs");
 
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

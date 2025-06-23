@@ -79,11 +79,12 @@ namespace GraduationProject.Web.Controllers
                 return BadRequest($"Failed to handle request: {ex.Message}");
             }
         }
+
         [HttpGet("userId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> getDeliveryPersonById([FromQuery] int userId)
+        public async Task<IActionResult> GetDeliveryPersonById([FromQuery] int userId)
         {
             try
             {
@@ -100,6 +101,54 @@ namespace GraduationProject.Web.Controllers
             {
                 _logger.LogError(ex, "Failed to get delivery data for userId: {UserId}", userId);
                 return BadRequest($"Failed to get delivery data: {ex.Message}");
+            }
+        }
+
+        [HttpGet("info/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetDeliveryInfo(int userId)
+        {
+            try
+            {
+                var result = await _deliveryPersonService.GetDeliveryPersonData(userId);
+
+                if (result == null || result.Count == 0)
+                {
+                    return NotFound($" no delivery person data found for userId: {userId}");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get delivery data for userId: {UserId}", userId);
+                return BadRequest($"Failed to get delivery data: {ex.Message}");
+            }
+        }
+
+        [HttpGet("data/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetDeliveryPersonDataByUserId(int userId)
+        {
+            try
+            {
+                var result = await _deliveryPersonService.GetDeliveryPersonData(userId);
+
+                if (result == null || result.Count == 0)
+                {
+                    return NotFound($"No delivery person data found for userId: {userId}");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get delivery person data for userId: {UserId}", userId);
+                return BadRequest($"Failed to get delivery person data: {ex.Message}");
             }
         }
 

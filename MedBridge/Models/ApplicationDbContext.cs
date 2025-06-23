@@ -6,6 +6,7 @@ using MedBridge.Models.ForgotPassword;
 using MedBridge.Models.Messages;
 using MedBridge.Models.OrderModels;
 using MedBridge.Models.ProductModels;
+using MedicalStoreAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using RatingApi.Models;
 
@@ -86,9 +87,13 @@ namespace MoviesApi.models
         public DbSet<PasswordResetOtp> PasswordResetOtp { get; set; }
         public DbSet<WorkType> WorkType { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<ShippingPrice> ShippingPrices { get; set; }
+
         public DbSet<MedicalSpecialty> MedicalSpecialties { get; set; }
         public DbSet<DeviceTokens> DeviceTokens { get; set; }
+        public DbSet<UserCouponUsage> UserCouponUsages { get; set; }
     }
 }

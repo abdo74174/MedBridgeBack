@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\OrderModel\**" />
+    <Content Remove="Models\OrderModel\**" />
+    <EmbeddedResource Remove="Models\OrderModel\**" />
+    <None Remove="Models\OrderModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <None Update="Config\firebase-service-account.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -24,11 +31,17 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+    <PackageReference Include="ScreenCapture.NET" Version="3.0.0" />
     <PackageReference Include="Stripe.net" Version="48.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\CartService\" />
+    <Folder Include="Services\UserService\" />
+    <Folder Include="Services\PaymentService\" />
+    <Folder Include="Services\OrderService\" />
     <Folder Include="wwwroot\jsonfile\" />
   </ItemGroup>
 

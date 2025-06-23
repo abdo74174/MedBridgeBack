@@ -8,6 +8,7 @@ using MedBridge.Models.OrderModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
+using static Order;
 
 namespace MedBridge.Controllers
 {
@@ -130,27 +131,82 @@ namespace MedBridge.Controllers
                     return NotFound("Order not found.");
 
                 if (order.DeliveryPersonId != deliveryPersonId)
-                    return Forbid("You are not assigned to this order.");
+                    return StatusCode(403, "You are not assigned to this order.");
 
-                // Restrict delivery person to only set certain statuses
                 if (orderStatus != OrderStatus.Shipped && orderStatus != OrderStatus.Delivered && orderStatus != OrderStatus.Cancelled)
                     return BadRequest("Delivery person can only set status to Shipped, Delivered, or Cancelled.");
 
-                order.Status = orderStatus;
-
-                // If order is marked as Delivered or Cancelled, make delivery person available again
-                if (orderStatus == OrderStatus.Delivered || orderStatus == OrderStatus.Cancelled)
+                if (orderStatus == OrderStatus.Shipped)
                 {
-                    var deliveryPerson = await _context.DeliveryPersons.FirstOrDefaultAsync(dp => dp.userId == deliveryPersonId);
-                    if (deliveryPerson != null)
+                    order.DeliveryPersonConfirmedShipped = true;
+
+                    if (order.UserConfirmedShipped)
                     {
-                        deliveryPerson.IsAvailable = true;
+                        order.Status = OrderStatus.Shipped;
+                    }
+                    else
+                    {
+                        order.Status = OrderStatus.AwaitingUserConfirmation;
+                    }
+                }
+                else
+                {
+                    order.Status = orderStatus;
+                    order.UserConfirmedShipped = false;
+                    order.DeliveryPersonConfirmedShipped = false;
+
+                    if (orderStatus == OrderStatus.Delivered || orderStatus == OrderStatus.Cancelled)
+                    {
+                        var deliveryPerson = await _context.DeliveryPersons.FirstOrDefaultAsync(dp => dp.userId == deliveryPersonId);
+                        if (deliveryPerson != null)
+                        {
+                            deliveryPerson.IsAvailable = true;
+                        }
                     }
                 }
 
                 await _context.SaveChangesAsync();
 
-                return Ok($"Order status updated to {status} by delivery person.");
+                return Ok($"Order status updated to {order.Status} by delivery person.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}/user-confirm-shipped")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> UserConfirmShipped(int id, [FromQuery] int userId)
+        {
+            try
+            {
+                var order = await _context.Orders.FindAsync(id);
+                if (order == null || order.IsDeleted)
+                    return NotFound("Order not found.");
+
+                if (order.UserId != userId)
+                    return StatusCode(403, "You are not authorized to confirm this order.");
+
+                if (order.Status != OrderStatus.AwaitingUserConfirmation)
+                    return BadRequest("Order is not awaiting user confirmation.");
+
+                order.UserConfirmedShipped = true;
+
+                if (order.DeliveryPersonConfirmedShipped)
+                {
+                    order.Status = OrderStatus.Shipped;
+                }
+                else
+                {
+                    order.Status = OrderStatus.AwaitingDeliveryConfirmation;
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok($"User confirmed shipped status. Order status is now {order.Status}.");
             }
             catch (Exception ex)
             {
@@ -199,7 +255,7 @@ namespace MedBridge.Controllers
                     .Include(o => o.User)
                     .Include(o => o.OrderItems)
                         .ThenInclude(i => i.Product)
-                    .Where(o => o.DeliveryPersonId == deliveryPersonId && !o.IsDeleted && o.Status != OrderStatus.Shipped  || o.Status != OrderStatus.Cancelled)
+                    .Where(o => o.DeliveryPersonId == deliveryPersonId && !o.IsDeleted && o.Status == OrderStatus.Assigned)
                     .ToListAsync();
 
                 var dtos = orders.Select(order => new OrderDetailsDto
@@ -210,6 +266,47 @@ namespace MedBridge.Controllers
                     OrderDate = order.OrderDate,
                     Status = order.Status.ToString(),
                     TotalPrice = order.TotalPrice,
+                    UserConfirmedShipped = order.UserConfirmedShipped,
+                    DeliveryPersonConfirmedShipped = order.DeliveryPersonConfirmedShipped,
+                    Items = order.OrderItems?.Select(i => new OrderDetailsItemDto
+                    {
+                        ProductName = i.Product?.Name ?? "Unknown",
+                        Quantity = i.Quantity,
+                        UnitPrice = i.UnitPrice
+                    }).ToList() ?? new List<OrderDetailsItemDto>()
+                }).ToList();
+
+                return Ok(dtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("user/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetOrdersByUser(int userId)
+        {
+            try
+            {
+                var orders = await _context.Orders
+                    .Include(o => o.User)
+                    .Include(o => o.OrderItems)
+                        .ThenInclude(i => i.Product)
+                    .Where(o => o.UserId == userId && !o.IsDeleted)
+                    .ToListAsync();
+
+                var dtos = orders.Select(order => new OrderDetailsDto
+                {
+                    OrderId = order.OrderId,
+                    UserName = order.User?.Name ?? "Unknown",
+                    Address = order.Address,
+                    OrderDate = order.OrderDate,
+                    Status = order.Status.ToString(),
+                    TotalPrice = order.TotalPrice,
+                    UserConfirmedShipped = order.UserConfirmedShipped,
+                    DeliveryPersonConfirmedShipped = order.DeliveryPersonConfirmedShipped,
                     Items = order.OrderItems?.Select(i => new OrderDetailsItemDto
                     {
                         ProductName = i.Product?.Name ?? "Unknown",
@@ -248,6 +345,8 @@ namespace MedBridge.Controllers
                         orderDate = o.OrderDate,
                         status = o.Status.ToString(),
                         totalPrice = o.TotalPrice,
+                        userConfirmedShipped = o.UserConfirmedShipped,
+                        deliveryPersonConfirmedShipped = o.DeliveryPersonConfirmedShipped,
                         items = o.OrderItems.Select(i => new
                         {
                             productName = i.Product != null ? i.Product.Name : "Unknown",
@@ -349,6 +448,8 @@ namespace MedBridge.Controllers
         public DateTime OrderDate { get; set; }
         public string Status { get; set; } = string.Empty;
         public decimal TotalPrice { get; set; }
+        public bool UserConfirmedShipped { get; set; }
+        public bool DeliveryPersonConfirmedShipped { get; set; }
         public List<OrderDetailsItemDto> Items { get; set; } = new List<OrderDetailsItemDto>();
     }
 

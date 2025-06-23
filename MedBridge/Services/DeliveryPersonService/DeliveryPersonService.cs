@@ -80,7 +80,9 @@ namespace GraduationProject.Core.Services
                         RequestStatus = dp.RequestStatus,
                         CardNumber = dp.CardNumber,
                         IsAvailable = dp.IsAvailable,
-                        UserId = dp.userId
+                        UserId = dp.userId,
+                        Name = dp.Name,
+                        Email = dp.Email
                     })
                     .ToListAsync();
             }
@@ -99,12 +101,15 @@ namespace GraduationProject.Core.Services
                     .Where(dp => dp.userId == userId)
                     .Select(dp => new DeliveryPersonRequestDto
                     {
+                        DeliveryPesonId = dp.Id,
                         Phone = dp.Phone,
                         Address = dp.Address,
                         RequestStatus = dp.RequestStatus,
                         CardNumber = dp.CardNumber,
                         IsAvailable = dp.IsAvailable,
-                        UserId = dp.Id
+                        UserId = dp.userId,
+                        Name = dp.Name,
+                        Email = dp.Email
                     })
                     .ToListAsync();
             }

@@ -19,8 +19,10 @@
           "Microsoft.EntityFrameworkCore.Tools": "9.0.2",
           "Newtonsoft.Json": "13.0.3",
           "Portable.BouncyCastle": "1.9.0",
+          "ScreenCapture.NET": "3.0.0",
           "Stripe.net": "48.2.0",
-          "Swashbuckle.AspNetCore": "6.6.2"
+          "Swashbuckle.AspNetCore": "6.6.2",
+          "System.Drawing.Common": "9.0.6"
         },
         "runtime": {
           "MedBridge.dll": {}
@@ -139,6 +141,14 @@
           "lib/net6.0/Google.Apis.Core.dll": {
             "assemblyVersion": "1.70.0.0",
             "fileVersion": "1.70.0.0"
+          }
+        }
+      },
+      "HPPH/1.0.0": {
+        "runtime": {
+          "lib/net8.0/HPPH.dll": {
+            "assemblyVersion": "0.0.1.0",
+            "fileVersion": "0.0.1.0"
           }
         }
       },
@@ -835,6 +845,22 @@
           }
         }
       },
+      "Microsoft.Win32.SystemEvents/9.0.6": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.625.26613"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.625.26613"
+          }
+        }
+      },
       "Mono.TextTemplating/3.0.0": {
         "dependencies": {
           "System.CodeDom": "7.0.0"
@@ -859,6 +885,17 @@
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
             "assemblyVersion": "1.9.0.0",
             "fileVersion": "1.9.0.1"
+          }
+        }
+      },
+      "ScreenCapture.NET/3.0.0": {
+        "dependencies": {
+          "HPPH": "1.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/ScreenCapture.NET.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
           }
         }
       },
@@ -1014,6 +1051,21 @@
         }
       },
       "System.Diagnostics.EventLog/8.0.0": {},
+      "System.Drawing.Common/9.0.6": {
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "9.0.6"
+        },
+        "runtime": {
+          "lib/net8.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.625.26605"
+          },
+          "lib/net8.0/System.Private.Windows.Core.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.625.26605"
+          }
+        }
+      },
       "System.Formats.Asn1/9.0.2": {
         "runtime": {
           "lib/net8.0/System.Formats.Asn1.dll": {
@@ -1219,6 +1271,13 @@
       "sha512": "sha512-R7Mbea2iB/TN+3BA1LPCqb1eT2HxnILJ+ASl5pdhHHc8uSe95JTTnM2DEVbVBQ3vo9/FpbBxWBRjP1ed9QK9CQ==",
       "path": "google.apis.core/1.70.0",
       "hashPath": "google.apis.core.1.70.0.nupkg.sha512"
+    },
+    "HPPH/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XW4/RrnvolGGJm052bkutBPy1LlolW4rhMkmf2eXWaMGxCuTUfhAsewmgQPF7g50JSS7gu/n73rAUzcVW1vbfA==",
+      "path": "hpph/1.0.0",
+      "hashPath": "hpph.1.0.0.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
@@ -1521,6 +1580,13 @@
       "path": "microsoft.sqlserver.server/1.0.0",
       "hashPath": "microsoft.sqlserver.server.1.0.0.nupkg.sha512"
     },
+    "Microsoft.Win32.SystemEvents/9.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mUa3Chovao0xQ74j2hUN5kDTn3luY/1e9usJYT0r51cgqfQsgQu5C8Cis9h65SNRbkbBwErfXKlBtHCkMiYa/g==",
+      "path": "microsoft.win32.systemevents/9.0.6",
+      "hashPath": "microsoft.win32.systemevents.9.0.6.nupkg.sha512"
+    },
     "Mono.TextTemplating/3.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1541,6 +1607,13 @@
       "sha512": "sha512-eZZBCABzVOek+id9Xy04HhmgykF0wZg9wpByzrWN7q8qEI0Qen9b7tfd7w8VA3dOeesumMG7C5ZPy0jk7PSRHw==",
       "path": "portable.bouncycastle/1.9.0",
       "hashPath": "portable.bouncycastle.1.9.0.nupkg.sha512"
+    },
+    "ScreenCapture.NET/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/nAlvKYg+Ucy3FH+9QlcVnMCbaFtlX4GSQA9Y2ltLNk6A0jEWMDcNnEkuigIIL3QWDNjb6sXmvzChGMTOs7byw==",
+      "path": "screencapture.net/3.0.0",
+      "hashPath": "screencapture.net.3.0.0.nupkg.sha512"
     },
     "Stripe.net/48.2.0": {
       "type": "package",
@@ -1660,6 +1733,13 @@
       "sha512": "sha512-fdYxcRjQqTTacKId/2IECojlDSFvp7LP5N78+0z/xH7v/Tuw5ZAxu23Y6PTCRinqyu2ePx+Gn1098NC6jM6d+A==",
       "path": "system.diagnostics.eventlog/8.0.0",
       "hashPath": "system.diagnostics.eventlog.8.0.0.nupkg.sha512"
+    },
+    "System.Drawing.Common/9.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KpPB6e7PYCalslhmq/dVa2tJgCcfUDhEK83j1Eix+BmEcNPP00JJBvFrBT7jGcHLmQzsIA4AthwNFkk+cD3RKA==",
+      "path": "system.drawing.common/9.0.6",
+      "hashPath": "system.drawing.common.9.0.6.nupkg.sha512"
     },
     "System.Formats.Asn1/9.0.2": {
       "type": "package",

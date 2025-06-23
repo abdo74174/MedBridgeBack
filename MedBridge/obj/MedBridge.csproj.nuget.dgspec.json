@@ -96,6 +96,10 @@
               "target": "Package",
               "version": "[1.9.0, )"
             },
+            "ScreenCapture.NET": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Stripe.net": {
               "target": "Package",
               "version": "[48.2.0, )"
@@ -103,6 +107,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[9.0.6, )"
             }
           },
           "imports": [

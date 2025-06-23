@@ -3,7 +3,9 @@ using MedBridge.Models.Messages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MedBridge.Controllers.MessageController
 {
@@ -21,7 +23,14 @@ namespace MedBridge.Controllers.MessageController
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var contactUsMessages = await _dbcontext.ContactUs.ToListAsync();
+            var contactUsMessages = await _dbcontext.ContactUs
+                .Select(m => new ContactUsDto
+                {
+                    ProblemType = m.ProblemType,
+                    Message = m.Message,
+                    Email = m.Email
+                })
+                .ToListAsync();
             return Ok(contactUsMessages);
         }
 
@@ -30,7 +39,11 @@ namespace MedBridge.Controllers.MessageController
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { Errors = errors });
             }
 
             var message = new ContactUs
@@ -39,12 +52,14 @@ namespace MedBridge.Controllers.MessageController
                 Message = contactUs.Message,
                 Email = contactUs.Email,
                 CreatedAt = DateTime.UtcNow
+                // UserId remains null as it’s nullable
             };
 
             await _dbcontext.ContactUs.AddAsync(message);
             await _dbcontext.SaveChangesAsync();
 
-            return Ok(message);
+            // Use CreatedAtAction without id, pointing to GetAsync
+            return Created("", message); // أو حتى: return Ok(message);
         }
     }
 }

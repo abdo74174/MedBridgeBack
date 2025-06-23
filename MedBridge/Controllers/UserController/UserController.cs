@@ -706,6 +706,27 @@ namespace MedBridge.Controllers
             }
         }
 
+
+        [HttpGet("IsDelvirey/{userId}")]
+        public async Task<IActionResult> IsDelivery(int userId)
+        {
+            try
+            {
+                var isDelivery = await _context.DeliveryPersons.AnyAsync(d => d.userId == userId);
+
+                if (!isDelivery)
+                {
+                    return NotFound(new { message = "Delivery not found." });
+                }
+
+                return Ok(new { message = "User is a delivery person." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Server error", error = ex.Message });
+            }
+        }
+
         [HttpDelete("User/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

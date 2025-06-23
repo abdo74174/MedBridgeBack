@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using MedBridge.Models.OrderModels;
 using GraduationProject.Core.Entities;
 using MoviesApi.models;
+using static Order;
 
 namespace GraduationProject.Web.Controllers
 {
@@ -168,12 +169,13 @@ namespace GraduationProject.Web.Controllers
                     return BadRequest("Delivery person is not approved or available.");
                 }
 
-                if (string.Compare(deliveryPerson.Address, order.Address, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    _logger.LogWarning("Delivery person address does not match order address for deliveryPersonId: {DeliveryPersonId}, orderId: {OrderId}", assignOrderDto.DeliveryPersonId, assignOrderDto.OrderId);
-                    return BadRequest("Delivery person address does not match order address.");
-                }
+                //if (string.Compare(deliveryPerson.Address, order.Address, StringComparison.OrdinalIgnoreCase) != 0)
+                //{
+                //    _logger.LogWarning("Delivery person address does not match order address for deliveryPersonId: {DeliveryPersonId}, orderId: {OrderId}", assignOrderDto.DeliveryPersonId, assignOrderDto.OrderId);
+                //    return BadRequest("Delivery person address does not match order address.");
+                //}
 
+                order.DeliveryPersonId = assignOrderDto.DeliveryPersonId;
                 order.DeliveryPersonId = assignOrderDto.DeliveryPersonId;
                 order.Status = OrderStatus.Assigned;
                 deliveryPerson.IsAvailable = false;
