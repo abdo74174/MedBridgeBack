@@ -1,5 +1,5 @@
 ﻿using MedBridge.Models.GoogLe_signIn;
-namespace MedBridge.Services
+namespace MedBridge.Services.UserService
 {
     public interface IGoogleSignIn
     {

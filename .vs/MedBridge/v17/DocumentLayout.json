@@ -3,96 +3,44 @@
   "WorkspaceRootPath": "F:\\projects\\Project\\MedBridge\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\mesaagecontroller\\contactuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\mesaagecontroller\\contactuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\dtos\\mssagesdtos\\contactusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\dtos\\mssagesdtos\\contactusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\messagesmodel\\contactus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\messagesmodel\\contactus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250623170905_addShippingPrice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MedBridge\\Migrations\\20250623170905_addShippingPrice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\ordercontroller\\shippingpricecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\ordercontroller\\shippingpricecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\ordermodell\\shippingprice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\ordermodell\\shippingprice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\deliverypersoncontroller\\deliveryadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\deliverypersoncontroller\\deliveryadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\ordercontroller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\ordercontroller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\ordermodell\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\ordermodell\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\ordermodell\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\ordermodell\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\productmodel\\prodectmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\productmodel\\prodectmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\productcontrollers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\productcontrollers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\dtos\\deliverypersonrequestdto\\deliverypersonrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\dtos\\deliverypersonrequestdto\\deliverypersonrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\deliverypersonservice\\ideliverypersonservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\deliverypersonservice\\ideliverypersonservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\deliverypersonservice\\deliverypersonservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\deliverypersonservice\\deliverypersonservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\deliverypersonmodel\\deliverypersonrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\deliverypersonmodel\\deliverypersonrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\dtos\\deliverypersonrequestdto\\deliveryadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\dtos\\deliverypersonrequestdto\\deliveryadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\deliverypersoncontroller\\deliverypersoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\deliverypersoncontroller\\deliverypersoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\dtos\\orderdtos\\assignorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\dtos\\orderdtos\\assignorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\dtos\\orderdtos\\orderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\dtos\\orderdtos\\orderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\notifationcontroller\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\notifationcontroller\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModel\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MedBridge\\Models\\OrderModel\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\infocontroller\\specialties.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\infocontroller\\specialties.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\infocontroller\\worktypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\infocontroller\\worktypescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\userservice\\jwt services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\userservice\\jwt services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\userservice\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\userservice\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\userservice\\igooglesignin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\userservice\\igooglesignin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\userservice\\googlesignin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\userservice\\googlesignin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\services\\userservice\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\services\\userservice\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\models\\notificationmodel\\notificationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\models\\notificationmodel\\notificationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|f:\\projects\\project\\medbridge\\medbridge\\controllers\\usercontroller\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B422C566-4F9A-46F3-BA21-3B379028F713}|MedBridge\\MedBridge.csproj|solutionrelative:medbridge\\controllers\\usercontroller\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -102,8 +50,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\NotifationController\\HomeController.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\NotifationController\\HomeController.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\NotifationController\\HomeController.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\NotifationController\\HomeController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAIwC0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T00:53:44.434Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Specialties.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\InfoController\\Specialties.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\InfoController\\Specialties.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\InfoController\\Specialties.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\InfoController\\Specialties.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAIwEEAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T00:53:38.937Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WorkTypesController.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\InfoController\\WorkTypesController.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\InfoController\\WorkTypesController.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\InfoController\\WorkTypesController.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\InfoController\\WorkTypesController.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAIwEMAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T00:53:30.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PasswordHasher.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\PasswordHasher.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Services\\UserService\\PasswordHasher.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\PasswordHasher.cs",
+              "RelativeToolTip": "MedBridge\\Services\\UserService\\PasswordHasher.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T00:53:02.187Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
@@ -114,290 +114,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "contactUsDto.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\MssagesDtos\\contactUsDto.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Dtos\\MssagesDtos\\contactUsDto.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\MssagesDtos\\contactUsDto.cs",
-              "RelativeToolTip": "MedBridge\\Dtos\\MssagesDtos\\contactUsDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:30:13.104Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ContactUs.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\MessagesModel\\ContactUs.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\MessagesModel\\ContactUs.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\MessagesModel\\ContactUs.cs",
-              "RelativeToolTip": "MedBridge\\Models\\MessagesModel\\ContactUs.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:29:47.284Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ContactUsController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\MesaageController\\ContactUsController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\MesaageController\\ContactUsController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\MesaageController\\ContactUsController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\MesaageController\\ContactUsController.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAiwDoAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:29:24.019Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "20250623170905_addShippingPrice.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250623170905_addShippingPrice.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Migrations\\20250623170905_addShippingPrice.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Migrations\\20250623170905_addShippingPrice.cs",
-              "RelativeToolTip": "MedBridge\\Migrations\\20250623170905_addShippingPrice.cs",
+              "Title": "Jwt Services.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\Jwt Services.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Services\\UserService\\Jwt Services.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\Jwt Services.cs",
+              "RelativeToolTip": "MedBridge\\Services\\UserService\\Jwt Services.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:09:05.991Z",
+              "WhenOpened": "2025-06-24T00:52:57.328Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\ApplicationDbContext.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ApplicationDbContext.cs",
-              "RelativeToolTip": "MedBridge\\Models\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAuwFwAAAAiAAAAAAAAAA==",
+              "Title": "IGoogleSignIn.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\IGoogleSignIn.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Services\\UserService\\IGoogleSignIn.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\IGoogleSignIn.cs",
+              "RelativeToolTip": "MedBridge\\Services\\UserService\\IGoogleSignIn.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:06:15.107Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ShippingPriceController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\OrderController\\ShippingPriceController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\OrderController\\ShippingPriceController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\OrderController\\ShippingPriceController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\OrderController\\ShippingPriceController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:06:03.889Z",
+              "WhenOpened": "2025-06-24T00:52:14.909Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "ShippingPrice.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModell\\ShippingPrice.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\OrderModell\\ShippingPrice.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModell\\ShippingPrice.cs",
-              "RelativeToolTip": "MedBridge\\Models\\OrderModell\\ShippingPrice.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
+              "Title": "GoogleSignIn.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\GoogleSignIn.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Services\\UserService\\GoogleSignIn.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\GoogleSignIn.cs",
+              "RelativeToolTip": "MedBridge\\Services\\UserService\\GoogleSignIn.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:05:29.813Z",
+              "WhenOpened": "2025-06-24T00:52:14.23Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "DeliveryAdminController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\DeliveryPersonController\\DeliveryAdminController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\DeliveryPersonController\\DeliveryAdminController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\DeliveryPersonController\\DeliveryAdminController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\DeliveryPersonController\\DeliveryAdminController.cs",
-              "ViewState": "AgIAAKgAAAAAAAAAAAASwLMAAAA0AAAAAAAAAA==",
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\EmailService.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Services\\UserService\\EmailService.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\UserService\\EmailService.cs",
+              "RelativeToolTip": "MedBridge\\Services\\UserService\\EmailService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T17:03:35.438Z",
+              "WhenOpened": "2025-06-24T00:52:11.055Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "OrderItem.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModell\\OrderItem.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\OrderModell\\OrderItem.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModell\\OrderItem.cs",
-              "RelativeToolTip": "MedBridge\\Models\\OrderModell\\OrderItem.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAiwBwAAAABAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "NotificationRequest.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\NotificationModel\\NotificationRequest.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Models\\NotificationModel\\NotificationRequest.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\NotificationModel\\NotificationRequest.cs",
+              "RelativeToolTip": "MedBridge\\Models\\NotificationModel\\NotificationRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T16:58:52.822Z",
+              "WhenOpened": "2025-06-24T00:51:18.54Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "Order.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModell\\Order.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\OrderModell\\Order.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModell\\Order.cs",
-              "RelativeToolTip": "MedBridge\\Models\\OrderModell\\Order.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAA4wCQAAAABAAAAAAAAAA==",
+              "Title": "UserController.cs",
+              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\UserController\\UserController.cs",
+              "RelativeDocumentMoniker": "MedBridge\\Controllers\\UserController\\UserController.cs",
+              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\UserController\\UserController.cs",
+              "RelativeToolTip": "MedBridge\\Controllers\\UserController\\UserController.cs",
+              "ViewState": "AgIAANECAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T16:58:26.764Z",
+              "WhenOpened": "2025-06-24T00:50:16.346Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ProdectModel.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ProductModel\\ProdectModel.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\ProductModel\\ProdectModel.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\ProductModel\\ProdectModel.cs",
-              "RelativeToolTip": "MedBridge\\Models\\ProductModel\\ProdectModel.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAA0wBoAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T15:59:27.434Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "DeliveryAdmin.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryAdmin.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryAdmin.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryAdmin.cs",
-              "RelativeToolTip": "MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryAdmin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:45:56.918Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Order.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModel\\Order.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\OrderModel\\Order.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\OrderModel\\Order.cs",
-              "RelativeToolTip": "MedBridge\\Models\\OrderModel\\Order.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAmwB4AAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:37:36.089Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AssignOrderDto.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\OrderDtos\\AssignOrderDto.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Dtos\\OrderDtos\\AssignOrderDto.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\OrderDtos\\AssignOrderDto.cs",
-              "RelativeToolTip": "MedBridge\\Dtos\\OrderDtos\\AssignOrderDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:37:28.276Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "orderDto.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\OrderDtos\\orderDto.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Dtos\\OrderDtos\\orderDto.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\OrderDtos\\orderDto.cs",
-              "RelativeToolTip": "MedBridge\\Dtos\\OrderDtos\\orderDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:37:26.006Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\OrderController\\OrderController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\OrderController\\OrderController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\OrderController\\OrderController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\OrderController\\OrderController.cs",
-              "ViewState": "AgIAALIBAAAAAAAAAIA9wMcAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:37:15.98Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "IDeliveryPersonService.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\DeliveryPersonService\\IDeliveryPersonService.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Services\\DeliveryPersonService\\IDeliveryPersonService.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\DeliveryPersonService\\IDeliveryPersonService.cs",
-              "RelativeToolTip": "MedBridge\\Services\\DeliveryPersonService\\IDeliveryPersonService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:28:51.932Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "DeliveryPersonService.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\DeliveryPersonService\\DeliveryPersonService.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Services\\DeliveryPersonService\\DeliveryPersonService.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Services\\DeliveryPersonService\\DeliveryPersonService.cs",
-              "RelativeToolTip": "MedBridge\\Services\\DeliveryPersonService\\DeliveryPersonService.cs",
-              "ViewState": "AgIAAJkAAAAAAAAAAAAYwLkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:28:46.799Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "DeliveryPersonRequest.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\DeliveryPersonModel\\DeliveryPersonRequest.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Models\\DeliveryPersonModel\\DeliveryPersonRequest.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Models\\DeliveryPersonModel\\DeliveryPersonRequest.cs",
-              "RelativeToolTip": "MedBridge\\Models\\DeliveryPersonModel\\DeliveryPersonRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:28:36.796Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "DeliveryPersonRequestDto.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryPersonRequestDto.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryPersonRequestDto.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryPersonRequestDto.cs",
-              "RelativeToolTip": "MedBridge\\Dtos\\DeliveryPersonRequestDto\\DeliveryPersonRequestDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:28:24.749Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "DeliveryPersonController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\DeliveryPersonController\\DeliveryPersonController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\DeliveryPersonController\\DeliveryPersonController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\DeliveryPersonController\\DeliveryPersonController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\DeliveryPersonController\\DeliveryPersonController.cs",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAcwLEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T10:27:45.553Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "productController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\productController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\ProductControllers\\productController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\ProductControllers\\productController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\ProductControllers\\productController.cs",
-              "ViewState": "AgIAAAcBAAAAAAAAAAAqwBIBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T07:20:43.72Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\NotifationController\\HomeController.cs",
-              "RelativeDocumentMoniker": "MedBridge\\Controllers\\NotifationController\\HomeController.cs",
-              "ToolTip": "F:\\projects\\Project\\MedBridge\\MedBridge\\Controllers\\NotifationController\\HomeController.cs",
-              "RelativeToolTip": "MedBridge\\Controllers\\NotifationController\\HomeController.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAADwvxMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T07:19:13.712Z"
             }
           ]
         }

@@ -20,7 +20,7 @@ namespace MedBridge.Controllers.ProductControllers
 
         private readonly double _maxAllowedImageSize = 10 * 1024 * 1024;
         private readonly string _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
-        private readonly string _baseUrl = "https://10.0.2.2:7273"; // Replace with your actual base URL
+        private readonly string _baseUrl = "https://10.0.2.2:7273"; 
 
         public CategoriesController(ApplicationDbContext dbContext)
         {

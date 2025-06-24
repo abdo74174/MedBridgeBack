@@ -38,7 +38,6 @@ namespace MedBridge.Controllers
                 return null;
             }
 
-            // Validate user_id exists in Users table
             var userExists = await _context.users.AnyAsync(u => u.Id == userId);
             if (!userExists)
             {

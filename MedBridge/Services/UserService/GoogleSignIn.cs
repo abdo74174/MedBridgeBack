@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MedBridge.Services
+namespace MedBridge.Services.UserService
 {
     public class GoogleSignIn : IGoogleSignIn
     {

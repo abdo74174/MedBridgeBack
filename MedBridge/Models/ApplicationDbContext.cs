@@ -6,6 +6,8 @@ using MedBridge.Models.ForgotPassword;
 using MedBridge.Models.Messages;
 using MedBridge.Models.OrderModels;
 using MedBridge.Models.ProductModels;
+using MedBridge.Models.Testing;
+using MedBridge.Models.UserInfo;
 using MedicalStoreAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using RatingApi.Models;

@@ -12,6 +12,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
 using MoviesApi.models;
+using MedBridge.Dtos.ProductDto;
 
 namespace MedBridge.Controllers;
 
@@ -63,7 +64,7 @@ public class ProductController : ControllerBase
             var fileName = Guid.NewGuid() + ext;
             var savePath = Path.Combine(_imageUploadPath, fileName);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(savePath)); // Ensure directory exists
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath)); 
             using (var stream = new FileStream(savePath, FileMode.Create))
             {
                 await image.CopyToAsync(stream);
@@ -475,7 +476,3 @@ public class ProductController : ControllerBase
     }
 }
 
-public class ProductApprovalDto
-{
-    public string Status { get; set; }
-}

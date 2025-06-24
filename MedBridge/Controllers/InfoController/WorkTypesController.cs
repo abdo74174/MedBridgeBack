@@ -1,4 +1,5 @@
 ﻿using MedBridge.Models;
+using MedBridge.Models.UserInfo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;

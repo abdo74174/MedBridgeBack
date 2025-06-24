@@ -1,5 +1,4 @@
 ﻿using MedBridge.Models;
-using MedBridge.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FirebaseAdmin;
@@ -14,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using MoviesApi.models;
+using MedBridge.Dtos.UserDtos;
+using MedBridge.Services.UserService;
 
 namespace MedBridge.Controllers
 {
@@ -213,26 +214,8 @@ namespace MedBridge.Controllers
             }
         }
 
-        public class SendOtpDto
-        {
-            [Required(ErrorMessage = "The email field is required.")]
-            [EmailAddress(ErrorMessage = "The email address is not valid.")]
-            public string Email { get; set; }
-        }
+     
 
-        public class VerifyOtpDto
-        {
-            [Required]
-            public string Email { get; set; }
-
-            [Required]
-            public string Otp { get; set; }
-
-            [Required]
-            [RegularExpression(
-                @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
-                ErrorMessage = "Password must contain 8+ chars, 1 letter, 1 number, and 1 special character")]
-            public string NewPassword { get; set; }
-        }
+ 
     }
 }

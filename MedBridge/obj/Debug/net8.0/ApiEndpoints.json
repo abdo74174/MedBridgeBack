@@ -508,7 +508,7 @@
       },
       {
         "Name": "availabilityDto",
-        "Type": "GraduationProject.Web.Controllers.UpdateAvailabilityDto",
+        "Type": "MedBridge.Dtos.DeliveryPersonRequestDto.UpdateAvailabilityDto",
         "IsRequired": true
       }
     ],
@@ -980,7 +980,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "MedBridge.Controllers.ForgotPasswordController\u002BSendOtpDto",
+        "Type": "MedBridge.Dtos.UserDtos.SendOtpDto",
         "IsRequired": true
       }
     ],
@@ -996,7 +996,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "MedBridge.Controllers.ForgotPasswordController\u002BVerifyOtpDto",
+        "Type": "MedBridge.Dtos.UserDtos.VerifyOtpDto",
         "IsRequired": true
       }
     ],
@@ -1455,7 +1455,7 @@
     "Parameters": [
       {
         "Name": "tokenRequest",
-        "Type": "MedBridge.Controllers.TokenRequest",
+        "Type": "MedBridge.Models.UsersModel.TokenRequest",
         "IsRequired": true
       }
     ],
@@ -1471,7 +1471,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MedBridge.Controllers.NotificationRequest",
+        "Type": "MedBridge.Models.NotificationModel.NotificationRequest",
         "IsRequired": true
       }
     ],
@@ -1732,7 +1732,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Controllers.DeliveryPersonDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.DeliveryPersonRequestDto.DeliveryPersonDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1758,7 +1758,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Controllers.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.OrderDtos.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1784,7 +1784,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Controllers.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.OrderDtos.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1820,7 +1820,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MedBridge.Controllers.PaymentIntentRequest",
+        "Type": "MedBridge.Models.PaymentModel.PaymentIntentRequest",
         "IsRequired": true
       }
     ],
@@ -1836,7 +1836,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MedBridge.Controllers.SetupIntentRequest",
+        "Type": "MedBridge.Models.PaymentModel.SetupIntentRequest",
         "IsRequired": true
       }
     ],
@@ -2108,7 +2108,7 @@
       },
       {
         "Name": "dto",
-        "Type": "MedBridge.Controllers.ProductApprovalDto",
+        "Type": "MedBridge.Dtos.ProductDto.ProductApprovalDto",
         "IsRequired": true
       }
     ],
@@ -2306,7 +2306,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "MedicalStoreAPI.Controllers.ShippingPriceUpdateDto",
+        "Type": "MedBridge.Dtos.ShippingPriceDto.ShippingPriceUpdateDto",
         "IsRequired": true
       }
     ],

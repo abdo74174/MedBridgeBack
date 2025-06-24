@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using MoviesApi.models;
+using MedBridge.Models.PaymentModel;
 
 namespace MedBridge.Controllers
 {
@@ -21,7 +22,6 @@ namespace MedBridge.Controllers
             _context = context;
             _logger = logger;
 
-            // Verify Stripe API key is set (set globally in Program.cs)
             if (string.IsNullOrEmpty(StripeConfiguration.ApiKey))
             {
                 _logger.LogError("Stripe API key is not configured.");
@@ -34,7 +34,7 @@ namespace MedBridge.Controllers
         {
             try
             {
-                var user = await _context.users.FindAsync(customerId); // Fixed: 'users' to 'Users'
+                var user = await _context.users.FindAsync(customerId); 
                 if (user == null)
                 {
                     _logger.LogWarning($"User not found: {customerId}");
@@ -82,7 +82,7 @@ namespace MedBridge.Controllers
         {
             try
             {
-                var user = await _context.users.FindAsync(request.CustomerId); // Fixed: 'users' to 'Users'
+                var user = await _context.users.FindAsync(request.CustomerId); 
                 if (user == null)
                 {
                     _logger.LogWarning($"User not found: {request.CustomerId}");
@@ -94,7 +94,7 @@ namespace MedBridge.Controllers
                     var customerService = new CustomerService();
                     var customer = await customerService.CreateAsync(new CustomerCreateOptions
                     {
-                        Email = user.Email // Optional: Add user details
+                        Email = user.Email 
                     });
                     user.StripeCustomerId = customer.Id;
                     _context.users.Update(user);
@@ -140,7 +140,7 @@ namespace MedBridge.Controllers
         {
             try
             {
-                var user = await _context.users.FindAsync(request.CustomerId); // Fixed: 'users' to 'Users'
+                var user = await _context.users.FindAsync(request.CustomerId);
                 if (user == null)
                 {
                     _logger.LogWarning($"User not found: {request.CustomerId}");
@@ -231,15 +231,7 @@ namespace MedBridge.Controllers
         }
     }
 
-    public class PaymentIntentRequest
-    {
-        public long Amount { get; set; }
-        public string Currency { get; set; }
-        public int CustomerId { get; set; }
-    }
+  
 
-    public class SetupIntentRequest
-    {
-        public int CustomerId { get; set; }
-    }
+  
 }

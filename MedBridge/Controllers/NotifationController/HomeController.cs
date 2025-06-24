@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.models;
+using MedBridge.Models.UsersModel;
+using MedBridge.Models.NotificationModel;
+using MedBridge.Models.Testing;
 
 namespace MedBridge.Controllers
 {
@@ -118,16 +121,6 @@ namespace MedBridge.Controllers
         }
     }
 
-    public class TokenRequest
-    {
-        public string Token { get; set; }
-        public int UserId { get; set; }
-    }
+  
 
-    public class NotificationRequest
-    {
-        public string DeviceToken { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
-    }
 }

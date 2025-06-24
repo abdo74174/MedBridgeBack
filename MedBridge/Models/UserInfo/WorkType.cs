@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MedBridge.Models
+namespace MedBridge.Models.UserInfo
 {
-    public class MedicalSpecialty
+    public class WorkType
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Name { get; set; }
     }
 }

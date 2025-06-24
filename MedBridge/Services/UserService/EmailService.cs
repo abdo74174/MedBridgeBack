@@ -5,7 +5,7 @@ using MedBridge.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 
-namespace MedBridge.Services
+namespace MedBridge.Services.UserService
 {
     public class EmailService
     {

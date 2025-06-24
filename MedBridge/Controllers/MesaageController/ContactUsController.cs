@@ -52,14 +52,12 @@ namespace MedBridge.Controllers.MessageController
                 Message = contactUs.Message,
                 Email = contactUs.Email,
                 CreatedAt = DateTime.UtcNow
-                // UserId remains null as it’s nullable
             };
 
             await _dbcontext.ContactUs.AddAsync(message);
             await _dbcontext.SaveChangesAsync();
 
-            // Use CreatedAtAction without id, pointing to GetAsync
-            return Created("", message); // أو حتى: return Ok(message);
+            return Created("", message); 
         }
     }
 }

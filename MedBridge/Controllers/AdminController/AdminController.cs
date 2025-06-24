@@ -29,7 +29,6 @@ namespace MedBridge.Controllers
             passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
 
-        // ✅ Get all non-admin users
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
         {
@@ -66,7 +65,6 @@ namespace MedBridge.Controllers
             return Ok(users);
         }
 
-        // ✅ Add admin - create or promote existing user
         [HttpPut("add-admin")]
         public async Task<IActionResult> AddAdmin(int id)
         {
@@ -84,7 +82,6 @@ namespace MedBridge.Controllers
             return Ok("User promoted to admin.");
         }
 
-        // ✅ Delete admin
         [HttpPut("delete-admin/{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
@@ -110,7 +107,6 @@ namespace MedBridge.Controllers
         }
 
 
-        // ✅ Block user
         [HttpPost("block-user/{id}")]
         public async Task<IActionResult> BlockUser(int id)
         {
@@ -124,7 +120,6 @@ namespace MedBridge.Controllers
         }
 
 
-        // ✅Un Block user
         [HttpPost("Un_block-user/{id}")]
         public async Task<IActionResult> UnBlockUser(int id)
         {
@@ -134,10 +129,9 @@ namespace MedBridge.Controllers
 
             user.Status = UserStatus.Active;
             await _context.SaveChangesAsync();
-            return Ok("User blocked.");
+            return Ok("User Un blocked.");
         }
 
-        // ✅ Activate user
         [HttpPost("Activate-user/{id}")]
         public async Task<IActionResult> ActivateUser(int id)
         {
@@ -149,7 +143,6 @@ namespace MedBridge.Controllers
             await _context.SaveChangesAsync();
             return Ok("User deactivated.");
         }
-        // ✅ Deactivate user
         [HttpPost("deactivate-user/{id}")]
         public async Task<IActionResult> DeactivateUser(int id)
         {

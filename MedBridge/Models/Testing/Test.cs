@@ -1,4 +1,4 @@
-﻿namespace MoviesApi.models
+﻿namespace MedBridge.Models.Testing
 {
     public class DeviceTokens
     {

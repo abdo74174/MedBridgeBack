@@ -6,6 +6,7 @@ using GraduationProject.Core.Dtos;
 using Microsoft.AspNetCore.Http;
 using GraduationProject.Core.Interfaces;
 using Microsoft.Extensions.Logging;
+using MedBridge.Dtos.DeliveryPersonRequestDto;
 
 namespace GraduationProject.Web.Controllers
 {
@@ -171,8 +172,5 @@ namespace GraduationProject.Web.Controllers
         }
     }
 
-    public class UpdateAvailabilityDto
-    {
-        public bool IsAvailable { get; set; }
-    }
+  
 }

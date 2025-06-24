@@ -39,7 +39,6 @@
 
   <ItemGroup>
     <Folder Include="Services\CartService\" />
-    <Folder Include="Services\UserService\" />
     <Folder Include="Services\PaymentService\" />
     <Folder Include="Services\OrderService\" />
     <Folder Include="wwwroot\jsonfile\" />

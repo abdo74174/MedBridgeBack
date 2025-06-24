@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace MedBridge.Services
+namespace MedBridge.Services.UserService
 {
     public static class PasswordHasher
     {

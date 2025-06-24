@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MedicalStoreAPI.Models;
 using MoviesApi.models;
+using MedBridge.Dtos.ShippingPriceDto;
 
 namespace MedicalStoreAPI.Controllers;
 
@@ -68,8 +69,3 @@ public class ShippingPriceController : ControllerBase
     }
 }
 
-public class ShippingPriceUpdateDto
-{
-    public string Governorate { get; set; } = string.Empty;
-    public double Price { get; set; }
-}

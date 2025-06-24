@@ -3,7 +3,7 @@ using MedBridge.Dtos;
 using MedBridge.Dtos.AddProfileImagecsDtoUser;
 using MedBridge.Models;
 using MedBridge.Models.GoogLe_signIn;
-using MedBridge.Services;
+using MedBridge.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;

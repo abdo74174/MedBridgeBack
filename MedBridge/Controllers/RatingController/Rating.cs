@@ -35,7 +35,6 @@ public class RatingsController : ControllerBase
         return CreatedAtAction(nameof(GetRating), new { id = rating.Id }, rating);
     }
 
-    // GET: api/ratings?productId={productId}
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Rating>>> GetRatings([FromQuery] string? productId)
     {
@@ -47,7 +46,6 @@ public class RatingsController : ControllerBase
         return await query.ToListAsync();
     }
 
-    // GET: api/ratings/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<Rating>> GetRating(int id)
     {
@@ -59,7 +57,6 @@ public class RatingsController : ControllerBase
         return rating;
     }
 
-    // PUT: api/ratings/{id}
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRating(int id, Rating rating)
     {
@@ -94,7 +91,6 @@ public class RatingsController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/ratings/{id}
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRating(int id)
     {
