@@ -286,7 +286,7 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.ProductControllers.CategoriesController",
-    "Method": "GetByIdLAsync",
+    "Method": "GetByIdAsync",
     "RelativePath": "api/Categories/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -302,7 +302,7 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.ProductControllers.CategoriesController",
-    "Method": "updateAsync",
+    "Method": "UpdateAsync",
     "RelativePath": "api/Categories/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -338,7 +338,7 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.ProductControllers.CategoriesController",
-    "Method": "deleteAsync",
+    "Method": "DeleteAsync",
     "RelativePath": "api/Categories/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -386,17 +386,7 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Coupon, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "CouponSystemApi.Controllers.CouponsController",
@@ -484,7 +474,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.Dashboard.Dashboard",
+    "ContainingType": "MedBridge.Controllers.Dashboard.DashboardController",
     "Method": "GetDashboardSummary",
     "RelativePath": "api/Dashboard/summary",
     "HttpMethod": "GET",
@@ -948,7 +938,7 @@
       },
       {
         "Name": "model",
-        "Type": "MedBridge.Controllers.FavouritesController\u002BRemoveFromFavouritesDto",
+        "Type": "MedBridge.DTOs.RemoveFromFavouritesDto",
         "IsRequired": true
       }
     ],
@@ -956,7 +946,7 @@
   },
   {
     "ContainingType": "MedBridge.Controllers.FavouritesController",
-    "Method": "RemoveALLFromFavourites",
+    "Method": "RemoveAllFromFavourites",
     "RelativePath": "api/favourites/removeALL",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -964,7 +954,7 @@
     "Parameters": [
       {
         "Name": "model",
-        "Type": "MedBridge.Controllers.FavouritesController\u002BRemoveFromFavouritesDto",
+        "Type": "MedBridge.DTOs.RemoveFromFavouritesDto",
         "IsRequired": true
       }
     ],
@@ -1087,7 +1077,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "ContainingType": "MedBridge.Controllers.Info.SpecialtiesController",
     "Method": "GetSpecialties",
     "RelativePath": "api/MedBridge/specialties",
     "HttpMethod": "GET",
@@ -1097,7 +1087,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "ContainingType": "MedBridge.Controllers.Info.SpecialtiesController",
     "Method": "AddSpecialty",
     "RelativePath": "api/MedBridge/specialties",
     "HttpMethod": "POST",
@@ -1118,7 +1108,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "ContainingType": "MedBridge.Controllers.Info.SpecialtiesController",
     "Method": "UpdateSpecialty",
     "RelativePath": "api/MedBridge/specialties/{name}",
     "HttpMethod": "PUT",
@@ -1144,7 +1134,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MedBridge.Controllers.Info.Specialties",
+    "ContainingType": "MedBridge.Controllers.Info.SpecialtiesController",
     "Method": "DeleteSpecialty",
     "RelativePath": "api/MedBridge/specialties/{name}",
     "HttpMethod": "DELETE",
@@ -1209,17 +1199,17 @@
         "IsRequired": false
       },
       {
-        "Name": "MedicalSpecialist",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
         "Name": "Address",
         "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "profileImage",
+        "Name": "MedicalSpecialist",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProfileImage",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
@@ -1719,6 +1709,15 @@
           "text/json"
         ],
         "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
       }
     ]
   },
@@ -1732,12 +1731,8 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.DeliveryPersonRequestDto.DeliveryPersonDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       }
     ]
@@ -1758,12 +1753,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.OrderDtos.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       }
     ]
@@ -1784,12 +1775,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedBridge.Dtos.OrderDtos.OrderDetailsDto, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       }
     ]
@@ -2175,17 +2162,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "RatingApi.Models.Rating",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "RatingApi.Controllers.RatingsController",
@@ -2201,17 +2178,7 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[RatingApi.Models.Rating, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "RatingApi.Controllers.RatingsController",
@@ -2227,17 +2194,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "RatingApi.Models.Rating",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "RatingApi.Controllers.RatingsController",
@@ -2284,17 +2241,7 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[MedicalStoreAPI.Models.ShippingPrice, MedBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MedicalStoreAPI.Controllers.ShippingPriceController",
@@ -2310,17 +2257,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "MedicalStoreAPI.Models.ShippingPrice",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MedBridge.Controllers.ProductControllers.SubcategoriesController",

@@ -6,7 +6,7 @@ namespace GraduationProject.Core.Interfaces
 {
     public interface IDeliveryPersonService
     {
-        Task<string> SubmitDeliveryPersonRequestAsync(DeliveryPersonRequestDto requestDto, int userId);
+        Task<string> SubmitDeliveryPersonRequestAsync(DeliveryPersonRequestDto requestDto, int? userId = null);
         Task<List<DeliveryPersonRequestDto>> GetAllRequestsAsync();
         Task<List<DeliveryPersonRequestDto>> GetDeliveryPersonData(int userId);
         Task HandleDeliveryPersonRequestAsync(int requestId, string action);

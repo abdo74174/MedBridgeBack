@@ -10,13 +10,17 @@ using MedBridge.Services;
 using System.Collections.Concurrent;
 using Stripe;
 using Microsoft.Extensions.Logging;
-using MoviesApi.models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Stripe.Climate;
 using GraduationProject.Core.Interfaces;
 using GraduationProject.Core.Services;
 using MedBridge.Services.UserService;
+using MedBridge.Services.PaymentService;
+using RatingApi.Services;
+using CouponSystemApi.Services;
+using CloudinaryDotNet;
+using Account = CloudinaryDotNet.Account;
+using MoviesApi.models;
 
 try
 {
@@ -27,13 +31,14 @@ try
     {
         logging.AddConsole();
         logging.AddDebug();
-        logging.SetMinimumLevel(LogLevel.Debug);
+        logging.SetMinimumLevel(builder.Environment.IsDevelopment() ? LogLevel.Debug : LogLevel.Information);
     });
 
     // Ensure configuration is loaded
     builder.Configuration
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
         .AddEnvironmentVariables();
 
     // Log configuration loading
@@ -42,46 +47,92 @@ try
 
     // Connection string
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    logger.LogInformation("Connection string: {ConnectionString}", connectionString);
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        logger.LogError("Database connection string is not configured.");
+        throw new InvalidOperationException("Database connection string is not configured.");
+    }
+    logger.LogInformation("Connection string loaded successfully.");
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString));
+        options.UseNpgsql(connectionString)
+               .EnableSensitiveDataLogging()
+               .EnableDetailedErrors());
+
+    // Cloudinary configuration
+    var cloudinaryConfig = builder.Configuration.GetSection("Cloudinary");
+    var cloudName = cloudinaryConfig["CloudName"];
+    var apiKey = cloudinaryConfig["ApiKey"];
+    var apiSecret = cloudinaryConfig["ApiSecret"];
+    if (builder.Environment.IsProduction() &&
+        (string.IsNullOrEmpty(cloudName) || string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret)))
+    {
+        logger.LogError("Cloudinary configuration is missing or incomplete.");
+        throw new InvalidOperationException("Cloudinary configuration (CloudName, ApiKey, ApiSecret) is not configured.");
+    }
+    if (!string.IsNullOrEmpty(cloudName) && !string.IsNullOrEmpty(apiKey) && !string.IsNullOrEmpty(apiSecret))
+    {
+        builder.Services.AddSingleton<Cloudinary>(sp =>
+        {
+            var account = new Account(cloudName, apiKey, apiSecret);
+            return new Cloudinary(account);
+        });
+        builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+    }
+    else
+    {
+        logger.LogWarning("Cloudinary configuration skipped in non-production environment.");
+    }
 
     // Email settings
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
     builder.Services.AddTransient<EmailService>();
-    builder.Services.AddScoped<IDeliveryPersonService, DeliveryPersonService>();    // Custom services
+
+    // Register services
+    builder.Services.AddScoped<ICartServicee, CartServicee>();
     builder.Services.AddScoped<CartService>();
+    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IProductService, MedBridge.Services.ProductService>();
+    builder.Services.AddScoped<ICategoryService, CategoryService>();
+    builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
+    builder.Services.AddScoped<IDeliveryPersonAdminService, DeliveryPersonAdminService>();
+    builder.Services.AddScoped<IDeliveryPersonService, DeliveryPersonService>();
+    builder.Services.AddScoped<IForgotPasswordService, ForgotPasswordService>();
+    builder.Services.AddScoped<IPaymentService, PaymentService>();
+    builder.Services.AddScoped<ISpecialtiesService, SpecialtiesService>();
+    builder.Services.AddScoped<IWorkTypesService, WorkTypesService>();
+    builder.Services.AddScoped<IRatingService, RatingService>();
+    builder.Services.AddScoped<IShippingPriceService, ShippingPriceService>();
+    builder.Services.AddScoped<IFavouritesService, FavouritesService>();
+    builder.Services.AddScoped<IDashboardService, DashboardService>();
+    builder.Services.AddScoped<IOrderService, OrderServicee>();
+    builder.Services.AddScoped<IAdminService, AdminService>();
+    builder.Services.AddScoped<CustomerService>();
+    builder.Services.AddScoped<TokenService>();
+    builder.Services.AddScoped<ChargeService>();
+    builder.Services.AddScoped<IContactUsService, ContactUsService>();
+    builder.Services.AddScoped<ICouponService, CouponServicee>();
+    builder.Services.AddScoped<INotificationService, NotificationService>();
     builder.Services.AddScoped<IGoogleSignIn, GoogleSignIn>();
-    builder.Services.AddMemoryCache();
     builder.Services.AddScoped<RecommendationService>();
-    builder.Services.AddHttpClient(); // 👈 أضف السطر ده
-    // Controllers & JWT Auth
-    builder.Services.AddControllers();
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                ValidAudience = builder.Configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-            };
-        });
+    builder.Services.AddMemoryCache();
+    builder.Services.AddHttpClient();
 
     // Configure Stripe API key
     var stripeKey = builder.Configuration.GetValue<string>("STRIPE_SECRET_KEY");
     logger.LogInformation("STRIPE_SECRET_KEY loaded: {Key}", string.IsNullOrEmpty(stripeKey) ? "null" : "set");
-    if (string.IsNullOrEmpty(stripeKey))
+    if (builder.Environment.IsProduction() && string.IsNullOrEmpty(stripeKey))
     {
-        logger.LogError("STRIPE_SECRET_KEY is not configured in appsettings.json or environment variables.");
+        logger.LogError("STRIPE_SECRET_KEY is not configured.");
         throw new InvalidOperationException("STRIPE_SECRET_KEY is not configured.");
     }
-    StripeConfiguration.ApiKey = stripeKey;
+    if (!string.IsNullOrEmpty(stripeKey))
+    {
+        StripeConfiguration.ApiKey = stripeKey;
+    }
+    else
+    {
+        logger.LogWarning("Stripe configuration skipped in non-production environment.");
+    }
 
     // CORS
     builder.Services.AddCors(options =>
@@ -189,7 +240,7 @@ try
         var socket = await context.WebSockets.AcceptWebSocketAsync();
         var userId = Guid.NewGuid().ToString();
         users.TryAdd(userId, socket);
-        Console.WriteLine($"✅ Connected: {username}");
+        logger.LogInformation("WebSocket connected: {Username}", username);
 
         var buffer = new byte[1024 * 4];
         while (socket.State == WebSocketState.Open)
@@ -233,7 +284,7 @@ try
 
         users.TryRemove(userId, out _);
         await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed", CancellationToken.None);
-        Console.WriteLine($"❌ Disconnected: {username}");
+        logger.LogInformation("WebSocket disconnected: {Username}", username);
     });
 
     // Dev tools
@@ -257,7 +308,7 @@ try
     app.UseAuthorization();
     app.MapControllers();
 
-    logger.LogInformation("Starting application on https://10.0.2.2:7273");
+    logger.LogInformation("Starting application on Render with dynamic port");
     app.Run();
 }
 catch (Exception ex)

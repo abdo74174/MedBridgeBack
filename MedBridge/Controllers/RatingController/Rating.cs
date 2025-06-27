@@ -1,112 +1,67 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MoviesApi.models;
 using RatingApi.Models;
+using RatingApi.Services;
+using System.Threading.Tasks;
 
-namespace RatingApi.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class RatingsController : ControllerBase
+namespace RatingApi.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public RatingsController(ApplicationDbContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RatingsController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly IRatingService _ratingService;
 
-    
-    [HttpPost]
-    public async Task<ActionResult<Rating>> CreateRating(Rating rating)
-    {
-        if (rating.RatingValue < 1 || rating.RatingValue > 5)
+        public RatingsController(IRatingService ratingService)
         {
-            return BadRequest("Rating must be between 1 and 5.");
+            _ratingService = ratingService;
         }
 
-        if (string.IsNullOrWhiteSpace(rating.ProductId) || string.IsNullOrWhiteSpace(rating.UserId))
+        [HttpPost]
+        public async Task<IActionResult> CreateRating([FromBody] Rating rating)
         {
-            return BadRequest("ProductId and UserId are required.");
-        }
-
-        _context.Ratings.Add(rating);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetRating), new { id = rating.Id }, rating);
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Rating>>> GetRatings([FromQuery] string? productId)
-    {
-        var query = _context.Ratings.AsQueryable();
-        if (!string.IsNullOrEmpty(productId))
-        {
-            query = query.Where(r => r.ProductId == productId);
-        }
-        return await query.ToListAsync();
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Rating>> GetRating(int id)
-    {
-        var rating = await _context.Ratings.FindAsync(id);
-        if (rating == null)
-        {
-            return NotFound();
-        }
-        return rating;
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRating(int id, Rating rating)
-    {
-        if (id != rating.Id)
-        {
-            return BadRequest();
-        }
-
-        if (rating.RatingValue < 1 || rating.RatingValue > 5)
-        {
-            return BadRequest("Rating must be between 1 and 5.");
-        }
-
-        if (string.IsNullOrWhiteSpace(rating.ProductId) || string.IsNullOrWhiteSpace(rating.UserId))
-        {
-            return BadRequest("ProductId and UserId are required.");
-        }
-
-        _context.Entry(rating).State = EntityState.Modified;
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!RatingExists(id))
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { Errors = errors });
             }
-            throw;
-        }
-        return NoContent();
-    }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteRating(int id)
-    {
-        var rating = await _context.Ratings.FindAsync(id);
-        if (rating == null)
+            return await _ratingService.CreateRatingAsync(rating);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRatings([FromQuery] string? productId)
         {
-            return NotFound();
+            return await _ratingService.GetRatingsAsync(productId);
         }
 
-        _context.Ratings.Remove(rating);
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRating(int id)
+        {
+            return await _ratingService.GetRatingAsync(id);
+        }
 
-    private bool RatingExists(int id)
-    {
-        return _context.Ratings.Any(e => e.Id == id);
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRating(int id, [FromBody] Rating rating)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { Errors = errors });
+            }
+
+            return await _ratingService.UpdateRatingAsync(id, rating);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRating(int id)
+        {
+            return await _ratingService.DeleteRatingAsync(id);
+        }
     }
 }

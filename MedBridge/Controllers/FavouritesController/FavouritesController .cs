@@ -1,8 +1,6 @@
 ﻿using MedBridge.DTOs;
-using MedBridge.Models;
+using MedBridge.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MoviesApi.models;
 using System.Threading.Tasks;
 
 namespace MedBridge.Controllers
@@ -11,123 +9,35 @@ namespace MedBridge.Controllers
     [ApiController]
     public class FavouritesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IFavouritesService _favouritesService;
 
-        public FavouritesController(ApplicationDbContext context)
+        public FavouritesController(IFavouritesService favouritesService)
         {
-            _context = context;
+            _favouritesService = favouritesService;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddToFavourites([FromBody] AddToFavouritesDto model)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(model.UserId))
-                    return BadRequest("User ID is required.");
-
-                var product = await _context.Products.FindAsync(model.ProductId);
-                if (product == null)
-                    return NotFound("Product not found.");
-
-                var existing = await _context.Favourites
-                    .FirstOrDefaultAsync(f => f.UserId == model.UserId && f.ProductId == model.ProductId);
-
-                if (existing != null)
-                    return BadRequest("Product already in favourites.");
-
-                var favourite = new Favourite
-                {
-                    UserId = model.UserId,
-                    ProductId = model.ProductId
-                };
-
-                _context.Favourites.Add(favourite);
-                await _context.SaveChangesAsync();
-
-                return Ok(new { Message = "Product added to favourites", Favourite = favourite });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
-            }
-        }
-
-        public class RemoveFromFavouritesDto
-        {
-            public string UserId { get; set; }
+            return await _favouritesService.AddToFavourites(model);
         }
 
         [HttpDelete("remove/{productId}")]
         public async Task<IActionResult> RemoveFromFavourites(int productId, [FromBody] RemoveFromFavouritesDto model)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(model.UserId))
-                    return BadRequest("User ID is required.");
-
-                var favourite = await _context.Favourites
-                    .FirstOrDefaultAsync(f => f.UserId == model.UserId && f.ProductId == productId);
-
-                if (favourite == null)
-                    return NotFound("Product not in favourites.");
-
-                _context.Favourites.Remove(favourite);
-                await _context.SaveChangesAsync();
-
-                return Ok(new { Message = "Product removed from favourites" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
-            }
+            return await _favouritesService.RemoveFromFavourites(productId, model);
         }
 
         [HttpDelete("removeALL")]
-        public async Task<IActionResult> RemoveALLFromFavourites([FromBody] RemoveFromFavouritesDto model)
+        public async Task<IActionResult> RemoveAllFromFavourites([FromBody] RemoveFromFavouritesDto model)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(model.UserId))
-                    return BadRequest("User ID is required.");
-
-                var favourites = await _context.Favourites
-                    .Where(f => f.UserId == model.UserId)
-                    .ToListAsync();
-
-                if (favourites.Any())
-                {
-                    _context.Favourites.RemoveRange(favourites);
-                    await _context.SaveChangesAsync();
-                }
-
-                return Ok(new { Message = "All favourites removed successfully" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
-            }
+            return await _favouritesService.RemoveAllFromFavourites(model);
         }
 
         [HttpGet("list")]
         public async Task<IActionResult> GetUserFavourites([FromQuery] string userId)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(userId))
-                    return BadRequest("User ID is required.");
-
-                var favourites = await _context.Favourites
-                    .Where(f => f.UserId == userId)
-                    .Include(f => f.Product)
-                    .ToListAsync();
-
-                return Ok(favourites);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
-            }
+            return await _favouritesService.GetUserFavourites(userId);
         }
     }
 }

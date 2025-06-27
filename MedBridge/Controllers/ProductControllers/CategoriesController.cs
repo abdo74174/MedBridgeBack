@@ -1,9 +1,7 @@
 ﻿using MedBridge.Models.ProductModels;
-using Microsoft.AspNetCore.Http;
+using MedBridge.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MoviesApi.models;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace MedBridge.Controllers.ProductControllers
 {
@@ -11,141 +9,59 @@ namespace MedBridge.Controllers.ProductControllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
+        private readonly ICategoryService _categoryService;
 
-        private readonly ApplicationDbContext _dbContext;
-        private readonly List<string> _allowedExtensions = new List<string>
+        public CategoriesController(ICategoryService categoryService)
         {
-            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif", ".svg", ".ico", ".heif"
-        };
-
-        private readonly double _maxAllowedImageSize = 10 * 1024 * 1024;
-        private readonly string _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
-        private readonly string _baseUrl = "https://10.0.2.2:7273"; 
-
-        public CategoriesController(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
+            _categoryService = categoryService;
         }
+
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CategoryDto dto)
+        public async Task<IActionResult> CreateAsync([FromForm] CategoryDto dto)
         {
-            if (dto.Image == null)
-                return BadRequest("Image is required.");
-
-            var ext = Path.GetExtension(dto.Image.FileName).ToLower();
-            if (!_allowedExtensions.Contains(ext))
-                return BadRequest("Only png and jpg images are allowed.");
-
-            if (dto.Image.Length > _maxAllowedImageSize)
-                return BadRequest("Max allowed size for image is 10 MB.");
-
-            // Generate unique file name and save the image
-            var fileName = Guid.NewGuid() + ext;
-            var savePath = Path.Combine(_imageUploadPath, fileName);
-
-            using (var stream = new FileStream(savePath, FileMode.Create))
+            if (!ModelState.IsValid)
             {
-                await dto.Image.CopyToAsync(stream);
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { Errors = errors });
             }
 
-            var imageUrl = $"{_baseUrl}/images/{fileName}";
-
-            var category = new Category
-            {
-                CategoryId = dto.CategoryId,
-                Name = dto.Name,
-                Description = dto.Description,
-                ImageUrl = imageUrl // Store only the URL
-            };
-
-            _dbContext.Categories.Add(category);
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(category);
+            return await _categoryService.CreateAsync(dto);
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var categories = await _dbContext.Categories
-         
-                .ToListAsync();
-
-            return Ok(categories);
+            return await _categoryService.GetAllAsync();
         }
-
 
         [HttpGet("{id}")]
-
-        public async Task<IActionResult> GetByIdLAsync(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-
-            var category = await _dbContext.Categories.FindAsync(id);
-
-            if (category == null)
-                return NotFound();
-
-            return Ok(category);
-
+            return await _categoryService.GetByIdAsync(id);
         }
-
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> updateAsync(int id, [FromForm] CategoryDto dto)
+        public async Task<IActionResult> UpdateAsync(int id, [FromForm] CategoryDto dto)
         {
-            var category = await _dbContext.Categories.FindAsync(id);
-
-            if (category == null)
-                return NotFound($"ID {id} not found");
-
-            if (dto.Image != null)
+            if (!ModelState.IsValid)
             {
-                var ext = Path.GetExtension(dto.Image.FileName).ToLower();
-
-                if (!_allowedExtensions.Contains(ext))
-                    return BadRequest("Only png and jpg images are allowed.");
-
-                if (dto.Image.Length > _maxAllowedImageSize)
-                    return BadRequest("Max allowed size for image is 10 MB.");
-
-                var fileName = Guid.NewGuid() + ext;
-                var savePath = Path.Combine(_imageUploadPath, fileName);
-
-                using (var stream = new FileStream(savePath, FileMode.Create))
-                {
-                    await dto.Image.CopyToAsync(stream);
-                }
-
-                var imageUrl = $"{_baseUrl}/images/{fileName}";
-                category.ImageUrl = imageUrl;
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { Errors = errors });
             }
 
-            category.Name = dto.Name;
-            category.Description = dto.Description;
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(category);
+            return await _categoryService.UpdateAsync(id, dto);
         }
 
-
         [HttpDelete("{id}")]
-
-
-        public async Task <IActionResult> deleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-
-            var category = await _dbContext.Categories.FindAsync(id);
-
-            if (category == null)
-                return NotFound($"ID {id} not found");
-
-
-            _dbContext.Remove(category);
-            _dbContext.SaveChanges();
-
-            return Ok(category);
+            return await _categoryService.DeleteAsync(id);
         }
     }
 }

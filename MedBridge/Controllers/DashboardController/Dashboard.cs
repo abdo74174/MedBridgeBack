@@ -1,60 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MoviesApi.models;
+﻿using Microsoft.AspNetCore.Mvc;
+using MedBridge.Services;
+using System.Threading.Tasks;
 
 namespace MedBridge.Controllers.Dashboard
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Dashboard : ControllerBase
+    public class DashboardController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDashboardService _dashboardService;
 
-        public Dashboard(ApplicationDbContext context)
+        public DashboardController(IDashboardService dashboardService)
         {
-            _context = context;
+            _dashboardService = dashboardService;
         }
 
-
         [HttpGet("summary")]
-        public IActionResult GetDashboardSummary()
+        public async Task<IActionResult> GetDashboardSummary()
         {
-
-            var productCount = _context.Products.Count();
-
-            var productReviewCount = _context.Products.Where(p => p.Status == "Pending").Count();
-
-            var userCount = _context.users.Count();
-
-
-            var orderCount = _context.Orders.Count();
-
-
-            var totalRevenue = _context.Orders.Sum(o => o.TotalPrice);
-
-
-            var latestProducts = _context.Products
-                                    .OrderByDescending(p => p.CreatedAt)
-                                    .Take(5)
-                                    .Select(p => new
-                                    {
-                                        p.ProductId,
-                                        p.Name,
-                                        p.Price,
-                                        p.CreatedAt
-                                    })
-                                    .ToList();
-            return Ok(new
-            {
-                ProductCount = productCount,
-                UserCount = userCount,
-                OrderCount = orderCount,
-                TotalRevenue = totalRevenue,
-                LatestProducts = latestProducts,
-                ProductReviewCount = productReviewCount
-            });
-
-
+            return await _dashboardService.GetDashboardSummary();
         }
     }
 }

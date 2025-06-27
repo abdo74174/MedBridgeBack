@@ -1,71 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MedicalStoreAPI.Models;
-using MoviesApi.models;
-using MedBridge.Dtos.ShippingPriceDto;
+﻿using MedBridge.Dtos.ShippingPriceDto;
+using MedBridge.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
-namespace MedicalStoreAPI.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class ShippingPriceController : ControllerBase
+namespace MedicalStoreAPI.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public ShippingPriceController(ApplicationDbContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ShippingPriceController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly IShippingPriceService _shippingPriceService;
 
-    // GET: api/ShippingPrice
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<ShippingPrice>>> GetShippingPrices()
-    {
-        try
+        public ShippingPriceController(IShippingPriceService shippingPriceService)
         {
-            var shippingPrices = await _context.ShippingPrices.ToListAsync();
-            return Ok(shippingPrices);
+            _shippingPriceService = shippingPriceService;
         }
-        catch (Exception ex)
+
+        [HttpGet]
+        public async Task<IActionResult> GetShippingPrices()
         {
-            return StatusCode(500, new { error = $"Failed to fetch shipping prices: {ex.Message}" });
+            return await _shippingPriceService.GetShippingPrices();
         }
-    }
 
-    // POST: api/ShippingPrice
-    [HttpPost]
-    public async Task<ActionResult<ShippingPrice>> UpdateShippingPrice([FromBody] ShippingPriceUpdateDto dto)
-    {
-        try
+        [HttpPost]
+        public async Task<IActionResult> UpdateShippingPrice([FromBody] ShippingPriceUpdateDto dto)
         {
-            var existingPrice = await _context.ShippingPrices
-                .FirstOrDefaultAsync(sp => sp.Governorate == dto.Governorate);
-
-            if (existingPrice == null)
+            if (!ModelState.IsValid)
             {
-                var newPrice = new ShippingPrice
-                {
-                    Governorate = dto.Governorate,
-                    Price = dto.Price,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
-                _context.ShippingPrices.Add(newPrice);
-            }
-            else
-            {
-                existingPrice.Price = dto.Price;
-                existingPrice.UpdatedAt = DateTime.UtcNow;
-                _context.ShippingPrices.Update(existingPrice);
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new { Errors = errors });
             }
 
-            await _context.SaveChangesAsync();
-            return Ok(existingPrice ?? new ShippingPrice { Governorate = dto.Governorate, Price = dto.Price });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { error = $"Failed to update shipping price: {ex.Message}" });
+            return await _shippingPriceService.UpdateShippingPrice(dto);
         }
     }
 }
-

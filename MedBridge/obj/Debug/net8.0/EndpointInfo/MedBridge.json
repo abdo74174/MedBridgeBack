@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "MedBridge API",
     "description": "API for MedBridge Project",
@@ -371,36 +371,22 @@
         "tags": [
           "Categories"
         ],
-        "parameters": [
-          {
-            "name": "CategoryId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Name",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Description",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "CategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
                   "Image": {
                     "type": "string",
                     "format": "binary"
@@ -408,6 +394,15 @@
                 }
               },
               "encoding": {
+                "CategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
                 "Image": {
                   "style": "form"
                 }
@@ -584,33 +579,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Coupon"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Coupon"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Coupon"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -1661,6 +1630,26 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -1933,33 +1922,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDetailsDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDetailsDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDetailsDto"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -1982,33 +1945,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDetailsDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDetailsDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderDetailsDto"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -2075,33 +2012,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DeliveryPersonDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DeliveryPersonDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DeliveryPersonDto"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -2704,24 +2615,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rating"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rating"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rating"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -2740,33 +2634,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Rating"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Rating"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Rating"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -2789,24 +2657,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rating"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rating"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rating"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -2879,33 +2730,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ShippingPrice"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ShippingPrice"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ShippingPrice"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -2934,24 +2759,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShippingPrice"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShippingPrice"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ShippingPrice"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -3593,13 +3401,13 @@
                   "Phone": {
                     "type": "string"
                   },
-                  "MedicalSpecialist": {
-                    "type": "string"
-                  },
                   "Address": {
                     "type": "string"
                   },
-                  "profileImage": {
+                  "MedicalSpecialist": {
+                    "type": "string"
+                  },
+                  "ProfileImage": {
                     "type": "string",
                     "format": "binary"
                   }
@@ -3615,13 +3423,13 @@
                 "Phone": {
                   "style": "form"
                 },
-                "MedicalSpecialist": {
-                  "style": "form"
-                },
                 "Address": {
                   "style": "form"
                 },
-                "profileImage": {
+                "MedicalSpecialist": {
+                  "style": "form"
+                },
+                "ProfileImage": {
                   "style": "form"
                 }
               }
@@ -4068,46 +3876,24 @@
         },
         "additionalProperties": false
       },
-      "DeliveryPersonDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "DeliveryPersonRequestDto": {
         "required": [
-          "cardNumber"
+          "address",
+          "cardNumber",
+          "email",
+          "name",
+          "phone"
         ],
         "type": "object",
         "properties": {
           "phone": {
+            "minLength": 1,
             "type": "string",
-            "format": "tel",
-            "nullable": true
-          },
-          "deliveryPesonId": {
-            "type": "integer",
-            "format": "int32"
+            "format": "tel"
           },
           "address": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "cardNumber": {
             "minLength": 1,
@@ -4126,13 +3912,40 @@
             "format": "int32",
             "nullable": true
           },
+          "deliveryPersonId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeviceTokens": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "token": {
             "type": "string",
             "nullable": true
           },
-          "email": {
-            "type": "string",
-            "nullable": true
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -4205,67 +4018,6 @@
           "body": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "OrderDetailsDto": {
-        "type": "object",
-        "properties": {
-          "orderId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "orderDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "type": "string",
-            "nullable": true
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "userConfirmedShipped": {
-            "type": "boolean"
-          },
-          "deliveryPersonConfirmedShipped": {
-            "type": "boolean"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderDetailsItemDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "OrderDetailsItemDto": {
-        "type": "object",
-        "properties": {
-          "productName": {
-            "type": "string",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "double"
           }
         },
         "additionalProperties": false
@@ -4599,32 +4351,6 @@
         },
         "additionalProperties": false
       },
-      "ShippingPrice": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "governorate": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
       "ShippingPriceUpdateDto": {
         "type": "object",
         "properties": {
@@ -4747,6 +4473,13 @@
           },
           "status": {
             "$ref": "#/components/schemas/UserStatus"
+          },
+          "deviceTokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceTokens"
+            },
+            "nullable": true
           },
           "products": {
             "type": "array",

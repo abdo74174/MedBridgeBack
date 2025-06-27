@@ -71,7 +71,10 @@ namespace MoviesApi.models
 
             // Configure DeviceToken table name
             modelBuilder.Entity<DeviceTokens>().ToTable("DeviceTokens");
-
+            modelBuilder.Entity<DeliveryPerson>()
+                .HasOne(dp => dp.User)
+                .WithMany()
+                .HasForeignKey(dp => dp.UserId);
             base.OnModelCreating(modelBuilder);
         }
 

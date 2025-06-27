@@ -1,66 +1,34 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Security.Claims;
 using MoviesApi.models;
+using CouponSystemApi.Services;
+using System.Threading.Tasks;
 
 namespace CouponSystemApi.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class CouponsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICouponService _couponService;
 
-        public CouponsController(ApplicationDbContext context)
+        public CouponsController(ICouponService couponService)
         {
-            _context = context;
-        }
-
-        private string GetUserId()
-        {
-            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException("User not authenticated");
+            _couponService = couponService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Coupon>>> GetAllCoupons()
+        public async Task<IActionResult> GetAllCoupons()
         {
-            var coupons = await _context.Coupons.ToListAsync();
-            return Ok(coupons);
+            return await _couponService.GetAllCoupons();
         }
 
         [HttpGet("validate/{code}")]
-        public async Task<ActionResult> ValidateCoupon(string code)
+        public async Task<IActionResult> ValidateCoupon(string code)
         {
-            Console.WriteLine($"Validating coupon: {code} for user: {GetUserId()}");
-            var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(c => c.Code == code);
-
-            if (coupon == null)
-            {
-                return NotFound("Coupon not found");
-            }
-
-            var userId = GetUserId();
-            var hasUsed = await _context.UserCouponUsages
-                .AnyAsync(uc => uc.CouponId == coupon.Id && uc.UserId == userId);
-
-            if (hasUsed)
-            {
-                return BadRequest("Coupon already used by this user");
-            }
-
-            return Ok(new
-            {
-                coupon.Id,
-                coupon.Code,
-                coupon.DiscountPercent,
-                coupon.CreatedAt
-            });
+            var userId = _couponService.GetUserId(User);
+            return await _couponService.ValidateCoupon(code, userId);
         }
 
         [HttpPost]
@@ -70,93 +38,30 @@ namespace CouponSystemApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            coupon.CreatedAt = DateTime.UtcNow;
-            _context.Coupons.Add(coupon);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(ValidateCoupon), new { code = coupon.Code }, coupon);
+            return await _couponService.CreateCoupon(coupon);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCoupon(int id, [FromBody] Coupon coupon)
         {
-            if (id != coupon.Id || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid coupon data");
+                return BadRequest(ModelState);
             }
-
-            var existingCoupon = await _context.Coupons.FindAsync(id);
-            if (existingCoupon == null)
-            {
-                return NotFound("Coupon not found");
-            }
-
-            existingCoupon.Code = coupon.Code;
-            existingCoupon.DiscountPercent = coupon.DiscountPercent;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Coupons.AnyAsync(c => c.Id == id))
-                {
-                    return NotFound("Coupon not found");
-                }
-                throw;
-            }
-
-            return Ok(coupon);
+            return await _couponService.UpdateCoupon(id, coupon);
         }
 
         [HttpPost("use/{code}")]
         public async Task<IActionResult> UseCoupon(string code)
         {
-            var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(c => c.Code == code);
-
-            if (coupon == null)
-            {
-                return NotFound("Coupon not found");
-            }
-
-            var userId = GetUserId();
-            var hasUsed = await _context.UserCouponUsages
-                .AnyAsync(uc => uc.CouponId == coupon.Id && uc.UserId == userId);
-
-            if (hasUsed)
-            {
-                return BadRequest("Coupon already used by this user");
-            }
-
-            var usage = new UserCouponUsage
-            {
-                UserId = userId,
-                CouponId = coupon.Id,
-                UsedAt = DateTime.UtcNow
-            };
-
-            _context.UserCouponUsages.Add(usage);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            var userId = _couponService.GetUserId(User);
+            return await _couponService.UseCoupon(code, userId);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCoupon(int id)
         {
-            var coupon = await _context.Coupons.FindAsync(id);
-            if (coupon == null)
-            {
-                return NotFound("Coupon not found");
-            }
-
-            _context.Coupons.Remove(coupon);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return await _couponService.DeleteCoupon(id);
         }
     }
 }

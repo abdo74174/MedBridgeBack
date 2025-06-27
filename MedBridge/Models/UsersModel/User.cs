@@ -1,5 +1,6 @@
 ﻿using MedBridge.Models.Messages;
 using MedBridge.Models.ProductModels;
+using MedBridge.Models.Testing;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -57,9 +58,11 @@ namespace MedBridge.Models
 
         [Required]
         public string KindOfWork { get; set; } = "Doctor";
-        public string StripeCustomerId { get; set; }
+        public string   StripeCustomerId { get; set; }
         public bool IsAdmin { get; set; } = false;
         public UserStatus Status { get; set; } = UserStatus.Active;
+        public ICollection<DeviceTokens> DeviceTokens { get; set; } = new List<DeviceTokens>();
+
         public ICollection<ProductModel> Products { get; set; } = new List<ProductModel>();
         public ICollection<ContactUs> ContactUs { get; set; } = new List<ContactUs>();
     }
