@@ -1,5 +1,13 @@
-.vs/
-obj/
+# Configuration files
+appsettings.json
+appsettings.*.json
+Config/firebase-service-account.json
+
+# Other common ignores
 bin/
-*.vsidx
-*.json
+obj/
+*.user
+*.suo
+*.csproj.user
+.vs/
+*.log
