@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "EbvP3nngZdcKivjW3VhXDjbOiCU1q1aLnMjkuxUFvew=",
+  "Hash": "CnYZx4RJ6vY6Z98TgKRYJJr7/QnjwjSFt5RxSV6QgiY=",
   "Source": "MedBridge",
   "BasePath": "_content/MedBridge",
   "Mode": "Default",
@@ -16,27 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\jsonfile\\medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json",
-      "SourceId": "MedBridge",
-      "SourceType": "Discovered",
-      "ContentRoot": "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\",
-      "BasePath": "_content/MedBridge",
-      "RelativePath": "jsonfile/medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d#[.{fingerprint}]?.json",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "up44pn56x7",
-      "Integrity": "4jUW0raAOP9inBxbUJkJrtR2Kf3JoPhRSuvVSAmVf7Y=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\jsonfile\\medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json"
-    },
     {
       "Identity": "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\Uploads\\card_image_079fa713-b464-497b-91c6-3e9a28248193.jpg",
       "SourceId": "MedBridge",
@@ -207,88 +186,6 @@
     }
   ],
   "Endpoints": [
-    {
-      "Route": "jsonfile/medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json",
-      "AssetFile": "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\jsonfile\\medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2385"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/json"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"4jUW0raAOP9inBxbUJkJrtR2Kf3JoPhRSuvVSAmVf7Y=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 10:45:29 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-4jUW0raAOP9inBxbUJkJrtR2Kf3JoPhRSuvVSAmVf7Y="
-        }
-      ]
-    },
-    {
-      "Route": "jsonfile/medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.up44pn56x7.json",
-      "AssetFile": "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\jsonfile\\medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2385"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/json"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"4jUW0raAOP9inBxbUJkJrtR2Kf3JoPhRSuvVSAmVf7Y=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 16 Jun 2025 10:45:29 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "up44pn56x7"
-        },
-        {
-          "Name": "label",
-          "Value": "jsonfile/medbridge-11d7e-firebase-adminsdk-fbsvc-77f183ab5d.json"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-4jUW0raAOP9inBxbUJkJrtR2Kf3JoPhRSuvVSAmVf7Y="
-        }
-      ]
-    },
     {
       "Route": "Uploads/card_image_079fa713-b464-497b-91c6-3e9a28248193.e4kp69awtm.jpg",
       "AssetFile": "F:\\projects\\Project\\MedBridge\\MedBridge\\wwwroot\\Uploads\\card_image_079fa713-b464-497b-91c6-3e9a28248193.jpg",

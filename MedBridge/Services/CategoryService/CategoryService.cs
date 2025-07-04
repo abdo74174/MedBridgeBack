@@ -15,58 +15,34 @@ namespace MedBridge.Services
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ILogger<CategoryService> _logger;
-        private readonly ICloudinaryService _cloudinaryService;
         private readonly IConfiguration _configuration;
-        private readonly List<string> _allowedExtensions = new List<string>
-        {
-            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif", ".svg", ".ico", ".heif"
-        };
-        private readonly double _maxAllowedImageSize;
 
         public CategoryService(
             ApplicationDbContext dbContext,
             ILogger<CategoryService> logger,
-            ICloudinaryService cloudinaryService,
             IConfiguration configuration)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _cloudinaryService = cloudinaryService ?? throw new ArgumentNullException(nameof(cloudinaryService));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _maxAllowedImageSize = _configuration.GetValue<double>("ImageSettings:MaxAllowedImageSize", 10 * 1024 * 1024);
         }
 
         public async Task<IActionResult> CreateAsync(CategoryDto dto)
         {
             try
             {
-                if (dto.Image == null)
+                if (string.IsNullOrEmpty(dto.ImageUrl))
                 {
-                    _logger.LogWarning("Image is required for category creation");
-                    return new BadRequestObjectResult("Image is required.");
+                    _logger.LogWarning("ImageUrl is required for category creation");
+                    return new BadRequestObjectResult("ImageUrl is required.");
                 }
-
-                var ext = Path.GetExtension(dto.Image.FileName).ToLower();
-                if (!_allowedExtensions.Contains(ext))
-                {
-                    _logger.LogWarning("Invalid image extension: {Extension}", ext);
-                    return new BadRequestObjectResult("Only the following image formats are allowed: jpg, jpeg, png, gif, bmp, webp, tiff, tif, svg, ico, heif.");
-                }
-
-                if (dto.Image.Length > _maxAllowedImageSize)
-                {
-                    _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize}", dto.Image.Length, _maxAllowedImageSize);
-                    return new BadRequestObjectResult("Max allowed size for image is 10 MB.");
-                }
-
-                var imageUrl = await _cloudinaryService.UploadImageAsync(dto.Image, "categories");
 
                 var category = new Category
                 {
                     CategoryId = dto.CategoryId,
                     Name = dto.Name,
                     Description = dto.Description,
-                    ImageUrl = imageUrl
+                    ImageUrl = dto.ImageUrl
                 };
 
                 _dbContext.Categories.Add(category);
@@ -129,27 +105,13 @@ namespace MedBridge.Services
                     return new NotFoundObjectResult($"ID {id} not found");
                 }
 
-                if (dto.Image != null)
-                {
-                    var ext = Path.GetExtension(dto.Image.FileName).ToLower();
-                    if (!_allowedExtensions.Contains(ext))
-                    {
-                        _logger.LogWarning("Invalid image extension: {Extension}", ext);
-                        return new BadRequestObjectResult("Only the following image formats are allowed: jpg, jpeg, png, gif, bmp, webp, tiff, tif, svg, ico, heif.");
-                    }
-
-                    if (dto.Image.Length > _maxAllowedImageSize)
-                    {
-                        _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize}", dto.Image.Length, _maxAllowedImageSize);
-                        return new BadRequestObjectResult("Max allowed size for image is 10 MB.");
-                    }
-
-                    var imageUrl = await _cloudinaryService.UploadImageAsync(dto.Image, "categories");
-                    category.ImageUrl = imageUrl;
-                }
-
                 category.Name = dto.Name;
                 category.Description = dto.Description;
+                if (!string.IsNullOrEmpty(dto.ImageUrl))
+                {
+                    category.ImageUrl = dto.ImageUrl;
+                }
+
                 await _dbContext.SaveChangesAsync();
 
                 _logger.LogInformation("Updated category {CategoryId} with name {Name}", id, category.Name);

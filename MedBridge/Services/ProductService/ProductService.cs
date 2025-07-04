@@ -1,16 +1,17 @@
 ﻿using MedBridge.Dtos.ProductADD;
-using MedBridge.Dtos.ProductDto;
+using MedBridge.Dtos.Product;
 using MedBridge.Models.NotificationModel;
 using MedBridge.Models.ProductModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MoviesApi.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MedBridge.Dtos.ProductDto;
+using MoviesApi.models;
 
 namespace MedBridge.Services
 {
@@ -19,26 +20,20 @@ namespace MedBridge.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly INotificationService _notificationService;
         private readonly RecommendationService _recommendationService;
-        private readonly ICloudinaryService _cloudinaryService;
         private readonly ILogger<ProductService> _logger;
-        private readonly List<string> _allowedExtensions = new() { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif", ".svg" };
-        private readonly double _maxAllowedImageSize;
 
         public ProductService(
             ApplicationDbContext dbContext,
             INotificationService notificationService,
             RecommendationService recommendationService,
-            ICloudinaryService cloudinaryService,
             IConfiguration configuration,
             ILogger<ProductService> logger)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
             _recommendationService = recommendationService ?? throw new ArgumentNullException(nameof(recommendationService));
-            _cloudinaryService = cloudinaryService ?? throw new ArgumentNullException(nameof(cloudinaryService));
-            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _maxAllowedImageSize = configuration.GetValue<double>("ImageSettings:MaxAllowedImageSize", 10 * 1024 * 1024);
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public async Task<IActionResult> CreateAsync(ProductADDDto dto)
@@ -72,26 +67,6 @@ namespace MedBridge.Services
                     return new BadRequestObjectResult("At least one image is required.");
                 }
 
-                var imageUrls = new List<string>();
-                foreach (var image in dto.Images)
-                {
-                    var ext = Path.GetExtension(image.FileName).ToLower();
-                    if (!_allowedExtensions.Contains(ext))
-                    {
-                        _logger.LogWarning("Unsupported image format: {Extension}", ext);
-                        return new BadRequestObjectResult("Unsupported image format.");
-                    }
-
-                    if (image.Length > _maxAllowedImageSize)
-                    {
-                        _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize}", image.Length, _maxAllowedImageSize);
-                        return new BadRequestObjectResult("Image size exceeds 10 MB.");
-                    }
-
-                    var imageUrl = await _cloudinaryService.UploadImageAsync(image, "products");
-                    imageUrls.Add(imageUrl);
-                }
-
                 var product = new ProductModel
                 {
                     ProductId = dto.ProductId,
@@ -105,10 +80,11 @@ namespace MedBridge.Services
                     Discount = dto.Discount,
                     Address = dto.Address,
                     Donation = dto.Donation,
+                    serialNumber = dto.serialNumber,
                     SubCategoryId = dto.SubCategoryId,
                     CategoryId = dto.CategoryId,
                     UserId = dto.UserId,
-                    ImageUrls = imageUrls,
+                    ImageUrls = dto.Images, // Use the provided image URLs directly
                     Status = "Pending"
                 };
 
@@ -216,6 +192,7 @@ namespace MedBridge.Services
                 product.IsNew = dto.IsNew;
                 product.Address = dto.Address;
                 product.Donation = dto.Donation;
+                product.serialNumber = product.serialNumber;
                 product.InstallmentAvailable = dto.InstallmentAvailable;
                 product.CategoryId = dto.CategoryId;
                 product.SubCategoryId = dto.SubCategoryId;
@@ -223,27 +200,7 @@ namespace MedBridge.Services
 
                 if (dto.Images != null && dto.Images.Any())
                 {
-                    var imageUrls = new List<string>();
-                    foreach (var image in dto.Images)
-                    {
-                        var ext = Path.GetExtension(image.FileName).ToLower();
-                        if (!_allowedExtensions.Contains(ext))
-                        {
-                            _logger.LogWarning("Unsupported image format: {Extension}", ext);
-                            return new BadRequestObjectResult("Unsupported image format.");
-                        }
-
-                        if (image.Length > _maxAllowedImageSize)
-                        {
-                            _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize}", image.Length, _maxAllowedImageSize);
-                            return new BadRequestObjectResult("Image size exceeds 10 MB.");
-                        }
-
-                        var imageUrl = await _cloudinaryService.UploadImageAsync(image, "products");
-                        imageUrls.Add(imageUrl);
-                    }
-
-                    product.ImageUrls = imageUrls;
+                    product.ImageUrls = dto.Images; // Use the provided image URLs directly
                 }
 
                 await _dbContext.SaveChangesAsync();
@@ -322,7 +279,6 @@ namespace MedBridge.Services
                 return new ObjectResult(ex.Message) { StatusCode = 500 };
             }
         }
-
         public IActionResult GetRecommendations(int productId, int topN)
         {
             try
@@ -357,7 +313,7 @@ namespace MedBridge.Services
         {
             try
             {
-                // Since images are now stored in Cloudinary, redirect to the Cloudinary URL
+                // Since images are stored in Cloudinary, redirect to the Cloudinary URL
                 if (string.IsNullOrWhiteSpace(fileName))
                 {
                     _logger.LogWarning("Invalid image file name: {FileName}", fileName);

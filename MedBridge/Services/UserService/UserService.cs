@@ -1,4 +1,6 @@
-﻿using Google.Apis.Auth;
+﻿using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
+using Google.Apis.Auth;
 using MedBridge.Dtos;
 using MedBridge.Dtos.AddProfileImagecsDtoUser;
 using MedBridge.Models;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApi.models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -29,6 +32,7 @@ namespace MedBridge.Services.UserService
         private readonly IConfiguration _configuration;
         private readonly ILogger<UserService> _logger;
         private readonly IMemoryCache _memoryCache;
+        private readonly Cloudinary _cloudinary;
         private readonly IGoogleSignIn _googleSignIn;
         private readonly List<string> _allowedExtensions = new List<string>
         {
@@ -39,6 +43,7 @@ namespace MedBridge.Services.UserService
         public UserService(
             ApplicationDbContext context,
             IConfiguration configuration,
+            Cloudinary cloudinary,
             ILogger<UserService> logger,
             IMemoryCache memoryCache,
             IGoogleSignIn googleSignIn)
@@ -47,6 +52,7 @@ namespace MedBridge.Services.UserService
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _cloudinary = cloudinary;
             _googleSignIn = googleSignIn ?? throw new ArgumentNullException(nameof(googleSignIn));
             _maxAllowedImageSize = _configuration.GetValue<double>("ImageSettings:MaxAllowedImageSize", 10 * 1024 * 1024);
         }
@@ -83,6 +89,15 @@ namespace MedBridge.Services.UserService
 
                 var (passwordHash, passwordSalt) = PasswordHasher.CreatePasswordHash(dto.Password);
 
+                var customerService = new CustomerService();
+                var stripeCustomer = await customerService.CreateAsync(new CustomerCreateOptions
+                {
+                    Email = dto.Email,
+                    Name = dto.Name,
+                    Phone = dto.Phone,
+                    Description = "MedBridge User"
+                });
+
                 var user = new User
                 {
                     Name = dto.Name,
@@ -95,17 +110,19 @@ namespace MedBridge.Services.UserService
                     KindOfWork = "Doctor",
                     MedicalSpecialist = null,
                     ProfileImage = "",
-                    IsAdmin = dto.IsAdmin
+                    IsAdmin = dto.IsAdmin,
+                    StripeCustomerId = stripeCustomer.Id
                 };
 
                 _context.users.Add(user);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("User registered: {Email}", user.Email);
+                _logger.LogInformation("User registered and Stripe customer created: {Email}", user.Email);
                 return new OkObjectResult(new
                 {
                     message = "User registered successfully!",
-                    id = user.Id
+                    id = user.Id,
+                    stripeCustomerId = user.StripeCustomerId
                 });
             }
             catch (Exception ex)
@@ -365,7 +382,7 @@ namespace MedBridge.Services.UserService
                 if (!_allowedExtensions.Contains(ext))
                 {
                     _logger.LogWarning("Unsupported image format: {Extension} for {Email}", ext, email);
-                    return new BadRequestObjectResult(new { message = "Unsupported image format." });
+                    return new BadRequestObjectResult(new { message = "Unsupported image format. Allowed formats: jpg, jpeg, png, gif, bmp, webp, tiff, tif, svg, ico, heif." });
                 }
 
                 if (imageDto.ProfileImage.Length > _maxAllowedImageSize)
@@ -374,24 +391,31 @@ namespace MedBridge.Services.UserService
                     return new BadRequestObjectResult(new { message = "Image size exceeds 10 MB." });
                 }
 
-                var imageUploadPath = _configuration.GetValue<string>("ImageSettings:UploadPath")
-                    ?? Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
-                var baseUrl = _configuration.GetValue<string>("ImageSettings:BaseUrl") ?? "https://10.0.2.2:7273";
-
-                var fileName = $"{Guid.NewGuid()}{ext}";
-                var savePath = Path.Combine(imageUploadPath, fileName);
-
-                Directory.CreateDirectory(imageUploadPath);
-                using (var stream = new FileStream(savePath, FileMode.Create))
+                using var stream = imageDto.ProfileImage.OpenReadStream();
+                var uploadParams = new ImageUploadParams
                 {
-                    await imageDto.ProfileImage.CopyToAsync(stream);
+                    File = new FileDescription(imageDto.ProfileImage.FileName, stream),
+                    PublicId = $"users/{Guid.NewGuid()}",
+                    Folder = "profile_images",
+                    Transformation = new Transformation().Width(150).Height(150).Crop("fill")
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                if (uploadResult.Error != null)
+                {
+                    _logger.LogError("Cloudinary upload error: {Error} for {Email}", uploadResult.Error.Message, email);
+                    return new ObjectResult(new { message = "Failed to upload image to Cloudinary." }) { StatusCode = 500 };
                 }
 
-                user.ProfileImage = $"{baseUrl}/images/{fileName}";
+                user.ProfileImage = uploadResult.SecureUrl?.ToString() ?? string.Empty;
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Profile image uploaded for {Email}", email);
-                return new OkObjectResult(new { message = "Profile image uploaded successfully.", imageUrl = user.ProfileImage });
+                return new OkObjectResult(new
+                {
+                    message = "Profile image uploaded successfully.",
+                    imageUrl = user.ProfileImage
+                });
             }
             catch (Exception ex)
             {
@@ -428,6 +452,7 @@ namespace MedBridge.Services.UserService
                     existingUser.KindOfWork,
                     existingUser.IsAdmin,
                     existingUser.Status,
+                    isBuyer = existingUser.isBuyer,
                     Products = existingUser.Products.Select(p => new
                     {
                         p.UserId,
@@ -450,62 +475,32 @@ namespace MedBridge.Services.UserService
                 return new ObjectResult(new { message = "An error occurred while retrieving the user." }) { StatusCode = 500 };
             }
         }
-
-        public async Task<IActionResult> UpdateAsync(string email, UpdateUserForm dto)
+        public async Task<IActionResult> UpdateAsync(string email, [FromForm] UpdateUserForm dto)
         {
             try
             {
-                if (email != dto.Email)
+                if (email.ToLower() != dto.Email.ToLower())
                 {
                     _logger.LogWarning("Email mismatch: {ProvidedEmail} does not match {DtoEmail}", email, dto.Email);
                     return new BadRequestObjectResult(new { message = "Email mismatch." });
                 }
 
-                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email == email);
+                _logger.LogInformation("Searching for user with email: {Email}", email);
+                var existingUser = await _context.users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
                 if (existingUser == null)
                 {
-                    _logger.LogWarning("User not found for {Email}", email);
+                    _logger.LogWarning("No user found for email: {Email}", email);
                     return new NotFoundObjectResult(new { message = "User not found." });
                 }
 
                 existingUser.Name = dto.Name;
                 existingUser.MedicalSpecialist = existingUser.KindOfWork == "Doctor" ? dto.MedicalSpecialist : null;
                 existingUser.Address = dto.Address;
+                existingUser.Phone = dto.Phone;
 
-                if (!string.IsNullOrWhiteSpace(dto.Phone))
+                if (!string.IsNullOrWhiteSpace(dto.ProfileImage))
                 {
-                    existingUser.Phone = dto.Phone;
-                }
-
-                if (dto.ProfileImage != null)
-                {
-                    var ext = Path.GetExtension(dto.ProfileImage.FileName).ToLower();
-                    if (!_allowedExtensions.Contains(ext))
-                    {
-                        _logger.LogWarning("Unsupported image format: {Extension} for {Email}", ext, email);
-                        return new BadRequestObjectResult(new { message = "Unsupported image format." });
-                    }
-
-                    if (dto.ProfileImage.Length > _maxAllowedImageSize)
-                    {
-                        _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize} for {Email}", dto.ProfileImage.Length, _maxAllowedImageSize, email);
-                        return new BadRequestObjectResult(new { message = "Image size exceeds 10 MB." });
-                    }
-
-                    var imageUploadPath = _configuration.GetValue<string>("ImageSettings:UploadPath")
-                        ?? Path.Combine(Directory.GetCurrentDirectory(), "assets", "images");
-                    var baseUrl = _configuration.GetValue<string>("ImageSettings:BaseUrl") ?? "https://10.0.2.2:7273";
-
-                    var fileName = $"{Guid.NewGuid()}{ext}";
-                    var savePath = Path.Combine(imageUploadPath, fileName);
-
-                    Directory.CreateDirectory(imageUploadPath);
-                    using (var stream = new FileStream(savePath, FileMode.Create))
-                    {
-                        await dto.ProfileImage.CopyToAsync(stream);
-                    }
-
-                    existingUser.ProfileImage = $"{baseUrl}/images/{fileName}";
+                    existingUser.ProfileImage = dto.ProfileImage; // Store Cloudinary URL directly
                 }
 
                 _context.users.Update(existingUser);
@@ -517,10 +512,12 @@ namespace MedBridge.Services.UserService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in UpdateUser for {Email}", email);
-                return new ObjectResult(new { message = "An error occurred while updating the profile." }) { StatusCode = 500 };
+                return new ObjectResult(new { message = "An error occurred while updating the profile." })
+                {
+                    StatusCode = 500
+                };
             }
         }
-
         public async Task<IActionResult> UpdateUserInfoAsync(string email, RoleSpecialistUpdateDto dto)
         {
             try

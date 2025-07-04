@@ -16,48 +16,26 @@ namespace MedBridge.Services
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ILogger<SubcategoryService> _logger;
-        private readonly ICloudinaryService _cloudinaryService;
         private readonly IConfiguration _configuration;
-        private readonly List<string> _allowedExtensions = new List<string>
-        {
-            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif", ".svg", ".ico", ".heif"
-        };
-        private readonly double _maxAllowedImageSize;
 
         public SubcategoryService(
             ApplicationDbContext dbContext,
             ILogger<SubcategoryService> logger,
-            ICloudinaryService cloudinaryService,
             IConfiguration configuration)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _cloudinaryService = cloudinaryService ?? throw new ArgumentNullException(nameof(cloudinaryService));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _maxAllowedImageSize = _configuration.GetValue<double>("ImageSettings:MaxAllowedImageSize", 10 * 1024 * 1024);
         }
 
         public async Task<IActionResult> CreateAsync(subCategoriesDto dto)
         {
             try
             {
-                if (dto.Image == null)
+                if (string.IsNullOrEmpty(dto.ImageUrl))
                 {
-                    _logger.LogWarning("Image is required for subcategory creation");
-                    return new BadRequestObjectResult("Image is required.");
-                }
-
-                var ext = Path.GetExtension(dto.Image.FileName).ToLower();
-                if (!_allowedExtensions.Contains(ext))
-                {
-                    _logger.LogWarning("Invalid image extension: {Extension}", ext);
-                    return new BadRequestObjectResult("Only the following image formats are allowed: jpg, jpeg, png, gif, bmp, webp, tiff, tif, svg, ico, heif.");
-                }
-
-                if (dto.Image.Length > _maxAllowedImageSize)
-                {
-                    _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize}", dto.Image.Length, _maxAllowedImageSize);
-                    return new BadRequestObjectResult("Max allowed size for image is 10 MB.");
+                    _logger.LogWarning("ImageUrl is required for subcategory creation");
+                    return new BadRequestObjectResult("ImageUrl is required.");
                 }
 
                 if (!await _dbContext.Categories.AnyAsync(c => c.CategoryId == dto.CategoryId))
@@ -66,14 +44,12 @@ namespace MedBridge.Services
                     return new BadRequestObjectResult("Invalid Category ID.");
                 }
 
-                var imageUrl = await _cloudinaryService.UploadImageAsync(dto.Image, "subcategories");
-
                 var subcategory = new subCategory
                 {
                     CategoryId = dto.CategoryId,
                     Name = dto.Name,
                     Description = dto.Description,
-                    ImageUrl = imageUrl
+                    ImageUrl = dto.ImageUrl
                 };
 
                 _dbContext.subCategories.Add(subcategory);
@@ -136,25 +112,6 @@ namespace MedBridge.Services
                     return new NotFoundObjectResult($"ID {id} not found.");
                 }
 
-                if (dto.Image != null)
-                {
-                    var ext = Path.GetExtension(dto.Image.FileName).ToLower();
-                    if (!_allowedExtensions.Contains(ext))
-                    {
-                        _logger.LogWarning("Invalid image extension: {Extension}", ext);
-                        return new BadRequestObjectResult("Only the following image formats are allowed: jpg, jpeg, png, gif, bmp, webp, tiff, tif, svg, ico, heif.");
-                    }
-
-                    if (dto.Image.Length > _maxAllowedImageSize)
-                    {
-                        _logger.LogWarning("Image size {Size} exceeds maximum allowed size {MaxSize}", dto.Image.Length, _maxAllowedImageSize);
-                        return new BadRequestObjectResult("Max allowed size for image is 10 MB.");
-                    }
-
-                    var imageUrl = await _cloudinaryService.UploadImageAsync(dto.Image, "subcategories");
-                    subCategory.ImageUrl = imageUrl;
-                }
-
                 if (!await _dbContext.Categories.AnyAsync(c => c.CategoryId == dto.CategoryId))
                 {
                     _logger.LogWarning("Invalid Category ID: {CategoryId}", dto.CategoryId);
@@ -164,6 +121,10 @@ namespace MedBridge.Services
                 subCategory.Name = dto.Name;
                 subCategory.Description = dto.Description;
                 subCategory.CategoryId = dto.CategoryId;
+                if (!string.IsNullOrEmpty(dto.ImageUrl))
+                {
+                    subCategory.ImageUrl = dto.ImageUrl;
+                }
 
                 await _dbContext.SaveChangesAsync();
 

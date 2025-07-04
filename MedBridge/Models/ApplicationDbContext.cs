@@ -8,6 +8,7 @@ using MedBridge.Models.OrderModels;
 using MedBridge.Models.ProductModels;
 using MedBridge.Models.Testing;
 using MedBridge.Models.UserInfo;
+using MedbridgeApi.Models;
 using MedicalStoreAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using RatingApi.Models;
@@ -85,6 +86,9 @@ namespace MoviesApi.models
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<CartModel> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+
+        public DbSet<BuyerRequest> BuyerRequests { get; set; }
+
         public DbSet<ContactUs> ContactUs { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<DeliveryPerson> DeliveryPersons { get; set; }

@@ -19,6 +19,9 @@ namespace MedBridge.Models.ProductModels
 
         public string Address { get; set; }
         public int StockQuantity { get; set; }
+
+        public string serialNumber { get; set; }
+
         public bool Donation { get; set; } = false;
         public bool isdeleted { get; set; } = false;
 

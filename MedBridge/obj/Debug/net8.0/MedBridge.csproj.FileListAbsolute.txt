@@ -1,6 +1,7 @@
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\appsettings.Development.json
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\appsettings.json
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\Config\firebase-service-account.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\secrets\firebase-service-account.json
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\MedBridge.staticwebassets.runtime.json
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\MedBridge.staticwebassets.endpoints.json
 F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\MedBridge.exe
@@ -181,10 +182,18 @@ F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets\msbuild
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MedBridge.props
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MedBridge.props
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets.pack.json
-F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\MedBridge.csproj.Up2Date
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\MedBridge.dll
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\refint\MedBridge.dll
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\MedBridge.pdb
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\MedBridge.genruntimeconfig.cache
 F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\ref\MedBridge.dll
+F:\projects\Project\MedBridge\MedBridge\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\web.config
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\appsettings.Development.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\appsettings.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\Config\firebase-service-account.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\MedBridge.deps.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\MedBridge.runtimeconfig.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\MedBridge.staticwebassets.endpoints.json
+F:\projects\Project\MedBridge\MedBridge\bin\Debug\net8.0\publish\secrets\firebase-service-account.json

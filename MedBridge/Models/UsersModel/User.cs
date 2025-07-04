@@ -53,6 +53,7 @@ namespace MedBridge.Models
         public string? Phone { get; set; }
         public string? MedicalSpecialist { get; set; }
         public string? Address { get; set; }
+        public bool ? isBuyer { get; set; } = false;
         public string ProfileImage { get; set; } = "";
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

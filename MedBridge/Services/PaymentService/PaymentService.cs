@@ -34,17 +34,38 @@ namespace MedBridge.Services.PaymentService
         {
             try
             {
-                var user = await _context.users.FindAsync(customerId);
+                if (customerId <= 0)
+                {
+                    _logger.LogWarning("Invalid customer ID: {CustomerId}", customerId);
+                    return new BadRequestObjectResult(new { error = "Invalid customer ID" });
+                }
+
+                var user = await _context.users.FirstOrDefaultAsync(u => u.Id == customerId);
                 if (user == null)
                 {
-                    _logger.LogWarning("User not found: {CustomerId}", customerId);
+                    _logger.LogWarning("User not found for ID: {CustomerId}", customerId);
                     return new NotFoundObjectResult(new { error = "User not found" });
                 }
 
                 if (string.IsNullOrEmpty(user.StripeCustomerId))
                 {
-                    _logger.LogWarning("No Stripe customer ID for user: {CustomerId}", customerId);
-                    return new OkObjectResult(new { cards = new List<object>() });
+                    _logger.LogInformation("No Stripe customer ID for user: {CustomerId}. Creating new Stripe customer.", customerId);
+                    if (string.IsNullOrWhiteSpace(user.Email))
+                    {
+                        _logger.LogWarning("User email is empty for ID: {CustomerId}", customerId);
+                        return new BadRequestObjectResult(new { error = "User email is required to create a Stripe customer" });
+                    }
+
+                    var customerService = new CustomerService();
+                    var customer = await customerService.CreateAsync(new CustomerCreateOptions
+                    {
+                        Email = user.Email,
+                        Name = user.Name ?? "Unknown"
+                    });
+                    user.StripeCustomerId = customer.Id;
+                    _context.users.Update(user);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Created Stripe customer {StripeCustomerId} for user: {CustomerId}", customer.Id, customerId);
                 }
 
                 var service = new PaymentMethodService();
@@ -56,24 +77,34 @@ namespace MedBridge.Services.PaymentService
                 };
                 var paymentMethods = await service.ListAsync(options);
 
-                var cards = paymentMethods.Data.Select(pm => new
-                {
-                    brand = pm.Card.Brand,
-                    last4 = pm.Card.Last4
-                }).ToList();
+                var
+
+ cards = paymentMethods.Data.Select(pm => new
+ {
+     id = pm.Id,
+     brand = pm.Card.Brand,
+     last4 = pm.Card.Last4,
+     expMonth = pm.Card.ExpMonth,
+     expYear = pm.Card.ExpYear
+ }).ToList();
 
                 _logger.LogInformation("Fetched {Count} cards for user: {CustomerId}", cards.Count, customerId);
                 return new OkObjectResult(new { cards });
             }
             catch (StripeException e)
             {
-                _logger.LogError(e, "Stripe error fetching cards for user: {CustomerId}", customerId);
-                return new BadRequestObjectResult(new { error = e.Message });
+                _logger.LogError(e, "Stripe error fetching cards for user: {CustomerId}. StripeError: {StripeError}", customerId, e.StripeError?.Message);
+                return new BadRequestObjectResult(new { error = $"Stripe error: {e.StripeError?.Message ?? e.Message}" });
+            }
+            catch (DbUpdateException e)
+            {
+                _logger.LogError(e, "Database error fetching cards for user: {CustomerId}. InnerException: {InnerException}", customerId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "Database error occurred while fetching cards" }) { StatusCode = 500 };
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Unexpected error fetching cards for user: {CustomerId}", customerId);
-                return new ObjectResult(new { error = "An unexpected error occurred" }) { StatusCode = 500 };
+                _logger.LogError(e, "Unexpected error fetching cards for user: {CustomerId}. InnerException: {InnerException}", customerId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "An unexpected error occurred while fetching cards" }) { StatusCode = 500 };
             }
         }
 
@@ -81,13 +112,13 @@ namespace MedBridge.Services.PaymentService
         {
             try
             {
-                if (request.Amount <= 0)
+                if (request == null || request.Amount <= 0 || request.CustomerId <= 0)
                 {
-                    _logger.LogWarning("Invalid payment amount: {Amount}", request.Amount);
-                    return new BadRequestObjectResult("Payment amount must be greater than zero.");
+                    _logger.LogWarning("Invalid payment intent request: Amount={Amount}, CustomerId={CustomerId}", request?.Amount, request?.CustomerId);
+                    return new BadRequestObjectResult(new { error = "Invalid payment amount or customer ID" });
                 }
 
-                var user = await _context.users.FindAsync(request.CustomerId);
+                var user = await _context.users.FirstOrDefaultAsync(u => u.Id == request.CustomerId);
                 if (user == null)
                 {
                     _logger.LogWarning("User not found: {CustomerId}", request.CustomerId);
@@ -96,15 +127,23 @@ namespace MedBridge.Services.PaymentService
 
                 if (string.IsNullOrEmpty(user.StripeCustomerId))
                 {
+                    _logger.LogInformation("No Stripe customer ID for user: {CustomerId}. Creating new Stripe customer.", request.CustomerId);
+                    if (string.IsNullOrWhiteSpace(user.Email))
+                    {
+                        _logger.LogWarning("User email is empty for ID: {CustomerId}", request.CustomerId);
+                        return new BadRequestObjectResult(new { error = "User email is required to create a Stripe customer" });
+                    }
+
                     var customerService = new CustomerService();
                     var customer = await customerService.CreateAsync(new CustomerCreateOptions
                     {
-                        Email = user.Email
+                        Email = user.Email,
+                        Name = user.Name ?? "Unknown"
                     });
                     user.StripeCustomerId = customer.Id;
                     _context.users.Update(user);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("Created Stripe customer {CustomerId} for user: {UserId}", customer.Id, request.CustomerId);
+                    _logger.LogInformation("Created Stripe customer {StripeCustomerId} for user: {CustomerId}", customer.Id, request.CustomerId);
                 }
 
                 var options = new PaymentIntentCreateOptions
@@ -130,13 +169,18 @@ namespace MedBridge.Services.PaymentService
             }
             catch (StripeException e)
             {
-                _logger.LogError(e, "Stripe error creating payment intent for user: {CustomerId}", request.CustomerId);
-                return new BadRequestObjectResult(new { error = e.Message });
+                _logger.LogError(e, "Stripe error creating payment intent for user: {CustomerId}. StripeError: {StripeError}", request?.CustomerId, e.StripeError?.Message);
+                return new BadRequestObjectResult(new { error = $"Stripe error: {e.StripeError?.Message ?? e.Message}" });
+            }
+            catch (DbUpdateException e)
+            {
+                _logger.LogError(e, "Database error creating payment intent for user: {CustomerId}. InnerException: {InnerException}", request?.CustomerId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "Database error occurred while creating payment intent" }) { StatusCode = 500 };
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Unexpected error creating payment intent for user: {CustomerId}", request.CustomerId);
-                return new ObjectResult(new { error = "An unexpected error occurred" }) { StatusCode = 500 };
+                _logger.LogError(e, "Unexpected error creating payment intent for user: {CustomerId}. InnerException: {InnerException}", request?.CustomerId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "An unexpected error occurred while creating payment intent" }) { StatusCode = 500 };
             }
         }
 
@@ -144,24 +188,38 @@ namespace MedBridge.Services.PaymentService
         {
             try
             {
-                var user = await _context.users.FindAsync(request.CustomerId);
+                if (request == null || request.CustomerId <= 0)
+                {
+                    _logger.LogWarning("Invalid setup intent request: CustomerId={CustomerId}", request?.CustomerId);
+                    return new BadRequestObjectResult(new { error = "Invalid customer ID" });
+                }
+
+                var user = await _context.users.FirstOrDefaultAsync(u => u.Id == request.CustomerId);
                 if (user == null)
                 {
-                    _logger.LogWarning("User not found: {CustomerId}", request.CustomerId);
+                    _logger.LogWarning("User not found for ID: {CustomerId}", request.CustomerId);
                     return new NotFoundObjectResult(new { error = "User not found" });
                 }
 
                 if (string.IsNullOrEmpty(user.StripeCustomerId))
                 {
+                    _logger.LogInformation("No Stripe customer ID for user: {CustomerId}. Creating new Stripe customer.", request.CustomerId);
+                    if (string.IsNullOrWhiteSpace(user.Email))
+                    {
+                        _logger.LogWarning("User email is empty for ID: {CustomerId}", request.CustomerId);
+                        return new BadRequestObjectResult(new { error = "User email is required to create a Stripe customer" });
+                    }
+
                     var customerService = new CustomerService();
                     var customer = await customerService.CreateAsync(new CustomerCreateOptions
                     {
-                        Email = user.Email
+                        Email = user.Email,
+                        Name = user.Name ?? "Unknown"
                     });
                     user.StripeCustomerId = customer.Id;
                     _context.users.Update(user);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("Created Stripe customer {CustomerId} for user: {UserId}", customer.Id, request.CustomerId);
+                    _logger.LogInformation("Created Stripe customer {StripeCustomerId} for user: {CustomerId}", customer.Id, request.CustomerId);
                 }
 
                 var options = new SetupIntentCreateOptions
@@ -185,13 +243,18 @@ namespace MedBridge.Services.PaymentService
             }
             catch (StripeException e)
             {
-                _logger.LogError(e, "Stripe error creating setup intent for user: {CustomerId}", request.CustomerId);
-                return new BadRequestObjectResult(new { error = e.Message });
+                _logger.LogError(e, "Stripe error creating setup intent for user: {CustomerId}. StripeError: {StripeError}", request?.CustomerId, e.StripeError?.Message);
+                return new BadRequestObjectResult(new { error = $"Stripe error: {e.StripeError?.Message ?? e.Message}" });
+            }
+            catch (DbUpdateException e)
+            {
+                _logger.LogError(e, "Database error creating setup intent for user: {CustomerId}. InnerException: {InnerException}", request?.CustomerId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "Database error occurred while creating setup intent" }) { StatusCode = 500 };
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Unexpected error creating setup intent for user: {CustomerId}", request.CustomerId);
-                return new ObjectResult(new { error = "An unexpected error occurred" }) { StatusCode = 500 };
+                _logger.LogError(e, "Unexpected error creating setup intent for user: {CustomerId}. InnerException: {InnerException}", request?.CustomerId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "An unexpected error occurred while creating setup intent" }) { StatusCode = 500 };
             }
         }
 
@@ -202,7 +265,7 @@ namespace MedBridge.Services.PaymentService
                 if (string.IsNullOrEmpty(paymentIntentId))
                 {
                     _logger.LogWarning("Payment intent ID is required");
-                    return new BadRequestObjectResult("Payment intent ID is required.");
+                    return new BadRequestObjectResult(new { error = "Payment intent ID is required" });
                 }
 
                 var service = new PaymentIntentService();
@@ -212,13 +275,13 @@ namespace MedBridge.Services.PaymentService
             }
             catch (StripeException e)
             {
-                _logger.LogError(e, "Stripe error verifying payment intent: {PaymentIntentId}", paymentIntentId);
-                return new BadRequestObjectResult(new { error = e.Message });
+                _logger.LogError(e, "Stripe error verifying payment intent: {PaymentIntentId}. StripeError: {StripeError}", paymentIntentId, e.StripeError?.Message);
+                return new BadRequestObjectResult(new { error = $"Stripe error: {e.StripeError?.Message ?? e.Message}" });
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Unexpected error verifying payment intent: {PaymentIntentId}", paymentIntentId);
-                return new ObjectResult(new { error = "An unexpected error occurred" }) { StatusCode = 500 };
+                _logger.LogError(e, "Unexpected error verifying payment intent: {PaymentIntentId}. InnerException: {InnerException}", paymentIntentId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "An unexpected error occurred while verifying payment" }) { StatusCode = 500 };
             }
         }
 
@@ -226,21 +289,33 @@ namespace MedBridge.Services.PaymentService
         {
             try
             {
-                if (payment == null || string.IsNullOrEmpty(payment.PaymentIntentId) || payment.UserId == 0)
+                if (payment == null || string.IsNullOrEmpty(payment.PaymentIntentId) || payment.UserId <= 0)
                 {
-                    _logger.LogWarning("Invalid payment data: PaymentIntentId or UserId missing");
-                    return new BadRequestObjectResult("Invalid payment data.");
+                    _logger.LogWarning("Invalid payment data: PaymentIntentId={PaymentIntentId}, UserId={UserId}", payment?.PaymentIntentId, payment?.UserId);
+                    return new BadRequestObjectResult(new { error = "Invalid payment data" });
+                }
+
+                var user = await _context.users.FindAsync(payment.UserId);
+                if (user == null)
+                {
+                    _logger.LogWarning("User not found for payment: {UserId}", payment.UserId);
+                    return new NotFoundObjectResult(new { error = "User not found" });
                 }
 
                 _context.Payments.Add(payment);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Saved payment {PaymentIntentId} for user: {UserId}", payment.PaymentIntentId, payment.UserId);
-                return new OkObjectResult(null);
+                return new OkObjectResult(new { message = "Payment saved successfully" });
+            }
+            catch (DbUpdateException e)
+            {
+                _logger.LogError(e, "Database error saving payment for user: {UserId}. InnerException: {InnerException}", payment?.UserId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "Database error occurred while saving payment" }) { StatusCode = 500 };
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Database error saving payment for user: {UserId}", payment.UserId);
-                return new BadRequestObjectResult(new { error = e.Message });
+                _logger.LogError(e, "Unexpected error saving payment for user: {UserId}. InnerException: {InnerException}", payment?.UserId, e.InnerException?.Message);
+                return new ObjectResult(new { error = "An unexpected error occurred while saving payment" }) { StatusCode = 500 };
             }
         }
     }

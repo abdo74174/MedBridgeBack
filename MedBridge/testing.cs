@@ -1,35 +1,61 @@
-﻿//{
-//    "ConnectionStrings": {
-//        "DefaultConnection": "${DATABASE_CONNECTION_STRING}"
-//    },
-//  "Logging": {
-//        "LogLevel": {
-//            "Default": "${LOGGING_LEVEL:Debug}",
-//      "Microsoft.AspNetCore": "Warning"
+﻿//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.EntityFrameworkCore;
+//using MedBridge.Models;
+//using MedBridge.Dtos;
+//using System.Threading.Tasks;
+//using Microsoft.Extensions.Logging;
+//using System;
+//using System.Collections.Generic;
+
+//namespace MedBridge.Controllers
+//{
+//    [Route("api/[controller]")]
+//    [ApiController]
+//    public class UserController : ControllerBase
+//    {
+//        private readonly YourDbContext _context; // Replace with your actual DbContext
+//        private readonly ILogger<UserController> _logger;
+
+//        public UserController(YourDbContext context, ILogger<UserController> logger)
+//        {
+//            _context = context;
+//            _logger = logger;
 //        }
-//    },
-//  "Jwt": {
-//        "Key": "${JWT_KEY:c2VjcmV0a2V5Zm9yYXBwZXNhdGVzdGFwYXJvbGVpbnN0c2VjcmV0a2V5}",
-//    "Issuer": "${JWT_ISSUER:API}",
-//    "Audience": "${JWT_AUDIENCE:MyProject}"
-//  },
-//  "AllowedHosts": "*",
-//  "EmailSettings": {
-//        "SmtpServer": "${SMTP_SERVER:smtp.gmail.com}",
-//    "Port": "${SMTP_PORT:587}",
-//    "SenderName": "${SENDER_NAME:MedBridge App}",
-//    "SenderEmail": "${SENDER_EMAIL:g1g2g3g4g5m1m2m3m4m5@gmail.com}",
-//    "Username": "${SMTP_USERNAME:g1g2g3g4g5m1m2m3m4m5@gmail.com}",
-//    "Password": "${SMTP_PASSWORD:wrbmnpdficifaexi}"
-//  },
-//  "Firebase": {
-//        "ServiceAccountJson": "${FIREBASE_SERVICE_ACCOUNT}",
-//    "ProjectId": "${FIREBASE_PROJECT_ID:medbridge-11d7e}"
-//  },
-//  "STRIPE_SECRET_KEY": "${STRIPE_SECRET_KEY:sk_test_51RYLblBFAxgnDhPbZIRyALAyA0Wahp5hxOW4Z5OYBcQdnUOeAMnc5WH4vXBcVP0xCLJo4kQX61SnVeiqlJp0xkTY00zWM6mVcq}",
-//  "Cloudinary": {
-//        "CloudName": "${CLOUDINARY_CLOUD_NAME:dboipus9f}",
-//    "ApiKey": "${CLOUDINARY_API_KEY:484577687341117}",
-//    "ApiSecret": "${CLOUDINARY_API_SECRET:AZ9cfIIfOZIgR-UdtAQTrXHWb3k}"
-//  }
+
+//        [HttpPut("{email}")]
+     
+//        [HttpGet("{email}")]
+//        public async Task<IActionResult> GetUserAsync(string email)
+//        {
+//            try
+//            {
+//                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+//                if (user == null)
+//                {
+//                    return NotFound(new { message = "User not found." });
+//                }
+//                return Ok(user);
+//            }
+//            catch (Exception ex)
+//            {
+//                _logger.LogError(ex, "Error fetching user {Email}", email);
+//                return StatusCode(500, new { message = "An error occurred." });
+//            }
+//        }
+
+//        [HttpGet("specialties")]
+//        public IActionResult GetSpecialties()
+//        {
+//            var specialties = new List<string>
+//            {
+//                "General Internal Medicine",
+//                "Cardiology",
+//                "Gastroenterology & Hepatology",
+//                "Nephrology & Urology",
+//                "Endocrinology & Diabetes",
+//                "Rheumatology & Immunology"
+//            };
+//            return Ok(specialties);
+//        }
+//    }
 //}

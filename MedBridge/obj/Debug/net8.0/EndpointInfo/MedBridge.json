@@ -155,6 +155,143 @@
         }
       }
     },
+    "/api/BuyerRequest": {
+      "post": {
+        "tags": [
+          "BuyerRequest"
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyerRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyerRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "BuyerRequest"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/BuyerRequest/{id}": {
+      "get": {
+        "tags": [
+          "BuyerRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "BuyerRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/BuyerRequest/{id}/status": {
+      "put": {
+        "tags": [
+          "BuyerRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/cart/add": {
       "post": {
         "tags": [
@@ -387,9 +524,8 @@
                   "Description": {
                     "type": "string"
                   },
-                  "Image": {
-                    "type": "string",
-                    "format": "binary"
+                  "ImageUrl": {
+                    "type": "string"
                   }
                 }
               },
@@ -403,7 +539,7 @@
                 "Description": {
                   "style": "form"
                 },
-                "Image": {
+                "ImageUrl": {
                   "style": "form"
                 }
               }
@@ -480,9 +616,8 @@
                   "Description": {
                     "type": "string"
                   },
-                  "Image": {
-                    "type": "string",
-                    "format": "binary"
+                  "ImageUrl": {
+                    "type": "string"
                   }
                 }
               },
@@ -496,7 +631,7 @@
                 "Description": {
                   "style": "form"
                 },
-                "Image": {
+                "ImageUrl": {
                   "style": "form"
                 }
               }
@@ -2216,8 +2351,7 @@
                   "Images": {
                     "type": "array",
                     "items": {
-                      "type": "string",
-                      "format": "binary"
+                      "type": "string"
                     }
                   },
                   "StockQuantity": {
@@ -2402,8 +2536,7 @@
                   "Images": {
                     "type": "array",
                     "items": {
-                      "type": "string",
-                      "format": "binary"
+                      "type": "string"
                     }
                   },
                   "StockQuantity": {
@@ -2915,9 +3048,8 @@
                   "Description": {
                     "type": "string"
                   },
-                  "Image": {
-                    "type": "string",
-                    "format": "binary"
+                  "ImageUrl": {
+                    "type": "string"
                   },
                   "CategoryId": {
                     "type": "integer",
@@ -2935,7 +3067,7 @@
                 "Description": {
                   "style": "form"
                 },
-                "Image": {
+                "ImageUrl": {
                   "style": "form"
                 },
                 "CategoryId": {
@@ -3020,9 +3152,8 @@
                   "Description": {
                     "type": "string"
                   },
-                  "Image": {
-                    "type": "string",
-                    "format": "binary"
+                  "ImageUrl": {
+                    "type": "string"
                   },
                   "CategoryId": {
                     "type": "integer",
@@ -3040,7 +3171,7 @@
                 "Description": {
                   "style": "form"
                 },
-                "Image": {
+                "ImageUrl": {
                   "style": "form"
                 },
                 "CategoryId": {
@@ -3408,8 +3539,7 @@
                     "type": "string"
                   },
                   "ProfileImage": {
-                    "type": "string",
-                    "format": "binary"
+                    "type": "string"
                   }
                 }
               },
@@ -3694,6 +3824,45 @@
           "deliveryPersonId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuyerRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "facilityLicenseNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "commercialRegisterNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "edaLicenseNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4365,6 +4534,16 @@
         },
         "additionalProperties": false
       },
+      "StatusUpdateModel": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TokenRequest": {
         "type": "object",
         "properties": {
@@ -4450,6 +4629,10 @@
           },
           "address": {
             "type": "string",
+            "nullable": true
+          },
+          "isBuyer": {
+            "type": "boolean",
             "nullable": true
           },
           "profileImage": {
